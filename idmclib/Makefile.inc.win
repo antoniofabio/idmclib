@@ -1,0 +1,35 @@
+MINGWLIB = /c/mingw/lib
+LUA_LIBS = $(MINGWLIB)/liblua.a $(MINGWLIB)/liblualib.a
+GSL_LIBS = $(MINGWLIB)/libgsl.a $(MINGWLIB)/libgslcblas.a -lm
+LAPACK_LIBS = $(SRCDIR)/lapack/liblapack.a $(SRCDIR)/blas/libblas.a -lg2c
+LIB_LDFLAGS = $(LIBPATH_STATIC) $(LAPACK_LIBS) $(GSL_LIBS) $(LUA_LIBS)
+JAVA_CFLAGS = -I/c/Programmi/Java/jdk1.5.0_08/include -I/c/Programmi/Java/jdk1.5.0_08/include/win32 -D_JNI_IMPLEMENTATION_
+JAVA_LDFLAGS= $(LIB_LDFLAGS) -Wl,--kill-at
+PYTHON_CFLAGS = -I/usr/include/python2.4
+PYTHON_LDFLAGS= $(LIB_LDFLAGS)
+TESTS_LDFLAGS= $(LIB_LDFLAGS)
+
+LIBDIR=$(MAINDIR)/lib
+SRCDIR=$(MAINDIR)/src
+INCLUDEDIR=$(MAINDIR)/include
+
+MAKE=make
+FC=gcc
+CC=gcc
+LD=gcc
+AR=ar
+SWIG = swig
+
+CFLAGS = -c -fPIC $(LUA_CFLAGS) $(GSL_CFLAGS) -I. -I$(INCLUDEDIR) --std=c99
+SHFLAGS = -shared
+ARCMD = cr
+LDFLAGS =  $(LAPACK_LIBS) $(LUA_LIBS) $(GSL_LIBS)
+
+SHLIB_EXT = .dll
+PLATFORM=win32
+LIBDIR=$(MAINDIR)/lib
+SRCDIR=$(MAINDIR)/src
+INCLUDEDIR=$(MAINDIR)/include
+LIBPATH=$(LIBDIR)/libidmclib$(SHLIB_EXT)
+LIBPATH_STATIC=$(LIBDIR)/libidmclib.a
+

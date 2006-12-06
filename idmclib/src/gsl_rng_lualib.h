@@ -1,0 +1,30 @@
+#ifndef __gsl_rng_lualib__
+#define __gsl_rng_lualib__
+
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
+#include <lua.h>
+
+void initGslRng(lua_State *L);
+void freeGslRng(lua_State *L);
+/*for retrieving and eventually manipulating RNG directly:*/
+gsl_rng* getGslRngState(lua_State *L);
+
+/*to use them in your lua interpreter, you have to call something like:
+	initGslRng(L);
+	...
+	freeGslRng(lua_State *L);
+*/
+
+/*internal functions*/
+int setGslRngSeed(lua_State *L);
+int getGslRngRunif(lua_State *L);
+int getGslRngRnorm(lua_State *L);
+int getGslRngRpois(lua_State *L);
+int getGslRngLaplace(lua_State *L);
+int getGslRngExponential(lua_State *L);
+int getGslRngBeta(lua_State *L);
+int getGslRngLognormal(lua_State *L);
+int getGslRngLogistic(lua_State *L);
+int getGslRngPareto(lua_State *L);
+#endif
