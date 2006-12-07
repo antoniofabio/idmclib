@@ -27,8 +27,8 @@ pyidmc: idmclib includes
 
 dist-src: clean
 	@mkdir idmclib
-	@cp -r Makefile Makefile.inc VERSION src tests jidmc pyidmc \
-	$(LIBDIR) include idmclib
+	@cp -r Makefile Makefile.inc Makefile.inc.win VERSION src tests jidmc pyidmc \
+	$(LIBDIR) include doc idmclib
 	tar czf idmclib_$(VERSION).tar.gz idmclib
 	@rm -rf idmclib
 

@@ -1,0 +1,54 @@
+Documentation for the idmclib C library
+Last modified: 07/12/2006 by Antonio, Fabio Di Narzo
+
+1. Compiling
+On linux/unix platforms, it maybe convenient to link dynamically. For windows distribution, static linking maybe far better.
+Edit Makefile.inc to suite your system configuration. Then type:
+make
+at the prompt to build 'all'.
+
+1.1 Dependencies
+GLS-1.8 and LUA-5.0 (or compatibles) are required for compiling/linking the idmclib library
+
+1.2 Configuration
+No automagic tools are used. You're supposed to use gcc compiler (mingw under windows) and gnu make (MSYS under windows).
+You manually configure building process for your system by editing 'Makefile.inc' file in top directory.
+Mainly, you will have to set LUA, GSL and LAPACK libraries locations (include files and compiled libs).
+Swig, java and python development files are needed if you want to build Java and Python bindings.
+	
+2. API
+Watch at the test directory for usage examples.
+The library is ideally divided in modules
+idmc_model: basic model allocation/methods
+idmc_traj: trajectories (for discrete and continuous models) allocation/methods
+idmc_lexp: Lyapunov spectrum for a given model (discrete and continuous)
+idmc_cycles: basic period-k cycles finding support functions. Also a separate routine for eigenvalues modulus of real nonsimmetric matrices is provided
+
+3. Python bindings
+Low-level python bindings are provided via SWIG.
+These are mainly intended for testing/prototyping purposes.
+Watch at the pydmcTest.py file for usage examples, and to the various idmc_*.i interface files for the API.
+
+4. Java bindings
+Java bindings are provided via SWIG. They're low-level, so maybe you'll need to write your own high-level wrappers for using in your project.
+Whatch at SWIG interface files and to generated java files for the API. A full usage example is the companion iDMC software (2.x.x series).
+
+5. BLAS/LAPACK
+The DGEER lapack routine is used for computing eigenvalues of real, nonsymmetric matrices. This added dependency on blas and lapack libraries.
+A minimal subset of these libraries is included in idmclib source distribution. This is especially useful under windows,
+where you can statically compile them with no added troubles.
+Anyway, you can always try to link against other blas/lapack implementations, as the ATLAS, AMD ACML or the Intel MKL. For this, you'll have to manually hack 
+building process.
+
+APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings)
+- Install JDK-1.5 (if you don't already have it)
+- Download and unpack swig-1.3 (www.swig.org). Add the folder to the system path.
+- Install MinGW: C and Fortran compilers
+- Install MSYS (with GNU make)
+- Download and compile under MinGW/MSYS the LUA-5.0 and GSL-1.8 packages (maybe you can find ready-compiled packages). Copy generated static libraries files (i.e.: liblua.a, liblualib.a, libgsl.a, libgslcblas.a) to the 'c:\mingw\lib' folder
+- Unpack idmclib package somewhere. From the MSYS prompt, type:
+	# cp Makefile.inc Makefile.inc.bak
+	# cp Makefile.inc.win Makefile.inc
+	Edit 'Makefile.inc' to reflect your system configuration. Perhaps you will only have to set the JDK paths. Finally, type:
+	# make idmclib && make jidmc
+
