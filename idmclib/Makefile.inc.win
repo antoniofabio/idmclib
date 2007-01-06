@@ -7,6 +7,8 @@ JAVA_CFLAGS = -I/c/Programmi/Java/jdk1.5.0_08/include -I/c/Programmi/Java/jdk1.5
 JAVA_LDFLAGS= $(LIB_LDFLAGS) -Wl,--kill-at
 PYTHON_CFLAGS = -I/usr/include/python2.4
 PYTHON_LDFLAGS= $(LIB_LDFLAGS)
+R_CFLAGS= -I/c/Programmi/R/include -DRIDMC_DEBUG
+R_LDFLAGS= $(LIB_LDFLAGS)
 TESTS_LDFLAGS= $(LIB_LDFLAGS)
 
 LIBDIR=$(MAINDIR)/lib

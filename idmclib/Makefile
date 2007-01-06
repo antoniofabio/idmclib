@@ -5,7 +5,7 @@ export MAINDIR
 include Makefile.inc
 include VERSION
 
-all: idmclib tests jidmc pyidmc
+all: idmclib tests jidmc pyidmc ridmc
 
 idmclib:
 	cd src; $(MAKE)
@@ -25,16 +25,19 @@ jidmc: idmclib includes
 pyidmc: idmclib includes
 	cd pyidmc; $(MAKE)
 
+ridmc: idmclib includes
+	cd ridmc; $(MAKE)
+
 dist-src: clean
 	@mkdir idmclib-$(VERSION)
-	@cp -r Makefile Makefile.inc Makefile.inc.win VERSION src tests jidmc pyidmc \
+	@cp -r Makefile Makefile.inc Makefile.inc.win VERSION src tests jidmc pyidmc ridmc \
 	$(LIBDIR) include doc idmclib-$(VERSION)
 	tar czf idmclib_$(VERSION).tar.gz idmclib-$(VERSION)
 	@rm -rf idmclib-$(VERSION)
 
-dist: idmclib jidmc pyidmc
+dist: idmclib jidmc pyidmc ridmc
 	@mkdir idmclib-$(VERSION)
-	@cp -r Makefile Makefile.inc src tests jidmc pyidmc $(LIBDIR) include idmclib-$(VERSION)
+	@cp -r Makefile Makefile.inc src tests jidmc pyidmc ridmc $(LIBDIR) include idmclib-$(VERSION)
 	tar czf idmclib_$(VERSION)_$(PLATFORM).tar.gz idmclib-$(VERSION)
 	@rm -rf idmclib-$(VERSION)
 
@@ -47,3 +50,4 @@ clean:
 	cd tests && $(MAKE) clean
 	cd jidmc && $(MAKE) clean
 	cd pyidmc && $(MAKE) clean
+	cd ridmc && $(MAKE) clean
