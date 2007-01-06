@@ -1,9 +1,21 @@
 /*
-idmc C library
-Adapted from iDMC, Copyright (C) 2004-2006 Marji Lines and Alfredo Medio, written by Daniele Pizzoni
+iDMC C library
 
-Antonio, Fabio Di Narzo
-Last modified: 05/11/2006
+Copyright (C) 2007 Marji Lines and Alfredo Medio.
+
+Written by Antonio, Fabio Di Narzo <antonio.fabio@gmail.com>.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or any
+later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+Last modified: $Date$
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -422,8 +434,7 @@ int idmc_model_NumJf(idmc_model *model,
 	double eps;
 	idmc_model_f(model,  par, var, util); /*store F(x0)*/
 	for(i=0; i<p1; i++) { //for each variable
-		for(i1=0; i1<p1; i1++)
-			util2[i1] = var[i1]; /*store x0*/		
+		memcpy(util2, var, p1); /*store x0*/
 		eps = ((var[i] < 1) ? 1: var[i]) * IDMC_EPS_VALUE;
 		util2[i] = var[i]+eps;
 		idmc_model_f(model,  par, util2, util3);
@@ -464,9 +475,9 @@ static int eval_matrix(
 
 	int err;
 	err = lua_pcall(L, 
-					model->par_len + model->var_len, // args
-					model->var_len * model->var_len, // returns
-					0);
+			model->par_len + model->var_len, // args
+			model->var_len * model->var_len, // returns
+			0);
 
 	if (err != 0) {
 		if (err == LUA_ERRRUN) {
