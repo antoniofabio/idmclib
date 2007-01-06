@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-MODULES = model traj lexp lexp_aux matrices cycles gsl_rng_lualib
+MODULES = model traj lexp lexp_aux matrices cycles gsl_rng_lualib raster basin
 SRCS= $(addsuffix .c, $(MODULES))
 OBJS = $(SRCS:.c=.o)
 
