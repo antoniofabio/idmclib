@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 LDFLAGS := $(TESTS_LDFLAGS)
 
-TESTS = model traj cycles lexp
+TESTS = model traj cycles lexp raster basin
 C_SRCS = $(addsuffix .c, $(addprefix test_,$(TESTS))) test_common.c
 OBJS = $(C_SRCS:.c=.o)
 BINARIES = $(addprefix test_,$(TESTS))
