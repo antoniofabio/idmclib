@@ -1,3 +1,15 @@
+%immutable;
+#define IDMC_IDENT_NAME "name"
+#define IDMC_IDENT_DESC "description"
+#define IDMC_IDENT_TYPE "type"
+#define IDMC_IDENT_PARAMETERS "parameters"
+#define IDMC_IDENT_VARIABLES "variables"
+#define IDMC_IDENT_DEFAULTS "defaults"
+#define IDMC_IDENT_FUNCTION "f"
+#define IDMC_IDENT_JACOBIAN "Jf"
+#define IDMC_IDENT_FUNCTION_INVERSE "g"
+#define IDMC_IDENT_INVERSE_JACOBIAN "Jg"
+%mutable;
 
 typedef struct {
 %immutable;	
