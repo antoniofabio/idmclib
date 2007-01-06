@@ -26,17 +26,17 @@ pyidmc: idmclib includes
 	cd pyidmc; $(MAKE)
 
 dist-src: clean
-	@mkdir idmclib
+	@mkdir idmclib-$(VERSION)
 	@cp -r Makefile Makefile.inc Makefile.inc.win VERSION src tests jidmc pyidmc \
-	$(LIBDIR) include doc idmclib
-	tar czf idmclib_$(VERSION).tar.gz idmclib
-	@rm -rf idmclib
+	$(LIBDIR) include doc idmclib-$(VERSION)
+	tar czf idmclib_$(VERSION).tar.gz idmclib-$(VERSION)
+	@rm -rf idmclib-$(VERSION)
 
 dist: idmclib jidmc pyidmc
-	@mkdir idmclib
-	@cp -r Makefile Makefile.inc src tests jidmc pyidmc $(LIBDIR) include idmclib
-	tar czf idmclib_$(VERSION)_$(PLATFORM).tar.gz idmclib
-	@rm -rf idmclib
+	@mkdir idmclib-$(VERSION)
+	@cp -r Makefile Makefile.inc src tests jidmc pyidmc $(LIBDIR) include idmclib-$(VERSION)
+	tar czf idmclib_$(VERSION)_$(PLATFORM).tar.gz idmclib-$(VERSION)
+	@rm -rf idmclib-$(VERSION)
 
 clean:
 	rm -rf idmclib
