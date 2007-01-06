@@ -1,9 +1,20 @@
 /*
-idmc C library
-Adapted from iDMC, Copyright (C) 2004-2006 Marji Lines and Alfredo Medio, written by Daniele Pizzoni
+iDMC C library
 
-Antonio, Fabio Di Narzo
-Last modified: 22/11/2006
+Adapted from iDMC, Copyright (C) 2004-2006 Marji Lines and Alfredo Medio
+Copyright (C) 2006,2007 Marji Lines and Alfredo Medio.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or any
+later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+Last modified: $Date$
 */
 #include <string.h>
 #include <gsl/gsl_block.h>
