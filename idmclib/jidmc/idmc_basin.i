@@ -29,6 +29,14 @@ typedef struct {
 	int step() {
 		return idmc_basin_step(self);
 	}
+	int step_n(int n) {
+		int ians;
+		while(n--) {
+			ians = idmc_basin_step(self);
+			if(ians!=IDMC_OK) return ians;
+		}
+		return ians;
+	}
 	int finished() {
 		return idmc_basin_finished(self);
 	}
