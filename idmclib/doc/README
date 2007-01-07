@@ -14,7 +14,7 @@ GLS-1.8 and LUA-5.0 (or compatibles) are required for compiling/linking the idmc
 No automagic tools are used. You're supposed to use gcc compiler (mingw under windows) and gnu make (MSYS under windows).
 You manually configure building process for your system by editing 'Makefile.inc' file in top directory.
 Mainly, you will have to set LUA, GSL and LAPACK libraries locations (include files and compiled libs).
-Swig, java and python development files are needed if you want to build Java and Python bindings.
+Swig, java, python and R support files are needed if you want to build Java, Python and R bindings.
 	
 2. API
 Watch at the test directory for usage examples.
@@ -38,15 +38,14 @@ Whatch at the SWIG interface files and to generated java files for the API. A fu
 5. R bindings
 R bindings are totally written by hand. They're incomplete and low-level, but working and usable 
 (tests succesfully run under linux and windows).
-Some object-oriented R wrapping code was written in ridmc.R.
+Some object-oriented R wrapping code was written in the ridmc.R file.
 Watch at the ridmcTest.R file for usage examples, and to the various C sources for the API.
 
 6. BLAS/LAPACK
 The DGEER lapack routine is used for computing eigenvalues of real, nonsymmetric matrices. This added dependency on blas and lapack libraries.
 A minimal subset of these libraries is included in idmclib source distribution. This is especially useful under windows,
 where you can statically compile them with no added troubles.
-Anyway, you can always try to link against other blas/lapack implementations, as the ATLAS, AMD ACML or the Intel MKL. For this, you'll have to manually hack 
-building process.
+Anyway, you can always try to link against other blas/lapack implementations, as the ATLAS, AMD ACML or the Intel MKL. For this, you'll have to manually hack the building process.
 
 APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings)
 - Install JDK-1.5 (if you don't already have it)
@@ -59,5 +58,3 @@ APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings
 	# cp Makefile.inc.win Makefile.inc
 	Edit 'Makefile.inc' to reflect your system configuration. Perhaps you will only have to set the JDK paths. Finally, type:
 	# make idmclib && make jidmc
-
-
