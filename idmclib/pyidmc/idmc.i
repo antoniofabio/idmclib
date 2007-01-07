@@ -8,10 +8,14 @@
 #include <idmclib/traj.h>
 #include <idmclib/lexp.h>
 #include <idmclib/cycles.h>
+#include <idmclib/raster.h>
+#include <idmclib/basin.h>
 
 typedef idmc_model model;
 typedef idmc_traj_trajectory trajectory;
 typedef idmc_traj_ctrajectory ctrajectory;
+typedef idmc_raster raster;
+typedef idmc_basin basin;
 
 /*Convert an array of strings of size 'int' to a python list*/
 static PyObject *sC2PySeq(char **array, int length){
@@ -89,3 +93,5 @@ static double* pySeqTodC(PyObject *sequence, int *length) {
 %include idmc_traj.i
 %include idmc_lexp.i
 %include idmc_cycles.i
+%include idmc_raster.i
+%include idmc_basin.i
