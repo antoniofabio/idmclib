@@ -15,8 +15,12 @@
 #include <idmclib/traj.h>
 #include <idmclib/cycles.h>
 #include <idmclib/lexp.h>
+#include <idmclib/raster.h>
+#include <idmclib/basin.h>
 
 typedef idmc_model Model;
+typedef idmc_raster Raster;
+typedef idmc_basin Basin;
 typedef idmc_traj_trajectory Trajectory;
 typedef idmc_traj_ctrajectory CTrajectory;
 %}
@@ -48,3 +52,5 @@ typedef idmc_traj_ctrajectory CTrajectory;
 %include "idmc_traj.i"
 %include "idmc_cycles.i"
 %include "idmc_lexp.i"
+%include "idmc_raster.i"
+%include "idmc_basin.i"
