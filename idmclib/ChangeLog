@@ -1,3 +1,8 @@
+0.2.0 - 07/01/2007
+- added raster and basin of attraction modules to python, java and R bindings
+- added raster and basin of attraction modules, upgraded docs and testing code
+- added draft R interface, upgraded docs
+
 0.1.1 - 28/12/2006
 - exported return codes to the java interface
 - added changelog to repository
