@@ -47,6 +47,9 @@ AR=ar
 #SWIG-1.3 (Simplified Wrapper and Interface Generator):
 SWIG = swig
 
+#targets to be built by default (in: idmclib tests jidmc pyidmc ridmc):
+BUILD_TARGETS = idmclib tests jidmc pyidmc ridmc
+
 CFLAGS = -c -g -fPIC $(LUA_CFLAGS) $(GSL_CFLAGS) -I. -I$(INCLUDEDIR) --std=c99
 SHFLAGS = -shared
 ARCMD = cr

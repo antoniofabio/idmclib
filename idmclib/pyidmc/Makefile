@@ -1,27 +1,27 @@
 include ../Makefile.inc
 
-MODULES = idmc
-SUBMODULES = $(addsuffix .i, $(addprefix idmc_, model traj lexp cycles) )
+CFLAGS += $(PYTHON_CFLAGS)
+LDFLAGS := $(PYTHON_LDFLAGS)
 
-SWIG_SRC = $(addsuffix .i, $(MODULES))
+SRCS = idmc_wrap
+C_SRCS = $(addsuffix .c, $(SRCS) )
+C_OBJS = $(addsuffix .o, $(SRCS) )
+
+SHNAME = _idmc$(SHLIB_EXT)
+
+SWIG_SRC = idmc.i
 SWIG_OPTS = -python
 
-C_SRCS = $(addsuffix _wrap.c, $(MODULES))
-CFLAGS += $(PYTHON_CFLAGS)
-LDFLAGS += $(PYTHON_LDFLAGS)
+all: $(SHNAME)
 
-T = $(addprefix _, $(addsuffix .so, $(MODULES)) )
-
-all: $(T)
-
-idmc_wrap.c: idmc.i $(SUBMODULES)
+$(C_SRCS): %_wrap.c: %.i idmc_model.i idmc_traj.i idmc_cycles.i idmc_lexp.i idmc_raster.i idmc_basin.i
 	$(SWIG) $(SWIG_OPTS) $<
 
-$(T): _%.so: %_wrap.o $(LIBDIR)/libidmclib.so
-	$(LD) $(SHFLAGS) $(LDFLAGS) $< -o $@
+$(SHNAME): $(C_OBJS) $(LIBDIR)/libidmclib.so
+	$(LD) $(SHFLAGS) $(LDFLAGS) $(C_OBJS) -o $@
 
 clean:
-	rm -f *o *.d *wrap.c *.pyc $(addsuffix .py, $(MODULES))
+	rm -f *.o *$(SHLIB_EXT) *.d *wrap.c *.pyc idmc.py
 
 %.d: %.c
 	$(CC) -MM $(CPPFLAGS) $< > $@.$$$$; \

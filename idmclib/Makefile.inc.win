@@ -5,8 +5,8 @@ LAPACK_LIBS = $(SRCDIR)/lapack/liblapack.a $(SRCDIR)/blas/libblas.a -lg2c
 LIB_LDFLAGS = $(LIBPATH_STATIC) $(LAPACK_LIBS) $(GSL_LIBS) $(LUA_LIBS)
 JAVA_CFLAGS = -I/c/Programmi/Java/jdk1.5.0_08/include -I/c/Programmi/Java/jdk1.5.0_08/include/win32 -D_JNI_IMPLEMENTATION_
 JAVA_LDFLAGS= $(LIB_LDFLAGS) -Wl,--kill-at
-PYTHON_CFLAGS = -I/usr/include/python2.4
-PYTHON_LDFLAGS= $(LIB_LDFLAGS)
+PYTHON_CFLAGS = -I/c/Python24/include
+PYTHON_LDFLAGS= -L/c/Python24/libs -lpython24 $(LIB_LDFLAGS)
 R_CFLAGS= -I/c/Programmi/R/R-2.4.0/include -DRIDMC_DEBUG
 R_LDFLAGS= -L/c/Programmi/R/R-2.4.0/bin -lR $(LIB_LDFLAGS)
 TESTS_LDFLAGS= $(LIB_LDFLAGS)
@@ -26,6 +26,8 @@ CFLAGS = -c -fPIC $(LUA_CFLAGS) $(GSL_CFLAGS) -I. -I$(INCLUDEDIR) --std=c99
 SHFLAGS = -shared
 ARCMD = cr
 LDFLAGS =  $(LAPACK_LIBS) $(LUA_LIBS) $(GSL_LIBS)
+
+BUILD_TARGETS = idmclib tests jidmc ridmc
 
 SHLIB_EXT = .dll
 PLATFORM=win32
