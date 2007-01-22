@@ -7,6 +7,8 @@
 %include "various.i"
 
 %array_functions(double, doubleArray);
+%array_functions(char *, stringArray);
+%array_functions(int, intArray);
 %{
 /* Put header files here or function declarations like below */
 #include <stdio.h>
@@ -46,8 +48,6 @@ typedef idmc_traj_ctrajectory CTrajectory;
 #define IDMC_EINT 7
 %mutable;
 
-
-%array_functions(char *, stringArray);
 %include "idmc_model.i"
 %include "idmc_traj.i"
 %include "idmc_cycles.i"
