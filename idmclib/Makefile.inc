@@ -28,10 +28,10 @@ PYTHON_LDFLAGS= $(LIB_LDFLAGS)
 
 #Compiling and linking flags for R-2.4.x interface
 R_CFLAGS= -I/usr/local/lib64/R/include -DRIDMC_DEBUG
-R_LDFLAGS= $(LIB_LDFLAGS)
+R_LDFLAGS= $(LIB_LDFLAGS) $(LUA_LIBS) $(GSL_LIBS)
 
 #Linking flags for unit testing code
-TESTS_LDFLAGS= $(LIB_LDFLAGS)
+TESTS_LDFLAGS= $(LIB_LDFLAGS) $(LUA_LIBS) $(GSL_LIBS)
 
 #GNU make:
 MAKE=make
