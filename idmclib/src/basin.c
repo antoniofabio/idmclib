@@ -26,7 +26,7 @@ Last modified: $Date$
 #include "model.h"
 #include "basin.h"
 
-#define BASIN_getCurrPoint(p, point) \
+#define getCurrPoint(p, point) \
 	do { \
 		while ( (p->currId < p->dataLength ) \
 			&& ( (RASTER(p)->data[p->currId]) ) ) \
@@ -35,19 +35,19 @@ Last modified: $Date$
 		(point)[1] = idmc_raster_I2y(RASTER(p), p->currId); \
 	} while(0) 
 
-#define BASIN_setValue(p, point, value) \
+#define setValue(p, point, value) \
 		idmc_raster_setxy(RASTER(p), point[0], point[1], value)
 
-#define BASIN_getValue(p, point) \
+#define getValue(p, point) \
 		idmc_raster_getxy(RASTER(p), point[0], point[1])
 
-#define BASIN_isPointInsideBounds(p, point) \
+#define isPointInsideBounds(p, point) \
 	idmc_raster_isxyInsideBounds(RASTER(p), point[0], point[1])
 
-#define BASIN_isPointInfinite(point) \
+#define isPointInfinite(point) \
 	((point)[0]==INFINITY || (point)[1]==INFINITY)
 
-#define BASIN_isOdd(value) ( (value) == ( ((value)/2) * 2 ) )
+#define isOdd(value) ( (value) == ( ((value)/2) * 2 ) )
 
 int idmc_basin_alloc(idmc_model *m, double *parameters,
 	double xmin, double xmax, int xres,
@@ -131,19 +131,25 @@ static void fillTrack(idmc_basin* p, double *startPoint, int iterations, int val
 Iterates one cell in the basin grid. Algorithm due to Daniele Pizzoni, 
 translated from the iDMC (1.9.4 and following versions) java software
 */
+/*Stopping condition:*/
+#define basin_finished(p) ((p)->currId >= ((p)->dataLength))
+/*some utility definitions:*/
+#define attractorLimit (p->attractorLimit)
+#define attractorIterations (p->attractorIterations)
+#define startPoint (p->startPoint)
+#define currentPoint (p->currentPoint)
+#define index (p->index)
+#define state (p->state)
+#define attr (p->attr)
+#define color (p->color)
 int idmc_basin_step(idmc_basin* p) {
-	if( idmc_basin_finished(p) ) /*algorithm ended*/
+	if( basin_finished(p) ) /*algorithm ended*/
 		return IDMC_OK;
-	int attractorLimit = p->attractorLimit;
-	int attractorIterations = p->attractorIterations;
-	int state, attr, color;
-	double *startPoint = p->startPoint;
-	double *currentPoint = p->currentPoint;
 
-	BASIN_getCurrPoint(p, startPoint); /*get start point coordinates*/
-	p->index++; /*iteration index*/
+	getCurrPoint(p, startPoint); /*get start point coordinates*/
+	index++; /*iteration index*/
 	memcpy(currentPoint, startPoint, 2 * sizeof(double) ); /*copy start point to current point*/
-	BASIN_setValue(p, currentPoint, p->basinColor); /*set cell value to current basin color*/
+	setValue(p, currentPoint, p->basinColor); /*set cell value to current basin color*/
 	
 	color = p->basinColor;
 	attr = -1;
@@ -151,11 +157,11 @@ int idmc_basin_step(idmc_basin* p) {
 	for (int i = 0;;) {
 		idmc_model_f(MODEL(p), p->parameters, currentPoint, currentPoint);
 		i++;
-		if (BASIN_isPointInfinite(currentPoint)) {
+		if (isPointInfinite(currentPoint)) {
 			fillTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
 			break;
 		}
-		if (!BASIN_isPointInsideBounds(p, currentPoint)) {
+		if (!isPointInsideBounds(p, currentPoint)) {
 			if (i >= attractorLimit) {
 				fillTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
 				break;
@@ -164,11 +170,11 @@ int idmc_basin_step(idmc_basin* p) {
 				continue;
 		}
 
-		state = BASIN_getValue(p, currentPoint);
+		state = getValue(p, currentPoint);
 		
 		/* untouched */
 		if (state == 0) {
-			BASIN_setValue(p, currentPoint, color);
+			setValue(p, currentPoint, color);
 			continue;
 		}
 		/* infinity */
@@ -191,7 +197,7 @@ int idmc_basin_step(idmc_basin* p) {
 					color = p->attractorColor;
 				}
 		
-				BASIN_setValue(p, currentPoint, color);
+				setValue(p, currentPoint, color);
 				continue;
 			}
 			else {
@@ -215,7 +221,7 @@ int idmc_basin_step(idmc_basin* p) {
 		attr = -1;
 		
 		/* another basin encountered */
-		if (!BASIN_isOdd(state) && 
+		if (!isOdd(state) && 
 			( state != p->basinColor ) && 
 			( state != IDMC_BASIN_INFINITY ) ) {
 				fillTrack(p, startPoint, i - 1, state);
@@ -223,7 +229,7 @@ int idmc_basin_step(idmc_basin* p) {
 		}
 		
 		/* another attractor encountered */
-		if (BASIN_isOdd(state) && 
+		if (isOdd(state) && 
 			(state != p->attractorColor) && 
 			(state != IDMC_BASIN_INFINITY) ) {
 				fillTrack(p, startPoint, i - 1, state+1);
@@ -235,18 +241,27 @@ int idmc_basin_step(idmc_basin* p) {
 	}
 	return IDMC_OK;
 }
+#undef attractorLimit
+#undef attractorIterations
+#undef startPoint
+#undef currentPoint
+#undef index
+#undef state
+#undef attr
+#undef color
+
 
 static void fillTrack(idmc_basin* p, double *startPoint, int iterations, int value) {
 	memcpy(p->work, startPoint, 2 * sizeof(double));
-	BASIN_setValue(p, p->work, value);
+	setValue(p, p->work, value);
 	for(int i=0; i<iterations; i++) {
 		idmc_model_f(MODEL(p), p->parameters, p->work, p->work);
-		if(!BASIN_isPointInsideBounds(p, p->work))
+		if(!isPointInsideBounds(p, p->work))
 			continue;
-		BASIN_setValue(p, p->work, value);
+		setValue(p, p->work, value);
 	}
 }
 
 int idmc_basin_finished(idmc_basin *p) {
-	return (p->currId >= p->dataLength);
+	return basin_finished(p);
 }

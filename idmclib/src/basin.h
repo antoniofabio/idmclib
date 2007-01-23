@@ -37,6 +37,7 @@ typedef struct {
 	double *startPoint, *currentPoint, *work; /*work memory spaces*/
 	int attractorColor; int basinColor; /*current attractor and basin colors*/
 	int index; /*iteration index*/
+	int state, attr, color; /*support temp variables*/
 } idmc_basin;
 
 /*some utility accessor macros*/
