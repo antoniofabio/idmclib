@@ -13,7 +13,7 @@ typedef struct {
 %mutable;
 
 %extend{
-	Basin(Model *m, double *parameters,
+	Basin(Model *m, double parameters[],
 		double xmin, double xmax, int xres,
 		double ymin, double ymax, int yres, 
 		int attractorLimit, int attractorIterations) {
