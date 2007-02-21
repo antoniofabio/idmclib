@@ -13,9 +13,18 @@ public class main {
 	}
 	
 	public static void main(String argv[]) {
+		model();
 		trajectory();
 		ctrajectory();
 		cycles();
+	}
+
+	static void model() {
+//		String modelBuffer = readFile(new File("logistic.lua"));
+//		Model m = new Model(modelBuffer, modelBuffer.length());
+		String modelBuffer = readFile(new File("lambertw.lua"));
+		Model m = new Model(modelBuffer, modelBuffer.length());
+		m.getType();
 	}
 	
 	static void trajectory() {

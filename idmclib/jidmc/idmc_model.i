@@ -14,8 +14,11 @@
 %exception Model {
 	$action
 	if ((result==NULL)||(result->interrupt)) {
+		char *msg = (char*) malloc(1024);
+		sprintf(msg,"idmclib error: %s",idmc_err_message[result->interrupt]);
 		jclass clazz = (*jenv)->FindClass(jenv, "java/lang/RuntimeException");
-		(*jenv)->ThrowNew(jenv, clazz, idmc_err_message[result->interrupt]);
+		(*jenv)->ThrowNew(jenv, clazz, msg);
+		free(msg);
 		return $null;
 	}
 }
