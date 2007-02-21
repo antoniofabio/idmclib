@@ -11,6 +11,15 @@
 #define IDMC_IDENT_INVERSE_JACOBIAN "Jg"
 %mutable;
 
+%exception Model {
+	$action
+	if ((result==NULL)||(result->interrupt)) {
+		jclass clazz = (*jenv)->FindClass(jenv, "java/lang/RuntimeException");
+		(*jenv)->ThrowNew(jenv, clazz, idmc_err_message[result->interrupt]);
+		return $null;
+	}
+}
+
 typedef struct {
 %immutable;	
 	lua_State* L;
@@ -33,9 +42,12 @@ typedef struct {
 	int interrupt; /*generic external interrupt flag*/
 	
 %extend {
+
 	Model (const char* buffer, const int buffer_len) {
 		Model *ans;
-		idmc_model_alloc(buffer, buffer_len, &ans);
+		int result = idmc_model_alloc(buffer, buffer_len, &ans);
+		if(ans!=NULL)
+			ans->interrupt = result;
 		return ans;
 	}
 	~Model() {
