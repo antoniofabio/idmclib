@@ -1,3 +1,9 @@
+0.3.0 - 28/02/2007
+- added export of library error codes to the java interface
+- minor fix in java interface generic accessor functions
+- applied slight basin algorithm optimization
+- added 1 more test for R interface to basin module
+
 0.2.0 - 08/01/2007
 - added raster and basin of attraction modules to python, java and R bindings
 - added raster and basin of attraction modules, upgraded docs and testing code
