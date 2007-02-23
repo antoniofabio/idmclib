@@ -1,4 +1,4 @@
-0.3.0 - 28/02/2007
+0.3.0 - 23/02/2007
 - added export of library error codes to the java interface
 - minor fix in java interface generic accessor functions
 - applied slight basin algorithm optimization
