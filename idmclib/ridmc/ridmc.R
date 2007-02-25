@@ -4,6 +4,11 @@ Model <- function(filename=NULL, buffer = paste(readLines(filename), collapse="\
 	model <- .Call("model_alloc", buffer)
 	ans <- list()
 	ans$model <- model
+	infos <- .Call("model_getInfos", model)
+	names(infos[[1]]) <- c("name","description","type")
+	names(infos[[2]]) <- c("has_inverse","has_jacobian")
+	ans$infos <- infos
+	ans$buffer <- buffer
 	ans$f <- function(par, var)
 		.Call("model_f", model, as.double(par), as.double(var))
 	ans$g <- function(par, var)
@@ -13,9 +18,21 @@ Model <- function(filename=NULL, buffer = paste(readLines(filename), collapse="\
 	ans$NumJf <- function(par, var)
 		.Call("model_NumJf", model, as.double(par), as.double(var))
 	ans$set.seed <- function(seed)
-		.Call("model_setGslRngSeed", model, as.integer(seed))
+		invisible(.Call("model_setGslRngSeed", model, as.integer(seed)))
 	class(ans) <- "idmc_model"
 	return(ans)
+}
+
+print.idmc_model <- function(x, ...) {
+	infos <- x$infos
+	cat('= iDMC model =\n')
+	cat('Name: ', infos[[1]]["name"],'\n')
+	cat('Description: ', infos[[1]]["description"],'\n')
+	cat('Type: ', if(infos[[1]]["type"]=="D") "discrete" 
+		else if(infos[[1]]["type"]=="C") "continue"
+		else "invalid model type", '\n')
+	cat('Has inverse: ', infos[[2]]["has_inverse"]!=0,'\n')
+	cat('Has jacobian: ', infos[[2]]["has_jacobian"]!=0,'\n')
 }
 
 CTrajectory <- function(idmc_model, par, var, eps, integrator=0) {
