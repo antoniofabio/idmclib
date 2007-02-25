@@ -7,6 +7,7 @@ Model <- function(filename=NULL, buffer = paste(readLines(filename), collapse="\
 	infos <- .Call("model_getInfos", model)
 	names(infos[[1]]) <- c("name","description","type")
 	names(infos[[2]]) <- c("has_inverse","has_jacobian")
+	names(infos[[3]]) <- c("n.pars","n.vars")
 	ans$infos <- infos
 	ans$buffer <- buffer
 	ans$f <- function(par, var)
@@ -33,6 +34,8 @@ print.idmc_model <- function(x, ...) {
 		else "invalid model type", '\n')
 	cat('Has inverse: ', infos[[2]]["has_inverse"]!=0,'\n')
 	cat('Has jacobian: ', infos[[2]]["has_jacobian"]!=0,'\n')
+	cat('Number of parameters: ', infos[[3]]["n.pars"],'\n')
+	cat('Number of variables: ', infos[[3]]["n.vars"],'\n')
 }
 
 CTrajectory <- function(idmc_model, par, var, eps, integrator=0) {
