@@ -138,9 +138,10 @@ SEXP model_setGslRngSeed(SEXP m, SEXP seed) {
 Get a list filled with model infos
 */
 SEXP model_getInfos(SEXP m) {
-	SEXP ans, strings, flags, lens;
+	SEXP ans, strings, flags, lens, parNames, varNames;
+	int i;
 	idmc_model *pm = (idmc_model*) R_ExternalPtrAddr(m);
-	PROTECT(ans = allocVector(VECSXP, 3));
+	PROTECT(ans = allocVector(VECSXP, 5));
 	PROTECT(strings = allocVector(STRSXP, 3));
 	PROTECT(flags = allocVector(INTSXP, 2));
 	PROTECT(lens = allocVector(INTSXP, 2) );
@@ -151,9 +152,17 @@ SEXP model_getInfos(SEXP m) {
 	INTEGER(flags)[1] = pm->has_jacobian;
 	INTEGER(lens)[0] = pm->par_len;
 	INTEGER(lens)[1] = pm->var_len;
+	PROTECT(parNames = allocVector(STRSXP, pm->par_len) );
+	for(i=0; i<pm->par_len; i++)
+		SET_STRING_ELT( parNames, i, mkChar(pm->par[i]));
+	PROTECT(varNames = allocVector(STRSXP, pm->var_len) );
+	for(i=0; i<pm->var_len; i++)
+		SET_STRING_ELT( varNames, i, mkChar(pm->var[i]));
 	SET_VECTOR_ELT(ans, 0, strings);
 	SET_VECTOR_ELT(ans, 1, flags);
 	SET_VECTOR_ELT(ans, 2, lens);
-	UNPROTECT(4);
+	SET_VECTOR_ELT(ans, 3, parNames);
+	SET_VECTOR_ELT(ans, 4, varNames);
+	UNPROTECT(6);
 	return ans;
 }

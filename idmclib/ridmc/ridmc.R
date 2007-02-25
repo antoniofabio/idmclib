@@ -32,10 +32,10 @@ print.idmc_model <- function(x, ...) {
 	cat('Type: ', if(infos[[1]]["type"]=="D") "discrete" 
 		else if(infos[[1]]["type"]=="C") "continue"
 		else "invalid model type", '\n')
+	cat('Parameters: ', paste(infos[[4]], collapse=", "),'\n')
+	cat('Variables: ', paste(infos[[5]], collapse=", "),'\n')
 	cat('Has inverse: ', infos[[2]]["has_inverse"]!=0,'\n')
 	cat('Has jacobian: ', infos[[2]]["has_jacobian"]!=0,'\n')
-	cat('Number of parameters: ', infos[[3]]["n.pars"],'\n')
-	cat('Number of variables: ', infos[[3]]["n.vars"],'\n')
 }
 
 CTrajectory <- function(idmc_model, par, var, eps, integrator=0) {
