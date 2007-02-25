@@ -12,6 +12,8 @@ Model <- function(filename=NULL, buffer = paste(readLines(filename), collapse="\
 		.Call("model_Jf", model, as.double(par), as.double(var))
 	ans$NumJf <- function(par, var)
 		.Call("model_NumJf", model, as.double(par), as.double(var))
+	ans$set.seed <- function(seed)
+		.Call("model_setGslRngSeed", model, as.integer(seed))
 	class(ans) <- "idmc_model"
 	return(ans)
 }
