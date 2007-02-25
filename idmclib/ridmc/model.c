@@ -134,3 +134,22 @@ SEXP model_setGslRngSeed(SEXP m, SEXP seed) {
 	return R_NilValue;
 }
 
+/*
+Get a list filled with model infos
+*/
+SEXP model_getInfos(SEXP m) {
+	SEXP ans, strings, flags;
+	idmc_model *pm = (idmc_model*) R_ExternalPtrAddr(m);
+	PROTECT(ans = allocVector(VECSXP, 2));
+	PROTECT(strings = allocVector(STRSXP, 3));
+	PROTECT(flags = allocVector(INTSXP, 2));
+	SET_STRING_ELT( strings, 0, mkChar(pm->name));
+	SET_STRING_ELT( strings, 1, mkChar(pm->desc));
+	SET_STRING_ELT( strings, 2, mkChar(pm->type));
+	INTEGER(flags)[0] = pm->has_inverse;
+	INTEGER(flags)[1] = pm->has_jacobian;
+	SET_VECTOR_ELT(ans, 0, strings);
+	SET_VECTOR_ELT(ans, 1, flags);
+	UNPROTECT(3);
+	return ans;
+}
