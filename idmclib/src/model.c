@@ -44,7 +44,6 @@ static int get_variable(idmc_model *model, const char *name, char **result);
 static int idmc_panic (lua_State *L);
 static int get_labels(lua_State* state, const char *name, char ***labels);
 static inline int create_table(lua_State* L, const int length, char **keys, const  double values[]);
-static int idmc_panic (lua_State *L);
 static int eval_function(char *name, idmc_model *model, const double par[], const double var[], double f[]);
 static int eval_matrix(char *name, idmc_model *model, const double par[], const double var[], double Jf[]);
 
@@ -378,9 +377,9 @@ static int eval_function(
 
 	int err;
 	err = lua_pcall(L, 
-					model->par_len + model->var_len, // args
-					model->var_len,                  // returns
-					0);
+		model->par_len + model->var_len, // args
+		model->var_len,                  // returns
+		0);
 
 	if (err != 0) {
 		if (err == LUA_ERRRUN) {
@@ -397,6 +396,10 @@ static int eval_function(
 	}
 
 	for (int i = model->var_len - 1; i > -1; i--) {
+		if (!lua_isnumber(L, -1)) {
+			lua_pop(L, i+1);
+			return IDMC_ERUN;
+		}
 		f[i] = lua_tonumber(L, -1);
 		lua_pop(L, 1);
 	}
