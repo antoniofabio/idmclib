@@ -353,15 +353,14 @@ int idmc_model_g(idmc_model *model,
  * Note that var and f can point to the same array
  */
 static int eval_function(
-		char *name,
-        idmc_model *model,
+		char *name, idmc_model *model,
 		const double par[], const double var[], double f[])
 {
 	lua_State* L = model->L;
 
 	jmp_buf *jmpbuf = lua_touserdata(L, 1);
 	if (setjmp(*jmpbuf) != 0) {
-		return IDMC_EERROR; // return ffrom longjmp
+		return IDMC_EERROR; // return from longjmp
 	}
 	lua_atpanic(L, &idmc_panic);
 
@@ -380,7 +379,6 @@ static int eval_function(
 		model->par_len + model->var_len, // args
 		model->var_len,                  // returns
 		0);
-
 	if (err != 0) {
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
@@ -394,7 +392,6 @@ static int eval_function(
 		assert(1);
 		return IDMC_EERROR; // not reached
 	}
-
 	for (int i = model->var_len - 1; i > -1; i--) {
 		if (!lua_isnumber(L, -1)) {
 			lua_pop(L, i+1);
