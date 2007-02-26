@@ -11,16 +11,41 @@
 #define IDMC_IDENT_INVERSE_JACOBIAN "Jg"
 %mutable;
 
+%{
+#define THROW_EXCEPTION_TEST(code) \
+	if ((code)!=IDMC_OK) { \
+		char *msg = (char*) malloc(1024); \
+		sprintf(msg,"idmclib error: %s",idmc_err_message[(code)]); \
+		jclass clazz = (*jenv)->FindClass(jenv, "java/lang/RuntimeException"); \
+		(*jenv)->ThrowNew(jenv, clazz, msg); \
+		free(msg); \
+		return code; \
+	}
+%}
+
 %exception Model {
 	$action
-	if ((result==NULL)||(result->interrupt)) {
-		char *msg = (char*) malloc(1024);
-		sprintf(msg,"idmclib error: %s",idmc_err_message[result->interrupt]);
-		jclass clazz = (*jenv)->FindClass(jenv, "java/lang/RuntimeException");
-		(*jenv)->ThrowNew(jenv, clazz, msg);
-		free(msg);
-		return $null;
-	}
+	THROW_EXCEPTION_TEST(result->interrupt);
+}
+%exception f {
+	$action
+	THROW_EXCEPTION_TEST(result);
+}
+%exception g {
+	$action
+	THROW_EXCEPTION_TEST(result);
+}
+%exception Jf {
+	$action
+	THROW_EXCEPTION_TEST(result);
+}
+%exception Jg {
+	$action
+	THROW_EXCEPTION_TEST(result);
+}
+%exception NumJf {
+	$action
+	THROW_EXCEPTION_TEST(result);
 }
 
 typedef struct {
