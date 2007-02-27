@@ -86,7 +86,7 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 
 	/* load chunk */
 	/* lua_buffer has its error printing functions see lauxlib.c */
-	int status = luaL_loadbuffer(L, buffer, buffer_len, "fake");
+	int status = luaL_loadbuffer(L, buffer, buffer_len, "");
 	if (status == 0) {  /* parse OK? */
 		status = lua_pcall(L, 0, LUA_MULTRET, 0);  /* call main */
 	}
@@ -176,7 +176,15 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 	}
 	
 	model->interrupt=0;
-		
+
+	model->errorMessage = (char*) malloc(IDMC_MAXSTRLEN * sizeof(char));
+	if(model->errorMessage==NULL) {
+		free(model);
+		lua_close(L);
+		model = NULL;
+		return IDMC_EMEM;
+	}
+
 	return IDMC_OK;
 }
 
@@ -195,6 +203,10 @@ void idmc_model_free(idmc_model *model) {
 	
 	if(model->buflen) {
 		free(model->buffer);
+	}
+
+	if(model->errorMessage != NULL) {
+		free(model->errorMessage);
 	}
 
 	/* free gsl random number generator*/
@@ -380,6 +392,7 @@ static int eval_function(
 		model->var_len,                  // returns
 		0);
 	if (err != 0) {
+		sprintf(model->errorMessage, "%s", lua_tostring(L, -1));
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
 		}
@@ -395,6 +408,7 @@ static int eval_function(
 	for (int i = model->var_len - 1; i > -1; i--) {
 		if (!lua_isnumber(L, -1)) {
 			lua_pop(L, i+1);
+			sprintf(model->errorMessage, "bad function result");
 			return IDMC_ERUN;
 		}
 		f[i] = lua_tonumber(L, -1);
@@ -428,21 +442,24 @@ int idmc_model_Jg(idmc_model *model,
 int idmc_model_NumJf(idmc_model *model,
 			   const double par[],const double var[], double Jf[], double util[], double util2[], double util3[])
 {
-	int i,i1,j;
+	int i,i1,j, tmp;
 	int p1 = model->var_len;
 	double eps;
-	idmc_model_f(model,  par, var, util); /*store F(x0)*/
+	tmp = idmc_model_f(model,  par, var, util); /*store F(x0)*/
+	if(tmp!=IDMC_OK)
+		return tmp;
 	for(i=0; i<p1; i++) { //for each variable
 		memcpy(util2, var, p1); /*store x0*/
 		eps = ((var[i] < 1) ? 1: var[i]) * IDMC_EPS_VALUE;
 		util2[i] = var[i]+eps;
-		idmc_model_f(model,  par, util2, util3);
+		tmp = idmc_model_f(model,  par, util2, util3);
+		if(tmp!=IDMC_OK)
+			return tmp;
 		for(j=0;j<p1; j++) //for each map component, store estimated derivative
 			Jf[j*p1+i] = (util3[j] - util[j]) / eps;
 	}
 	return IDMC_OK;
 }
-
 
 /*
  * calculate the "name" matrix in the specified point (var) and
@@ -477,8 +494,8 @@ static int eval_matrix(
 			model->par_len + model->var_len, // args
 			model->var_len * model->var_len, // returns
 			0);
-
 	if (err != 0) {
+		sprintf(model->errorMessage, "%s", lua_tostring(L, -1));
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
 		}
@@ -493,6 +510,11 @@ static int eval_matrix(
 	}
 
 	for (int i = model->var_len * model->var_len - 1; i > -1; i--) {
+		if (!lua_isnumber(L, -1)) {
+			lua_pop(L, i+1);
+			sprintf(model->errorMessage, "bad matrix result");
+			return IDMC_ERUN;
+		}
 		Jf[i] = lua_tonumber(L, -1);
 		lua_pop(L, 1);
 	}

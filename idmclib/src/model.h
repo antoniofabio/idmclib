@@ -36,6 +36,8 @@ extern char *idmc_err_message[];
 #define IDMC_IDENT_FUNCTION_INVERSE "g"
 #define IDMC_IDENT_INVERSE_JACOBIAN "Jg"
 
+#define IDMC_MAXSTRLEN 1024
+
 
 typedef struct {
 	lua_State* L;
@@ -55,6 +57,8 @@ typedef struct {
 	char* type; /*model type*/
 	
 	int interrupt; /*generic external interrupt flag*/
+
+	char* errorMessage; /*last error message buffer*/
 } idmc_model;
 
 int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s);
