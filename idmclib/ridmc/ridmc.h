@@ -30,7 +30,8 @@ Last modified: $Date$
 #define PDEBUG(...)
 #endif
 
-#define RIDMC_ERROR(n) error("idmclib error: %s\n", idmc_err_message[n])
+#define RIDMC_ERROR(n) error("[idmclib error: %s] %s\n", idmc_err_message[n], ((idmc_model*) R_ExternalPtrAddr(m))->errorMessage)
+#define RIDMC_GENERIC_ERROR(n) error("[idmclib error] %s\n", idmc_err_message[n])
 
 /* Convert C double vector to R real vector, and protect it */
 SEXP pdToNumVec(double *p, int len);

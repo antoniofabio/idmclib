@@ -37,7 +37,7 @@ SEXP basin_alloc(SEXP model, SEXP parms,
 		INTEGER(attractorLimit)[0], INTEGER(attractorIterations)[0],
 		&basin);
 	if(ians != IDMC_OK)
-		RIDMC_ERROR(ians);
+		RIDMC_GENERIC_ERROR(ians);
 	PDEBUG("allocated basin %p\n", basin);
 	PROTECT(ans = R_MakeExternalPtr(basin, R_NilValue, R_NilValue));
 	R_RegisterCFinalizer(ans, basin_free);
@@ -53,7 +53,7 @@ void basin_free(SEXP p) {
 SEXP basin_step(SEXP p) {
 	int ians = idmc_basin_step(R_ExternalPtrAddr(p));
 	if(ians!=IDMC_OK)
-		RIDMC_ERROR(ians);
+		RIDMC_GENERIC_ERROR(ians);
 	return R_NilValue;
 }
 

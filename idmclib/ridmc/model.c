@@ -34,7 +34,7 @@ SEXP model_alloc(SEXP in_buf) {
 	UNPROTECT(1);
 	ians = idmc_model_alloc(buf, buflen, &model);
 	if(ians != IDMC_OK)
-		RIDMC_ERROR(ians);
+		RIDMC_GENERIC_ERROR(ians);
 	PDEBUG("allocated model %p\n", model);
 	PROTECT(ans = R_MakeExternalPtr(model, R_NilValue, R_NilValue));
 	R_RegisterCFinalizer(ans, model_free);
