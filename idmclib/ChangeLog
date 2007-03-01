@@ -1,3 +1,12 @@
+0.4.0 - 1/03/2007
+- added some new doc to library headers
+- improved R and Java error printing (now using new message storing mechanism of model objects)
+- added lua error message storing in model object
+- added java runtime exception raising when executing model functions
+- added check of function results in model functions evaluation
+- added print method and packed more detailed infos of model objects in R interface
+- added set.seed method to model object R interface
+
 0.3.0 - 23/02/2007
 - added export of library error codes to the java interface
 - minor fix in java interface generic accessor functions
