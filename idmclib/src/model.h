@@ -61,14 +61,27 @@ typedef struct {
 	char* errorMessage; /*last error message buffer*/
 } idmc_model;
 
+
+/*Allocates a new idmc model object. Can return the following error codes:
+- memory error
+- syntax error
+- model error
+ */
 int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s);
+/*De-allocates a model object*/
 void idmc_model_free(idmc_model *s);
+/*clones a model object*/
 idmc_model* idmc_model_clone(idmc_model *s);
+/* Set RNG seed. Shouldn't return any error */
+int idmc_model_setGslRngSeed(idmc_model *model, int seed);
+/* 
+ * evaluate the model functions
+ * These can return a runtime error, with relative message string stored in model->errorMessage buffer
+ */
 int idmc_model_f(idmc_model *model, const double par[], const double var[], double f[]);
 int idmc_model_g(idmc_model *model, const double par[], const double var[], double f[]);
 int idmc_model_Jf(idmc_model *model, const double par[], const double var[], double Jf[]);
 int idmc_model_Jg(idmc_model *model, const double par[], const double var[], double Jf[]);
 int idmc_model_NumJf(idmc_model *model, const double par[], const double var[], double Jf[], 
 			   double util[], double util2[], double util3[]);
-int idmc_model_setGslRngSeed(idmc_model *model, int seed);
 #endif

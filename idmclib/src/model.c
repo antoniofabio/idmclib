@@ -392,7 +392,7 @@ static int eval_function(
 		model->var_len,                  // returns
 		0);
 	if (err != 0) {
-		sprintf(model->errorMessage, "%s", lua_tostring(L, -1));
+		sprintf(model->errorMessage, "%s", lua_tostring(L, -1)+12);
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
 		}
@@ -495,7 +495,7 @@ static int eval_matrix(
 			model->var_len * model->var_len, // returns
 			0);
 	if (err != 0) {
-		sprintf(model->errorMessage, "%s", lua_tostring(L, -1));
+		sprintf(model->errorMessage, "%s", lua_tostring(L, -1)+12);
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
 		}
