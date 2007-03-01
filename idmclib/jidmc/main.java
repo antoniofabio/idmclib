@@ -14,17 +14,49 @@ public class main {
 	
 	public static void main(String argv[]) {
 		model();
+		try{
+			modelInvalidError();
+		} catch(RuntimeException re) {
+			System.out.println(re);
+		}
+		try{
+			modelSyntaxError();
+		} catch(RuntimeException re) {
+			System.out.println(re);
+		}
+		try{
+			modelRuntimeError();
+		} catch(RuntimeException re) {
+			System.out.println(re);
+		}
 		trajectory();
 		ctrajectory();
 		cycles();
 	}
 
 	static void model() {
-//		String modelBuffer = readFile(new File("logistic.lua"));
-//		Model m = new Model(modelBuffer, modelBuffer.length());
-		String modelBuffer = readFile(new File("lambertw.lua"));
+		String modelBuffer = readFile(new File("logistic.lua"));
+		Model m = new Model(modelBuffer, modelBuffer.length());
+	}
+
+	static void modelInvalidError() {
+		String modelBuffer = readFile(new File("invalid.lua"));
 		Model m = new Model(modelBuffer, modelBuffer.length());
 		m.getType();
+	}
+
+	static void modelSyntaxError() {
+		String modelBuffer = readFile(new File("syntaxError.lua"));
+		Model m = new Model(modelBuffer, modelBuffer.length());
+		m.getType();
+	}
+
+	static void modelRuntimeError() {
+		String modelBuffer = readFile(new File("runtimeError.lua"));
+		Model m = new Model(modelBuffer, modelBuffer.length());
+		m.getType();
+		double ans[] = new double[1];
+		m.f(new double[] {0.3}, new double[] {0.7}, ans);
 	}
 	
 	static void trajectory() {

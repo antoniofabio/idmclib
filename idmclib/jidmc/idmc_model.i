@@ -12,10 +12,13 @@
 %mutable;
 
 %{
-#define THROW_EXCEPTION_TEST(code) \
+#define THROW_RUNTIME_EXCEPTION(obj, code) \
 	if ((code)!=IDMC_OK) { \
 		char *msg = (char*) malloc(1024); \
-		sprintf(msg,"idmclib error: %s",idmc_err_message[(code)]); \
+		if(code==IDMC_ERUN) \
+			sprintf(msg,"[idmclib error: %s] %s", idmc_err_message[(code)], ((Model*) (obj))->errorMessage ); \
+		else \
+			sprintf(msg,"[idmclib error: %s]", idmc_err_message[(code)]); \
 		jclass clazz = (*jenv)->FindClass(jenv, "java/lang/RuntimeException"); \
 		(*jenv)->ThrowNew(jenv, clazz, msg); \
 		free(msg); \
@@ -25,27 +28,27 @@
 
 %exception Model {
 	$action
-	THROW_EXCEPTION_TEST(result->interrupt);
+	THROW_RUNTIME_EXCEPTION(NULL, result->interrupt);
 }
 %exception f {
 	$action
-	THROW_EXCEPTION_TEST(result);
+	THROW_RUNTIME_EXCEPTION(arg1, result);
 }
 %exception g {
 	$action
-	THROW_EXCEPTION_TEST(result);
+	THROW_RUNTIME_EXCEPTION(arg1, result);
 }
 %exception Jf {
 	$action
-	THROW_EXCEPTION_TEST(result);
+	THROW_RUNTIME_EXCEPTION(arg1, result);
 }
 %exception Jg {
 	$action
-	THROW_EXCEPTION_TEST(result);
+	THROW_RUNTIME_EXCEPTION(arg1, result);
 }
 %exception NumJf {
 	$action
-	THROW_EXCEPTION_TEST(result);
+	THROW_RUNTIME_EXCEPTION(arg1, result);
 }
 
 typedef struct {
