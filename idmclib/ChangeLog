@@ -1,5 +1,6 @@
-0.4.0 - 1/03/2007
+0.4.0 - 3/03/2007
 - added some new doc to library headers
+- added new Java interface tests
 - improved R and Java error printing (now using new message storing mechanism of model objects)
 - added lua error message storing in model object
 - added java runtime exception raising when executing model functions
