@@ -26,11 +26,15 @@ Last modified: $Date$
 /*external LAPACK routine*/
 /* DGEEV - compute for an N-by-N real nonsymmetric matrix A, the */
 /* eigenvalues and, optionally, the left and/or right eigenvectors */
-extern void dgeev_(const char* jobvl, const char* jobvr,
-		const int* n, double* a, const int* lda,
-		double* wr, double* wi, double* vl, const int* ldvl,
-		double* vr, const int* ldvr,
-		double* work, const int* lwork, int* info);
+#define DGEEV_F77 F77_FUNC (dgeev, DGEEV)
+#ifdef __cplusplus
+          extern "C"  /* prevent C++ name mangling */
+#endif
+void DGEEV_F77(const char* jobvl, const char* jobvr,
+	const int* n, double* a, const int* lda,
+	double* wr, double* wi, double* vl, const int* ldvl,
+	double* vr, const int* ldvr,
+	double* work, const int* lwork, int* info);
 
 struct root_function_data {
 	idmc_model *model;
@@ -131,7 +135,7 @@ int idmc_cycles_eigval(double *mat, int dim, double *ans)
 	left = right = (double *) 0;
 	jobVL[0] = jobVR[0] = 'N';
 	lwork=-1;
-	dgeev_(jobVL, jobVR, &locDim, tmpJac, &locDim, wR, wI,
+	DGEEV_F77(jobVL, jobVR, &locDim, tmpJac, &locDim, wR, wI,
 		   left, &locDim, right, &locDim, &tmp, &lwork, &info);	
 	if (info != 0) {
 		/*printf("Lapack error code: %d\n", info);*/
@@ -142,7 +146,7 @@ int idmc_cycles_eigval(double *mat, int dim, double *ans)
 	}
 	lwork = (int) tmp;
 	work = (double *) calloc(lwork, sizeof(double));
-	dgeev_(jobVL, jobVR, &locDim, tmpJac, &locDim, wR, wI, left, &locDim, right, &locDim, work, &lwork, &info);
+	DGEEV_F77(jobVL, jobVR, &locDim, tmpJac, &locDim, wR, wI, left, &locDim, right, &locDim, work, &lwork, &info);
 	if (info != 0) {
 		/*printf("Lapack error code: %d\n", info);*/
 		free(work);
