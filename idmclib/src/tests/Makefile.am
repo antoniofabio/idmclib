@@ -1,3 +1,4 @@
+INCLUDES = -I..
 LDADD = ../libidmclib.a
 
 bin_PROGRAMS	= test_model test_raster test_cycles test_traj test_basin test_lexp
