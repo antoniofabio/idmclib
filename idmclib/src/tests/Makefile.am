@@ -1,5 +1,5 @@
 INCLUDES = -I.. -I/usr/include/lua50
-LDADD = ../libidmclib.a ../lapack/liblapack.a ../blas/libblas.a -llualib50 -llua50 -lgsl -lgslcblas -lm $(FLIBS)
+LDADD = ../libidmclib.a ../lapack/liblapack.a ../blas/libblas.a $(FLIBS)
 
 bin_PROGRAMS	= test_model test_raster test_cycles test_traj test_basin test_lexp
 test_model_SOURCES = test_model.c test_common.c

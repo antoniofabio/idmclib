@@ -12,11 +12,11 @@ AC_F77_WRAPPERS
 AC_CHECK_PROG(SWIG, swig, yes, no)
 
 # Checks for libraries.
-AC_CHECK_LIB([gsl], [main])
-AC_CHECK_LIB([gslcblas], [main])
 AC_CHECK_LIB([m], [main])
-AC_CHECK_LIB([lua], [main])
-AC_CHECK_LIB([lualib], [main])
+AC_CHECK_LIB([gslcblas], [main])
+AC_CHECK_LIB([gsl], [main])
+AC_CHECK_LIB([lua50], [main])
+AC_CHECK_LIB([lualib50], [main])
 
 # Checks for header files.
 AC_HEADER_STDC
