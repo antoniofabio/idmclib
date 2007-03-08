@@ -1,2 +1,2 @@
-EXTRA_DIST = reconf
-SUBDIRS = src
+EXTRA_DIST = ridmc pyidmc
+SUBDIRS = src jidmc
