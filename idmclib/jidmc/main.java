@@ -3,7 +3,7 @@ import org.tsho.jidmclib.*;
 
 public class main {
 	static {
- 		System.loadLibrary("jidmc");
+ 		System.loadLibrary("jidmclib");
 	}
 	
 	public static void main(String argv[]) {
