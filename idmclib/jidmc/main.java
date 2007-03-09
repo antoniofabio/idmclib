@@ -3,13 +3,7 @@ import org.tsho.jidmclib.*;
 
 public class main {
 	static {
-		String path = System.getProperty("user.dir") + File.separator;
-		String ext;
-		if (System.getProperty("os.name").startsWith("Windows"))
-			ext=".dll";
-		else
-			ext=".so";
-		System.load(path + "idmc" + ext);
+ 		System.loadLibrary("jidmc");
 	}
 	
 	public static void main(String argv[]) {
