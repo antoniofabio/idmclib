@@ -1,5 +1,5 @@
 AC_PREREQ(2.61)
-AC_INIT(idmclib, 0.5.0, [Antonio, Fabio Di Narzo <antonio.fabio _at_ gmail.com>])
+AC_INIT(idmclib, 0.5.0, [antonio.fabio _at_ gmail.com])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR(src)
 
@@ -18,6 +18,30 @@ AC_CHECK_LIB([gsl], [main])
 AC_CHECK_LIB([lua50], [main])
 AC_CHECK_LIB([lualib50], [main])
 
+# Check for java stuff
+#R_JAVA
+AC_CANONICAL_HOST
+case "${host_os}" in
+  cygwin*|mingw*|windows*|winnt)
+    AC_DEFINE(Win32, 1, [Define according to your operating system type.])
+    JNIDIR="win32"
+    ;;
+  *solaris*)
+    AC_DEFINE(Solaris, 1, [Define according to your operating system type.])
+    JNIDIR="solaris"
+    ;;
+  *linux*)
+    AC_DEFINE(Linux, 1, [Define according to your operating system type.])
+    JNIDIR="linux"
+    ;;
+  *)
+    AC_DEFINE(Unix, 1,
+              [Define according to your operating system type.])
+    JNIDIR="unix"
+   ;;
+esac
+AC_SUBST(JNIDIR)
+
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([stdlib.h string.h])
@@ -35,5 +59,6 @@ AC_CONFIG_FILES([Makefile
                  src/Makefile
                  src/blas/Makefile
                  src/lapack/Makefile
-                 src/tests/Makefile])
+                 src/tests/Makefile
+		jidmc/Makefile])
 AC_OUTPUT
