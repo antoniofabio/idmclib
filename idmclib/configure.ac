@@ -4,12 +4,11 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR(src)
 
 # Checks for programs.
-AC_PROG_RANLIB
+AC_PROG_LIBTOOL
 AC_PROG_CC_C99
 AC_PROG_F77
 AC_F77_LIBRARY_LDFLAGS
 AC_F77_WRAPPERS
-AC_CHECK_PROG(SWIG, swig, yes, no)
 
 # Checks for libraries.
 AC_CHECK_LIB([m], [main])
@@ -19,7 +18,6 @@ AC_CHECK_LIB([lua50], [main])
 AC_CHECK_LIB([lualib50], [main])
 
 # Check for java stuff
-#R_JAVA
 AC_CANONICAL_HOST
 case "${host_os}" in
   cygwin*|mingw*|windows*|winnt)
