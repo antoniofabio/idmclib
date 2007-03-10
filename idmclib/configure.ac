@@ -39,6 +39,7 @@ case "${host_os}" in
    ;;
 esac
 AC_SUBST(JNIDIR)
+AM_CONDITIONAL(ISWIN, test $JNIDIR = "win32")
 
 # Checks for header files.
 AC_HEADER_STDC

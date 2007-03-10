@@ -1,6 +1,6 @@
 EXTRA_DIST = logistic.lua lorenz.lua test1.lua test2.lua
 INCLUDES = -I.. -I/usr/include/lua50
-LDADD = ../libidmclib.la ../lapack/liblapack.la ../blas/libblas.la $(FLIBS)
+LDADD = ../libidmclib.a ../lapack/liblapack.a ../blas/libblas.a $(FLIBS)
 
 bin_PROGRAMS	= test_model test_raster test_cycles test_traj test_basin test_lexp
 include_HEADERS = test_common.h minunit.h
