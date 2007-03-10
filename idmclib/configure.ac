@@ -59,5 +59,6 @@ AC_CONFIG_FILES([Makefile
                  src/blas/Makefile
                  src/lapack/Makefile
                  src/tests/Makefile
-		jidmc/Makefile])
+		jidmc/Makefile
+		ridmc/Makefile])
 AC_OUTPUT

@@ -1,2 +1,2 @@
-EXTRA_DIST = ridmc pyidmc
-SUBDIRS = src jidmc
+EXTRA_DIST = pyidmc
+SUBDIRS = src jidmc ridmc
