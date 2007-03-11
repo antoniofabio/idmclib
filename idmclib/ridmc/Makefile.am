@@ -13,5 +13,9 @@ all: ridmcShlib
 
 ridmcShlib: basin.o  cycles.o  lexp.o  model.o  ridmc.o traj.o
 	R CMD SHLIB ridmc.o basin.o cycles.o lexp.o model.o  \
-	traj.o ../src/libidmclib.a ../src/lapack/liblapack.a \
-	../src/blas/libblas.a $(LIBS) $(FLIBS)
+	traj.o ../src/.libs/libidmclib.a \
+	../src/idmclapack/.libs/libidmclapack.a \
+	../src/idmcblas/.libs/libidmcblas.a $(LIBS) $(FLIBS)
+
+clean:
+	rm -f *.o *.so *.dll

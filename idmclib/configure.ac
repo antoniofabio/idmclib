@@ -56,8 +56,8 @@ AC_CHECK_FUNCS([memset sqrt])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile
-                 src/blas/Makefile
-                 src/lapack/Makefile
+                 src/idmcblas/Makefile
+                 src/idmclapack/Makefile
                  src/tests/Makefile
 		jidmc/Makefile
 		ridmc/Makefile])
