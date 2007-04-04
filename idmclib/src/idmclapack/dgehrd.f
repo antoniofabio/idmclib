@@ -187,8 +187,8 @@
             IWS = N*NB
             IF( LWORK.LT.IWS ) THEN
 *
-*              Not enough workspace to use optimal NB:  determine the
-*              minimum value of NB, and reduce NB or force use of
+*              Not enough workspace to _use_ optimal NB:  determine the
+*              minimum value of NB, and reduce NB or force _use_ of
 *              unblocked code.
 *
                NBMIN = MAX( 2, ILAENV( 2, 'DGEHRD', ' ', N, ILO, IHI,
@@ -205,13 +205,13 @@
 *
       IF( NB.LT.NBMIN .OR. NB.GE.NH ) THEN
 *
-*        Use unblocked code below
+*        _use_ unblocked code below
 *
          I = ILO
 *
       ELSE
 *
-*        Use blocked code
+*        _use_ blocked code
 *
          DO 30 I = ILO, IHI - 1 - NX, NB
             IB = MIN( NB, IHI-I )
@@ -243,7 +243,7 @@
    30    CONTINUE
       END IF
 *
-*     Use unblocked code to reduce the rest of the matrix
+*     _use_ unblocked code to reduce the rest of the matrix
 *
       CALL DGEHD2( N, I, IHI, A, LDA, TAU, WORK, IINFO )
       WORK( 1 ) = IWS

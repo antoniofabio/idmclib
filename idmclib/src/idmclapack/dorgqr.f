@@ -138,7 +138,7 @@
             IWS = LDWORK*NB
             IF( LWORK.LT.IWS ) THEN
 *
-*              Not enough workspace to use optimal NB:  reduce NB and
+*              Not enough workspace to __use__ optimal NB:  reduce NB and
 *              determine the minimum value of NB.
 *
                NB = LWORK / LDWORK
@@ -149,7 +149,7 @@
 *
       IF( NB.GE.NBMIN .AND. NB.LT.K .AND. NX.LT.K ) THEN
 *
-*        Use blocked code after the last block.
+*        __use__ blocked code after the last block.
 *        The first kk columns are handled by the block method.
 *
          KI = ( ( K-NX-1 ) / NB )*NB
@@ -166,7 +166,7 @@
          KK = 0
       END IF
 *
-*     Use unblocked code for the last or only block.
+*     __use__ unblocked code for the last or only block.
 *
       IF( KK.LT.N )
      $   CALL DORG2R( M-KK, N-KK, K-KK, A( KK+1, KK+1 ), LDA,
@@ -174,7 +174,7 @@
 *
       IF( KK.GT.0 ) THEN
 *
-*        Use blocked code
+*        __use__ blocked code
 *
          DO 50 I = KI + 1, 1, -NB
             IB = MIN( NB, K-I+1 )

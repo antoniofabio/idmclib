@@ -37,7 +37,7 @@
 *  than overflow.
 *
 *  If both singular values of (ca A - w D) are less than SMIN,
-*  SMIN*identity will be used instead of (ca A - w D).  If only one
+*  SMIN*identity will be _use_d instead of (ca A - w D).  If only one
 *  singular value is less than SMIN, one element of (ca A - w D) will be
 *  perturbed enough to make the smallest singular value roughly SMIN.
 *  If both singular values are at least SMIN, (ca A - w D) will not be
@@ -53,8 +53,8 @@
 *  ==========
 *
 *  LTRANS  (input) LOGICAL
-*          =.TRUE.:  A-transpose will be used.
-*          =.FALSE.: A will be used (not transposed.)
+*          =.TRUE.:  A-transpose will be _use_d.
+*          =.FALSE.: A will be _use_d (not transposed.)
 *
 *  NA      (input) INTEGER
 *          The size of the matrix A.  It may (only) be 1 or 2.
@@ -82,7 +82,7 @@
 *          The 1,1 element in the diagonal matrix D.
 *
 *  D2      (input) DOUBLE PRECISION
-*          The 2,2 element in the diagonal matrix D.  Not used if NW=1.
+*          The 2,2 element in the diagonal matrix D.  Not _use_d if NW=1.
 *
 *  B       (input) DOUBLE PRECISION array, dimension (LDB,NW)
 *          The NA x NW matrix B (right-hand side).  If NW=2 ("w" is
@@ -96,7 +96,7 @@
 *          The real part of the scalar "w".
 *
 *  WI      (input) DOUBLE PRECISION
-*          The imaginary part of the scalar "w".  Not used if NW=1.
+*          The imaginary part of the scalar "w".  Not _use_d if NW=1.
 *
 *  X       (output) DOUBLE PRECISION array, dimension (LDX,NW)
 *          The NA x NW matrix X (unknowns), as computed by DLALN2.
@@ -199,7 +199,7 @@
             CSR = CA*A( 1, 1 ) - WR*D1
             CNORM = ABS( CSR )
 *
-*           If | C | < SMINI, use C = SMINI
+*           If | C | < SMINI, _use_ C = SMINI
 *
             IF( CNORM.LT.SMINI ) THEN
                CSR = SMINI
@@ -229,7 +229,7 @@
             CSI = -WI*D1
             CNORM = ABS( CSR ) + ABS( CSI )
 *
-*           If | C | < SMINI, use C = SMINI
+*           If | C | < SMINI, _use_ C = SMINI
 *
             IF( CNORM.LT.SMINI ) THEN
                CSR = SMINI
@@ -285,7 +285,7 @@
                END IF
    10       CONTINUE
 *
-*           If norm(C) < SMINI, use SMINI*identity.
+*           If norm(C) < SMINI, _use_ SMINI*identity.
 *
             IF( CMAX.LT.SMINI ) THEN
                BNORM = MAX( ABS( B( 1, 1 ) ), ABS( B( 2, 1 ) ) )
@@ -311,7 +311,7 @@
             LR21 = UR11R*CR21
             UR22 = CR22 - UR12*LR21
 *
-*           If smaller pivot < SMINI, use SMINI
+*           If smaller pivot < SMINI, _use_ SMINI
 *
             IF( ABS( UR22 ).LT.SMINI ) THEN
                UR22 = SMINI
@@ -373,7 +373,7 @@
                END IF
    20       CONTINUE
 *
-*           If norm(C) < SMINI, use SMINI*identity.
+*           If norm(C) < SMINI, _use_ SMINI*identity.
 *
             IF( CMAX.LT.SMINI ) THEN
                BNORM = MAX( ABS( B( 1, 1 ) )+ABS( B( 1, 2 ) ),
@@ -436,7 +436,7 @@
             END IF
             U22ABS = ABS( UR22 ) + ABS( UI22 )
 *
-*           If smaller pivot < SMINI, use SMINI
+*           If smaller pivot < SMINI, _use_ SMINI
 *
             IF( U22ABS.LT.SMINI ) THEN
                UR22 = SMINI

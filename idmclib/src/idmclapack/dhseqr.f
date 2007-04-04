@@ -215,13 +215,13 @@
    40 CONTINUE
       NH = IHI - ILO + 1
 *
-*     Determine the order of the multi-shift QR algorithm to be used.
+*     Determine the order of the multi-shift QR algorithm to be _Use_d.
 *
       NS = ILAENV( 4, 'DHSEQR', JOB // COMPZ, N, ILO, IHI, -1 )
       MAXB = ILAENV( 8, 'DHSEQR', JOB // COMPZ, N, ILO, IHI, -1 )
       IF( NS.LE.2 .OR. NS.GT.NH .OR. MAXB.GE.NH ) THEN
 *
-*        Use the standard double-shift algorithm
+*        __Use__ the standard double-shift algorithm
 *
          CALL DLAHQR( WANTT, WANTZ, N, ILO, IHI, H, LDH, WR, WI, ILO,
      $                IHI, Z, LDZ, INFO )
@@ -268,7 +268,7 @@
 *
 *     Perform multiple-shift QR iterations on rows and columns ILO to I
 *     until a submatrix of order at most MAXB splits off at the bottom
-*     because a subdiagonal element has become negligible.
+*     beca__Use__ a subdiagonal element has become negligible.
 *
       DO 150 ITS = 0, ITN
 *
@@ -315,7 +315,7 @@
    80       CONTINUE
          ELSE
 *
-*           Use eigenvalues of trailing submatrix of order NS as shifts.
+*           ___Use___ eigenvalues of trailing submatrix of order NS as shifts.
 *
             CALL DLACPY( 'Full', NS, NS, H( I-NS+1, I-NS+1 ), LDH, S,
      $                   LDS )
@@ -324,7 +324,7 @@
      $                   IERR )
             IF( IERR.GT.0 ) THEN
 *
-*              If DLAHQR failed to compute all NS eigenvalues, use the
+*              If DLAHQR failed to compute all NS eigenvalues, __Use__ the
 *              unconverged diagonal elements as the remaining shifts.
 *
                DO 90 II = 1, IERR
@@ -444,7 +444,7 @@
   160 CONTINUE
 *
 *     A submatrix of order <= MAXB in rows and columns L to I has split
-*     off. Use the double-shift QR algorithm to handle it.
+*     off. __Use__ the double-shift QR algorithm to handle it.
 *
       CALL DLAHQR( WANTT, WANTZ, N, L, I, H, LDH, WR, WI, ILO, IHI, Z,
      $             LDZ, INFO )

@@ -90,7 +90,7 @@
          SMALL = ONE / RMAX
          IF( SMALL.GE.SFMIN ) THEN
 *
-*           Use SMALL plus a bit, to avoid the possibility of rounding
+*           __use__ SMALL plus a bit, to avoid the possibility of rounding
 *           causing overflow when computing  1/sfmin.
 *
             SFMIN = SMALL*( ONE+EPS )
@@ -204,7 +204,7 @@
 *        LBETA,  LIEEE1,  LT and  LRND  are the  local values  of  BETA,
 *        IEEE1, T and RND.
 *
-*        Throughout this routine  we use the function  DLAMC3  to ensure
+*        Throughout this routine  we __use__ the function  DLAMC3  to ensure
 *        that relevant values are  stored and not held in registers,  or
 *        are not affected by optimizers.
 *
@@ -415,7 +415,7 @@
 *        LBETA, LT, LRND, LEPS, LEMIN and LRMIN  are the local values of
 *        BETA, T, RND, EPS, EMIN and RMIN.
 *
-*        Throughout this routine  we use the function  DLAMC3  to ensure
+*        Throughout this routine  we __use__ the function  DLAMC3  to ensure
 *        that relevant values are stored  and not held in registers,  or
 *        are not affected by optimizers.
 *
@@ -589,7 +589,7 @@
 *  =======
 *
 *  DLAMC3  is intended to force  A  and  B  to be stored prior to doing
-*  the addition of  A  and  B ,  for use in situations where optimizers
+*  the addition of  A  and  B ,  for __use__ in situations where optimizers
 *  might hold one of these in a register.
 *
 *  Arguments
@@ -803,13 +803,13 @@
 *
       IF( ( MOD( NBITS, 2 ).EQ.1 ) .AND. ( BETA.EQ.2 ) ) THEN
 *
-*        Either there are an odd number of bits used to store a
+*        Either there are an odd number of bits __use__d to store a
 *        floating-point number, which is unlikely, or some bits are
-*        not used in the representation of numbers, which is possible,
+*        not __use__d in the representation of numbers, which is possible,
 *        (e.g. Cray machines) or the mantissa has an implicit bit,
 *        (e.g. IEEE machines, Dec Vax machines), which is perhaps the
 *        most likely. We have to assume the last alternative.
-*        If this is true, then we need to reduce EMAX by one because
+*        If this is true, then we need to reduce EMAX by one beca__use__
 *        there must be some way of representing zero in an implicit-bit
 *        system. On machines like Cray, we are reducing EMAX by one
 *        unnecessarily.

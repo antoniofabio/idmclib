@@ -176,7 +176,7 @@
      $   GO TO 150
 *
 *     Perform QR iterations on rows and columns ILO to I until a
-*     submatrix of order 1 or 2 splits off at the bottom because a
+*     submatrix of order 1 or 2 splits off at the bottom beca_use_ a
 *     subdiagonal element has become negligible.
 *
       DO 130 ITS = 0, ITN
@@ -223,7 +223,7 @@
             H43H34 = DAT2*S*S
          ELSE
 *
-*           Prepare to use Francis' double shift
+*           Prepare to _use_ Francis' double shift
 *           (i.e. 2nd degree generalized Rayleigh quotient)
 *
             H44 = H( I, I )
@@ -234,7 +234,7 @@
             DISC = DISC*DISC + H43H34
             IF( DISC.GT.ZERO ) THEN
 *
-*              Real roots: use Wilkinson's shift twice
+*              Real roots: _use_ Wilkinson's shift twice
 *
                DISC = SQRT( DISC )
                AVE = HALF*( H33+H44 )
