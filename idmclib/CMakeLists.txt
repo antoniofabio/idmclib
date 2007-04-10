@@ -28,6 +28,8 @@ FIND_LIBRARY(GSLCBLAS_LIBRARY gslcblas
 FIND_LIBRARY(M_LIBRARY m
   PATHS  /usr/lib /usr/local/lib)
 
+FIND_PATH(R_HOME  include/R.h /usr/local/lib /usr/local/lib64)
+
 ENABLE_TESTING()
 ADD_TEST(model tests/test_model)
 
