@@ -28,7 +28,7 @@ FIND_LIBRARY(GSLCBLAS_LIBRARY gslcblas
 FIND_LIBRARY(M_LIBRARY m
   PATHS  /usr/lib /usr/local/lib)
 
-FIND_PATH(R_HOME  include/R.h /usr/local/lib /usr/local/lib64)
+FIND_PATH(R_HOME  include/R.h /usr/local/lib/R /usr/local/lib64/R)
 
 ENABLE_TESTING()
 ADD_TEST(model tests/test_model)
@@ -38,6 +38,8 @@ add_subdirectory (ridmc)
 add_subdirectory (jidmc)
 #add_subdirectory (doc)
 #add_subdirectory (pyidmc)
-#add_subdirectory (pyidmc)
 add_subdirectory (tests)
+
+INSTALL(FILES ChangeLog license VERSION
+	DESTINATION idmclib)
 
