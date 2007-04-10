@@ -20,6 +20,12 @@ SET_TARGET_PROPERTIES(test_cycles PROPERTIES LINKER_LANGUAGE C)
 SET_TARGET_PROPERTIES(test_lexp PROPERTIES LINKER_LANGUAGE C)
 SET_TARGET_PROPERTIES(test_raster PROPERTIES LINKER_LANGUAGE C)
 
+ADD_TEST(model ${idmclib_BINARY_DIR}/tests/test_model)
+ADD_TEST(basin ${idmclib_BINARY_DIR}/tests/test_basin)
+ADD_TEST(raster ${idmclib_BINARY_DIR}/tests/test_raster)
+ADD_TEST(lexp ${idmclib_BINARY_DIR}/tests/test_lexp)
+ADD_TEST(cycles ${idmclib_BINARY_DIR}/tests/test_cycles)
+
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.lua")
 INSTALL(FILES ${files} DESTINATION idmclib/tests)
 INSTALL(TARGETS test_model test_basin test_cycles test_lexp test_raster

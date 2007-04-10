@@ -30,8 +30,12 @@ FIND_LIBRARY(M_LIBRARY m
 
 FIND_PATH(R_HOME  include/R.h /usr/local/lib/R /usr/local/lib64/R c:/programmi/R/R-2.4.0)
 
+EXECUTE_PROCESS(
+   COMMAND ${CMAKE_COMMAND} -E copy_directory
+   ${PROJECT_SOURCE_DIR}/tests
+   ${PROJECT_BINARY_DIR}/tests
+)
 ENABLE_TESTING()
-ADD_TEST(model tests/test_model)
 
 add_subdirectory (src)
 add_subdirectory (ridmc)
