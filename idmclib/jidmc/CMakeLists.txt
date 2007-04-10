@@ -7,7 +7,7 @@ ${idmclib_BINARY_DIR}/src/idmcblas
 ${idmclib_BINARY_DIR}/src/idmclapack
 )
 
-FILE(MAKE_DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org/tsho/jidmclib)
+#FILE(MAKE_DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org/tsho/jidmclib)
 SET(CMAKE_SWIG_OUTDIR org/tsho/jidmclib)
 SET(CMAKE_SWIG_FLAGS -package org.tsho.jidmclib)
 
@@ -18,15 +18,15 @@ SWIG_LINK_LIBRARIES( jidmclib
 	${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY} )
 
 INSTALL(TARGETS jidmclib DESTINATION jidmclib)
-INSTALL(DIRECTORY org DESTINATION jidmclib
+INSTALL(DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org DESTINATION jidmclib
 #PATTERN ".svn" EXCLUDE
 )
-
 FILE(GLOB files "${CMAKE_CURRENT_BIN_DIR}/*.c")
 INSTALL(FILES ${files} DESTINATION jidmclib)
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.i")
 INSTALL(FILES ${files} DESTINATION jidmclib)
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.java")
+INSTALL(FILES ${files} DESTINATION jidmclib)
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.lua")
 INSTALL(FILES ${files} DESTINATION jidmclib)
 

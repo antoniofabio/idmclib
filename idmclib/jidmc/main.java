@@ -9,7 +9,7 @@ public class main {
 			ext=".dll";
 		else
 			ext=".so";
-		System.load(path + "idmc" + ext);
+		System.load(path + "jidmclib" + ext);
 	}
 	
 	public static void main(String argv[]) {

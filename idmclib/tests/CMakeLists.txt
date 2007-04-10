@@ -29,7 +29,8 @@ ADD_TEST(cycles ${idmclib_BINARY_DIR}/tests/test_cycles)
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.lua")
 INSTALL(FILES ${files} DESTINATION idmclib/tests)
 INSTALL(TARGETS test_model test_basin test_cycles test_lexp test_raster
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION idmclib/tests
+  LIBRARY DESTINATION idmclib/tests
+  ARCHIVE DESTINATION idmclib/tests
 )
+
