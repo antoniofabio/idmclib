@@ -1,5 +1,8 @@
 #Change PROJECT_NAME to the name of your project
 PROJECT(idmclib C Fortran)
+FIND_PACKAGE(SWIG REQUIRED)
+INCLUDE(${SWIG_USE_FILE})
+INCLUDE(FindJNI)
 
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "idmc: The iDMC C support library")
 SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/doc/README")
@@ -25,9 +28,14 @@ FIND_LIBRARY(GSLCBLAS_LIBRARY gslcblas
 FIND_LIBRARY(M_LIBRARY m
   PATHS  /usr/lib /usr/local/lib)
 
-#add_subdirectory (doc)
-#add_subdirectory (jidmc)
-#add_subdirectory (ridmc)
-add_subdirectory (tests)
-#add_subdirectory (pyidmc)
+ENABLE_TESTING()
+ADD_TEST(model tests/test_model)
+
 add_subdirectory (src)
+add_subdirectory (jidmc)
+#add_subdirectory (doc)
+#add_subdirectory (pyidmc)
+#add_subdirectory (ridmc)
+#add_subdirectory (pyidmc)
+add_subdirectory (tests)
+
