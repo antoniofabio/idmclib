@@ -15,20 +15,20 @@ INCLUDE(CPack)
 SET(CMAKE_C_FLAGS --std=c99)
 
 FIND_PATH(LUA_INCLUDEDIR lua.h
-  PATHS /usr/include /usr/local/include /usr/include/lua50)
+  PATHS /usr/include /usr/local/include /usr/include/lua50 c:/mingw/include)
 INCLUDE_DIRECTORIES(${LUA_INCLUDEDIR})
 FIND_LIBRARY(LUA_LIBRARY NAMES lua50 lua
-  PATHS  /usr/lib /usr/local/lib)
+  PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 FIND_LIBRARY(LUALIB_LIBRARY NAMES lualib50 lualib
-  PATHS  /usr/lib /usr/local/lib)
+  PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 FIND_LIBRARY(GSL_LIBRARY gsl
-  PATHS  /usr/lib /usr/local/lib)
+  PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 FIND_LIBRARY(GSLCBLAS_LIBRARY gslcblas
-  PATHS  /usr/lib /usr/local/lib)
+  PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 FIND_LIBRARY(M_LIBRARY m
-  PATHS  /usr/lib /usr/local/lib)
+  PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 
-FIND_PATH(R_HOME  include/R.h /usr/local/lib/R /usr/local/lib64/R)
+FIND_PATH(R_HOME  include/R.h /usr/local/lib/R /usr/local/lib64/R c:/programmi/R/R-2.4.0)
 
 ENABLE_TESTING()
 ADD_TEST(model tests/test_model)

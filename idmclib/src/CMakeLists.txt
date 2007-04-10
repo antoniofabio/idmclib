@@ -1,6 +1,18 @@
 add_subdirectory(idmcblas)
 add_subdirectory(idmclapack)
 
+IF(WIN32 AND NOT UNIX)
+add_library(idmclib STATIC
+basin.c
+gsl_rng_lualib.c
+lexp.c
+model.c
+traj.c
+cycles.c
+lexp_aux.c
+matrices.c
+raster.c)
+ELSE(WIN32 AND NOT UNIX)
 add_library(idmclib SHARED
 basin.c
 gsl_rng_lualib.c
@@ -11,6 +23,7 @@ cycles.c
 lexp_aux.c
 matrices.c
 raster.c)
+ENDIF(WIN32 AND NOT UNIX)
 
 
 SET_TARGET_PROPERTIES(idmclib PROPERTIES LINKER_LANGUAGE C)
