@@ -29,6 +29,8 @@ FIND_LIBRARY(GSLCBLAS_LIBRARY gslcblas
   PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 FIND_LIBRARY(M_LIBRARY m
   PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
+FIND_LIBRARY(FORTRAN_RUNTIME g2c
+  PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 
 FIND_PATH(R_HOME  include/R.h /usr/local/lib/R /usr/local/lib64/R c:/programmi/R/R-2.4.0)
 EXECUTE_PROCESS(

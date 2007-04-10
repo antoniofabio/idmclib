@@ -15,7 +15,7 @@ SWIG_ADD_MODULE(jidmclib java idmc.i)
 SWIG_LINK_LIBRARIES( jidmclib 
 	idmclib idmcblas idmclapack  
 	${LUA_LIBRARY} ${LUALIB_LIBRARY} 
-	${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY} )
+	${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY} ${FORTRAN_RUNTIME})
 
 INSTALL(TARGETS jidmclib DESTINATION jidmclib)
 INSTALL(DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org DESTINATION jidmclib
