@@ -32,10 +32,10 @@ ENABLE_TESTING()
 ADD_TEST(model tests/test_model)
 
 add_subdirectory (src)
+add_subdirectory (ridmc)
 add_subdirectory (jidmc)
 #add_subdirectory (doc)
 #add_subdirectory (pyidmc)
-#add_subdirectory (ridmc)
 #add_subdirectory (pyidmc)
 add_subdirectory (tests)
 
