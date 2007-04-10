@@ -9,7 +9,7 @@ ${idmclib_BINARY_DIR}/src/idmclapack
 
 FILE(MAKE_DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org/tsho/jidmclib)
 SET(CMAKE_SWIG_OUTDIR org/tsho/jidmclib)
-SET(CMAKE_SWIG_FLAGS "-package org.tsho.jidmclib")
+SET(CMAKE_SWIG_FLAGS -package org.tsho.jidmclib)
 
 SWIG_ADD_MODULE(jidmclib java idmc.i)
 SWIG_LINK_LIBRARIES( jidmclib 
