@@ -10,3 +10,7 @@ dgehrd.f  dlahqr.f  dlanhs.f  dlarfg.f  dlaset.f  dtrevc.f
 
 TARGET_LINK_LIBRARIES(idmclapack idmcblas)
 
+INSTALL(TARGETS idmclapack
+        RUNTIME DESTINATION idmclib
+        LIBRARY DESTINATION idmclib
+        ARCHIVE DESTINATION idmclib)
