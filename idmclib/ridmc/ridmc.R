@@ -1,4 +1,9 @@
-dyn.load( paste("ridmc", .Platform$dynlib.ext, sep="") )
+libName <- paste("ridmc", .Platform$dynlib.ext, sep="")
+libName <- if(.Platform$OS.type=="unix") {
+		paste("lib",libName, sep="")
+	} else
+		libName
+dyn.load(libName)
 
 Model <- function(filename=NULL, buffer = paste(readLines(filename), collapse="\n")) {
 	model <- .Call("model_alloc", buffer)
