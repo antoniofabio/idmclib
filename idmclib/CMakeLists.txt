@@ -35,7 +35,14 @@ FIND_PATH(R_HOME  include/R.h
 /usr/local/lib/R 
 /usr/local/lib64/R 
 c:/programmi/R/R-2.4.0
+c:/programmi/R/R-2.4.1
 c:/programmi/R/R-2.5.0
+)
+FIND_LIBRARY(R_RUNTIME R
+PATHS ${R_HOME}
+/usr/lib
+/usr/local/lib
+/usr/local/lib64
 )
 EXECUTE_PROCESS(
    COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -51,7 +58,7 @@ add_subdirectory (jidmc)
 #add_subdirectory (pyidmc)
 add_subdirectory (tests)
 
-INSTALL(FILES ChangeLog license VERSION
+INSTALL(FILES AUTHORS BUGS ChangeLog license VERSION
 	DESTINATION lib/idmclib)
 INSTALL(DIRECTORY doc DESTINATION lib/idmclib)
 INSTALL(DIRECTORY include/idmclib DESTINATION include)

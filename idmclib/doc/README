@@ -1,20 +1,24 @@
 Documentation for the idmclib C library
-Last modified: 03/01/2007 by Antonio, Fabio Di Narzo
+Last modified: 11/04/2007 by Antonio, Fabio Di Narzo
 
 1. Compiling
-On linux/unix platforms, it maybe convenient to link dynamically. For windows distribution, static linking maybe far better.
-Edit Makefile.inc to suite your system configuration. Then type:
-make
-at the prompt to build 'all'.
+For compiling idmclib you need a C99 and a Fortran77 compilers, 
+plus the CMake (version >=2.4.6) build system.
+
+From the top project directory, type:
+# cmake .
+for configuring. If all goes right, type:
+# make
+to build all. Finally,
+# make install
+to install.
 
 1.1 Dependencies
-GLS-1.8 and LUA-5.0 (or compatibles) are required for compiling/linking the idmclib library
+GLS-1.8 and LUA-5.0 (or compatibles) are required for compiling/linking the idmclib library.
+R-2.4.0, JDK-6 and SWIG-1.3 (or compatibles) are required for building the R and Java bindings.
 
 1.2 Configuration
-No automagic tools are used. You're supposed to use gcc compiler (mingw under windows) and gnu make (MSYS under windows).
-You manually configure building process for your system by editing 'Makefile.inc' file in top directory.
-Mainly, you will have to set LUA, GSL and LAPACK libraries locations (include files and compiled libs).
-Swig, java, python and R support files are needed if you want to build Java, Python and R bindings.
+For fine-tuning compiling/linking flags, use CMake facilities.
 	
 2. API
 Watch at the test directory for usage examples.
@@ -27,9 +31,10 @@ idmc_raster: mostly here for internal use. Data structures and methods for (inte
 idmc_basin: fast algorithm for identifying basins of attraction of 2-dimensional maps
 
 3. Python bindings
-Low-level python bindings are provided via SWIG.
+Low-level python bindings were provided via SWIG, but are no longer mantained.
 These are mainly intended for testing/prototyping purposes.
 Watch at the pydmcTest.py file for usage examples, and to the various idmc_*.i interface files for the API.
+If you wish, you will have to manually build it.
 
 4. Java bindings
 Java bindings are provided via SWIG. They're low-level, so maybe you'll need to write your own high-level wrappers for using in your project.
@@ -43,18 +48,18 @@ Watch at the ridmcTest.R file for usage examples, and to the various C sources f
 
 6. BLAS/LAPACK
 The DGEER lapack routine is used for computing eigenvalues of real, nonsymmetric matrices. This added dependency on blas and lapack libraries.
-A minimal subset of these libraries is included in idmclib source distribution. This is especially useful under windows,
-where you can statically compile them with no added troubles.
-Anyway, you can always try to link against other blas/lapack implementations, as the ATLAS, AMD ACML or the Intel MKL. For this, you'll have to manually hack the building process.
+A minimal subset of these libraries is included in idmclib source distribution. These were renamed idmcblas and idmclapack.
+Anyway, you can always try to link against other blas/lapack implementations, as the ATLAS, AMD ACML or the Intel MKL. 
+For this, you'll have to manually hack the building process.
 
 APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings)
-- Install JDK-1.5 (if you don't already have it)
+- Install JDK-1.6 (if you don't already have it)
 - Download and unpack swig-1.3 (www.swig.org). Add the folder to the system path.
 - Install MinGW: C and Fortran compilers
 - Install MSYS (with GNU make)
-- Download and compile under MinGW/MSYS the LUA-5.0 and GSL-1.8 packages (maybe you can find ready-compiled packages). Copy generated static libraries files (i.e.: liblua.a, liblualib.a, libgsl.a, libgslcblas.a) to the 'c:\mingw\lib' folder
+- Install CMake-2.4.6
+- Download and compile under MinGW/MSYS the LUA-5.0 and GSL-1.8 packages (maybe you can find ready-compiled packages).
+Copy generated static libraries files (i.e.: liblua.a, liblualib.a, libgsl.a, libgslcblas.a) to the 'c:\mingw\lib' folder
 - Unpack idmclib package somewhere. From the MSYS prompt, type:
-	# cp Makefile.inc Makefile.inc.bak
-	# cp Makefile.inc.win Makefile.inc
-	Edit 'Makefile.inc' to reflect your system configuration. Perhaps you will only have to set the JDK paths. Finally, type:
-	# make idmclib && make jidmc
+	# cmake .
+	# make
