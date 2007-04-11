@@ -7,6 +7,10 @@ ${idmclib_BINARY_DIR}/src/idmcblas
 ${idmclib_BINARY_DIR}/src/idmclapack
 )
 
+IF(WIN32 AND NOT UNIX)
+SET(CMAKE_SHARED_LINKER_FLAGS -D_JNI_IMPLEMENTATION_ -Wl,--kill-at)
+ENDIF(WIN32 AND NOT UNIX)
+
 #FILE(MAKE_DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org/tsho/jidmclib)
 SET(CMAKE_SWIG_OUTDIR org/tsho/jidmclib)
 SET(CMAKE_SWIG_FLAGS -package org.tsho.jidmclib)

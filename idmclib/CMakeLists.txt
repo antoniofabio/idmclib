@@ -1,4 +1,3 @@
-#Change PROJECT_NAME to the name of your project
 PROJECT(idmclib C Fortran)
 FIND_PACKAGE(SWIG REQUIRED)
 INCLUDE(${SWIG_USE_FILE})
@@ -29,10 +28,15 @@ FIND_LIBRARY(GSLCBLAS_LIBRARY gslcblas
   PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 FIND_LIBRARY(M_LIBRARY m
   PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
-FIND_LIBRARY(FORTRAN_RUNTIME g2c
+FIND_LIBRARY(FORTRAN_RUNTIME g2c gfortran
   PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 
-FIND_PATH(R_HOME  include/R.h /usr/local/lib/R /usr/local/lib64/R c:/programmi/R/R-2.4.0)
+FIND_PATH(R_HOME  include/R.h 
+/usr/local/lib/R 
+/usr/local/lib64/R 
+c:/programmi/R/R-2.4.0
+c:/programmi/R/R-2.5.0
+)
 EXECUTE_PROCESS(
    COMMAND ${CMAKE_COMMAND} -E copy_directory
    ${PROJECT_SOURCE_DIR}/tests
@@ -50,5 +54,6 @@ add_subdirectory (tests)
 INSTALL(FILES ChangeLog license VERSION
 	DESTINATION idmclib)
 INSTALL(DIRECTORY doc DESTINATION idmclib)
+INSTALL(DIRECTORY include/idmclib DESTINATION include)
 
 
