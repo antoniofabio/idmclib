@@ -10,7 +10,7 @@ SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/license")
 SET(CPACK_PACKAGE_VERSION_MAJOR "0")
 SET(CPACK_PACKAGE_VERSION_MINOR "5")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
-#SET(CPACK_SOURCE_IGNORE_FILES "/CVS/;/\\.svn/;.*~")
+SET(CPACK_SOURCE_IGNORE_FILES "/\\\\.;~$;/_;build/;CMakeFiles/;CMakeCache;gz$;Makefile\\\\.;trace;Testing/;foo;autom4te;cmake_install;CPack;\\\\.pem;ltmain.sh;configure;libtool;/config\\\\.;missing;SCons;autogen.sh;install-sh;Dart;\\\\.svn/;aclocal;log$;Makefile$")
 INCLUDE(CPack)
 
 SET(CMAKE_C_FLAGS --std=c99)
@@ -39,7 +39,7 @@ c:/programmi/R/R-2.4.1
 c:/programmi/R/R-2.5.0
 )
 FIND_LIBRARY(R_RUNTIME R
-PATHS ${R_HOME}
+PATHS ${R_HOME}/lib
 /usr/lib
 /usr/local/lib
 /usr/local/lib64
