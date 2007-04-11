@@ -27,10 +27,10 @@ ADD_TEST(lexp ${idmclib_BINARY_DIR}/tests/test_lexp)
 ADD_TEST(cycles ${idmclib_BINARY_DIR}/tests/test_cycles)
 
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.lua")
-INSTALL(FILES ${files} DESTINATION idmclib/tests)
+INSTALL(FILES ${files} DESTINATION lib/idmclib/tests)
 INSTALL(TARGETS test_model test_basin test_cycles test_lexp test_raster
-  RUNTIME DESTINATION idmclib/tests
-  LIBRARY DESTINATION idmclib/tests
-  ARCHIVE DESTINATION idmclib/tests
+  RUNTIME DESTINATION lib/idmclib/tests
+  LIBRARY DESTINATION lib/idmclib/tests
+  ARCHIVE DESTINATION lib/idmclib/tests
 )
 

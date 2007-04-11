@@ -52,8 +52,8 @@ add_subdirectory (jidmc)
 add_subdirectory (tests)
 
 INSTALL(FILES ChangeLog license VERSION
-	DESTINATION idmclib)
-INSTALL(DIRECTORY doc DESTINATION idmclib)
+	DESTINATION lib/idmclib)
+INSTALL(DIRECTORY doc DESTINATION lib/idmclib)
 INSTALL(DIRECTORY include/idmclib DESTINATION include)
 
 
