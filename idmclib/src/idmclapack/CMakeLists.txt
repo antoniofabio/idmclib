@@ -11,7 +11,7 @@ dgehrd.f  dlahqr.f  dlanhs.f  dlarfg.f  dlaset.f  dtrevc.f
 IF(WIN32 AND NOT UNIX)
 add_library(idmclapack STATIC ${SOURCES})
 ELSE(WIN32 AND NOT UNIX)
-add_library(idmclapack SHARED ${SOURCES})
+add_library(idmclapack STATIC ${SOURCES})
 ENDIF(WIN32 AND NOT UNIX)
 
 TARGET_LINK_LIBRARIES(idmclapack idmcblas ${FORTRAN_RUNTIME})

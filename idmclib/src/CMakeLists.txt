@@ -18,7 +18,7 @@ INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include/idmclib)
 IF(WIN32 AND NOT UNIX)
 add_library(idmclib STATIC ${SOURCES})
 ELSE(WIN32 AND NOT UNIX)
-add_library(idmclib SHARED ${SOURCES})
+add_library(idmclib STATIC ${SOURCES})
 ENDIF(WIN32 AND NOT UNIX)
 
 
