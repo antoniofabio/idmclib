@@ -31,7 +31,7 @@ void ctrajectory_free(SEXP p);
 SEXP ctrajectory_alloc(SEXP m, SEXP pars, SEXP vars, SEXP step_size, SEXP step_function_code) {
 	idmc_traj_ctrajectory *pans;
 	SEXP ans;
-	static gsl_odeiv_step_type *step_funs[10];
+	static const gsl_odeiv_step_type *step_funs[10];
 	step_funs[0] = gsl_odeiv_step_rk2;
 	step_funs[1] = gsl_odeiv_step_rk4;
 	step_funs[2] = gsl_odeiv_step_rkf45;
@@ -47,7 +47,7 @@ SEXP ctrajectory_alloc(SEXP m, SEXP pars, SEXP vars, SEXP step_size, SEXP step_f
 		R_ExternalPtrAddr(m), 
 		REAL( pars ), REAL (vars),
 		REAL( step_size )[0], 
-		step_funs[istep_fun],
+		(gsl_odeiv_step_type *) step_funs[istep_fun],
 		&pans);
 	if(ians!=IDMC_OK)
 		RIDMC_ERROR(ians);

@@ -91,9 +91,9 @@ inline void sum(double* a, double* b, int d){
 }
 
 /*result <- a times b */
-inline void mmproduct(double* a, double* b, double* result,int m,int n,int p){
-	gsl_matrix_view bv=gsl_matrix_view_array(b,n,p);
-	gsl_matrix_view av=gsl_matrix_view_array(a,m,n);
+inline void mmproduct(const double* a, const double* b, double* result,int m,int n,int p){
+	gsl_matrix_view bv=gsl_matrix_view_array((double*) b,n,p);
+	gsl_matrix_view av=gsl_matrix_view_array((double*) a,m,n);
 	gsl_matrix_view rv=gsl_matrix_view_array(result,m,p);
 	gsl_blas_dgemm(CblasNoTrans,CblasNoTrans,1.0,&(av.matrix),&(bv.matrix),0.0,&(rv.matrix)); 
 }
@@ -111,8 +111,8 @@ inline void vcproduct(double* v, double c,int n){
 }
 
 /*b = a' */
-inline void transpose(double* a, double* b, int m,int n){
-	gsl_matrix_view av=gsl_matrix_view_array(a,m,n);
+inline void transpose(const double* a, double* b, int m,int n){
+	gsl_matrix_view av=gsl_matrix_view_array((double*) a,m,n);
 	gsl_matrix_view bv=gsl_matrix_view_array(b,n,m);
 	gsl_matrix_transpose_memcpy(&bv.matrix,&av.matrix);
 }

@@ -42,13 +42,13 @@ inline void mcproduct(double* a,double c,int m,int n);
 inline void sum(double* a, double* b, int d);
 
 /*result <- a times b */
-inline void mmproduct(double* a, double* b, double* result,int m,int n,int p);
+inline void mmproduct(const double* a, const double* b, double* result,int m,int n,int p);
 
 /*v <- c times v */
 inline void vcproduct(double* v, double c,int n);
 
 /*b = a' */
-inline void transpose(double* a, double* b, int m,int n);
+inline void transpose(const double* a, double* b, int m,int n);
 
 /*affects a! so we might need to clone a. This is just a wrapper of GSL function
   the result is stored in a and tau.*/

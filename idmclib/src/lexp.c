@@ -20,6 +20,7 @@ Last modified: $Date$
 #include <math.h>
 #include "model.h"
 #include "lexp.h"
+#include "lexp_aux.h"
 
 #define NR_END 1   
 #define FREE_ARG void*
@@ -306,7 +307,7 @@ static int eval_jacobian(idmc_lexp_state *state, double **JacobMatr)
 	return status;
 }
 
-int idmc_lexp_ode(idmc_model* model, const double *parameters, double *startPoint,
+int idmc_lexp_ode(idmc_model* model, double *parameters, double *startPoint,
 					 double *result, double time, double step)
 {
 	const int dim = model->var_len;
@@ -322,7 +323,7 @@ int idmc_lexp_ode(idmc_model* model, const double *parameters, double *startPoin
 }
 
 
-int idmc_lexp_ode_step(idmc_model* model, const double *parameters, double* result,
+int idmc_lexp_ode_step(idmc_model* model, double *parameters, double* result,
 						  double* Q, double* y, double* t, double step)
 {
 	int status;
