@@ -1,5 +1,7 @@
-0.5.0
-- migrated the whole package to the CMake build system
+0.5.0 - 13/04/2007
+- minor cleaning to C sources to avoid gcc warnings
+- migrated the whole package to the CMake build system. Now building
+	(especially on linux systems) should be quasi-automatic
 
 0.4.0 - 3/03/2007
 - added some new doc to library headers
