@@ -1,8 +1,7 @@
 PROJECT(idmclib C Fortran)
-FIND_PACKAGE(SWIG REQUIRED)
+FIND_PACKAGE(SWIG)
 INCLUDE(${SWIG_USE_FILE})
 INCLUDE(FindJNI)
-FILE(MAKE_DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org/tsho/jidmclib)
 
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "idmc: The iDMC C support library")
 SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/doc/README")
@@ -52,8 +51,19 @@ EXECUTE_PROCESS(
 ENABLE_TESTING()
 
 add_subdirectory (src)
+IF(R_HOME)
 add_subdirectory (ridmc)
+ELSE(R_HOME)
+MESSAGE(STATUS "R_HOME not found: not building R bindings. 
+If you want to build R bindings, try manually setting the R_HOME variable")
+ENDIF(R_HOME)
+IF(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
 add_subdirectory (jidmc)
+ELSE(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
+MESSAGE(STATUS "Java include paths and/or swig executable not found: not building Java bindings. 
+If you want to build Java bindings, try manually setting JAVA_INCLUDE_PATH, JAVA_INCLUDE_PATH2 
+and/or SWIG_EXECUTABLE variables")
+ENDIF(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
 #add_subdirectory (doc)
 #add_subdirectory (pyidmc)
 add_subdirectory (tests)

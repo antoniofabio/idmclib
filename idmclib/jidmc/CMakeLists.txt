@@ -7,7 +7,7 @@ ${idmclib_BINARY_DIR}/src/idmcblas
 ${idmclib_BINARY_DIR}/src/idmclapack
 )
 
-#FILE(MAKE_DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org/tsho/jidmclib)
+FILE(MAKE_DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org/tsho/jidmclib)
 SET(CMAKE_SWIG_OUTDIR org/tsho/jidmclib)
 SET(CMAKE_SWIG_FLAGS -package org.tsho.jidmclib)
 
