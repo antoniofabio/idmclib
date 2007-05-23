@@ -1,2 +1,0 @@
-PKG_LIBS=-lidmc -lidmclapack -lidmcblas -llua -llualib -lgsl -lgslcblas
-
