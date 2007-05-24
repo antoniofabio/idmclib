@@ -7,8 +7,6 @@ AC_CHECK_LIB(gsl, main)
 AC_CHECK_LIB(lua50, lua_open)
 AC_CHECK_LIB(lualib50, main)
 
-AC_CHECK_LIB(idmclib, main)
-
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LIBS)
 AC_CONFIG_FILES([src/Makevars])
