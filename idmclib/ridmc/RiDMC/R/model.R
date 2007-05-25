@@ -1,6 +1,6 @@
 
 Model <- function(filename=NULL, text = paste(readLines(filename), collapse="\n")) {
-	model <- .Call("ridmc_model_alloc", buffer, PACKAGE='RiDMC')
+	model <- .Call("ridmc_model_alloc", text, PACKAGE='RiDMC')
 	ans <- list()
 	ans$model <- model
 	infos <- .Call("ridmc_model_getInfos", model, PACKAGE='RiDMC')
@@ -8,7 +8,7 @@ Model <- function(filename=NULL, text = paste(readLines(filename), collapse="\n"
 	names(infos[[2]]) <- c("has_inverse","has_jacobian")
 	names(infos[[3]]) <- c("n.pars","n.vars")
 	ans$infos <- infos
-	ans$buffer <- buffer
+	ans$buffer <- text
 	ans$f <- function(par, var)
 		.Call("ridmc_model_f", model, as.double(par), as.double(var), PACKAGE='RiDMC')
 	ans$g <- function(par, var)
