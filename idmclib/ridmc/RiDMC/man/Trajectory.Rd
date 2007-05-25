@@ -1,5 +1,6 @@
 \name{Trajectory}
 \alias{Trajectory}
+\alias{CTrajectory}
 \title{
 Continuous model trajectory
 }
@@ -18,7 +19,9 @@ Antonio, Fabio Di Narzo
 \seealso{
 }
 \examples{
-model <- Model("lorenz.lua")
+modelFileName <- system.file(file.path('models','lorenz.lua'),
+  package='RiDMC')
+model <- Model(modelFileName)
 trajectory <- CTrajectory(model, 
 	c(10, 28, 2.667), c(1.0, 2.0, 1.0), 
 	0.005, 0 )
