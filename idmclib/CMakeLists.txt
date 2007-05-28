@@ -30,19 +30,6 @@ FIND_LIBRARY(M_LIBRARY m
 FIND_LIBRARY(FORTRAN_RUNTIME g2c gfortran
   PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 
-FIND_PATH(R_HOME  include/R.h 
-/usr/local/lib/R 
-/usr/local/lib64/R 
-c:/programmi/R/R-2.4.0
-c:/programmi/R/R-2.4.1
-c:/programmi/R/R-2.5.0
-)
-FIND_LIBRARY(R_RUNTIME R
-PATHS ${R_HOME}/lib
-/usr/lib
-/usr/local/lib
-/usr/local/lib64
-)
 EXECUTE_PROCESS(
    COMMAND ${CMAKE_COMMAND} -E copy_directory
    ${PROJECT_SOURCE_DIR}/tests
@@ -51,12 +38,6 @@ EXECUTE_PROCESS(
 ENABLE_TESTING()
 
 add_subdirectory (src)
-IF(R_HOME)
-add_subdirectory (ridmc)
-ELSE(R_HOME)
-MESSAGE(STATUS "R_HOME not found: not building R bindings. 
-If you want to build R bindings, try manually setting the R_HOME variable")
-ENDIF(R_HOME)
 IF(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
 add_subdirectory (jidmc)
 ELSE(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
