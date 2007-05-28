@@ -21,9 +21,7 @@ Antonio, Fabio Di Narzo
 \seealso{
 }
 \examples{
-modelFileName <- system.file(file.path('models','lorenz.lua'),
-  package='RiDMC')
-model <- Model(modelFileName)
+model <- Model(exModelFile('lorenz'))
 ly <- lexp_ode(model, c(10, 28, 2.667), c(1.0, 2.0, 1.0), 2000.0, 0.005)
 }
 

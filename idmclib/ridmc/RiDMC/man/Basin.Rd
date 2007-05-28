@@ -19,8 +19,7 @@ Antonio, Fabio Di Narzo
 \seealso{
 }
 \examples{
-modelFileName <- system.file(file.path('models','rossler.lua'), package='RiDMC')
-m <- Model(modelFileName)
+m <- Model(exModelFile('rossler'))
 b <- Basin(m, c(1,2), c(0,1), 200, c(0, 1), 200, 300, 150)
 system.time( while(!b$finished()) b$step() )
 mat <- b$getData()

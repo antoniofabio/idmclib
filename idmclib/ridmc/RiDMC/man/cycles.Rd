@@ -20,9 +20,7 @@ Antonio, Fabio Di Narzo
 \seealso{
 }
 \examples{
-modelFileName <- system.file(file.path('models','logistic.lua'),
-  package='RiDMC')
-model <- Model(modelFileName)
+model <- Model(exModelFile('logistic'))
 res <- cycles_find(model, 3.25, 0.5, 2, 1e-6)
 res
 }

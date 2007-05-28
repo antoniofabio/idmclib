@@ -5,7 +5,7 @@
 Load a model
 }
 \usage{
-Model(filename=NULL, text = paste(readLines(filename), collapse="\n"))
+Model(filename=NULL, text = readLines(filename))
 \method{print}{idmc_model}(x, ...)
 }
 \description{
@@ -20,9 +20,7 @@ Antonio, Fabio Di Narzo
 \seealso{
 }
 \examples{
-modelFileName <- system.file(file.path('models','logistic.lua'), 
-  package='RiDMC')
-model <- Model(modelFileName)
+model <- Model(exModelFile('logistic'))
 model
 }
 
