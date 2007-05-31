@@ -24,16 +24,25 @@ Model <- function(filename=NULL, text = readLines(filename)) {
 	return(ans)
 }
 
-print.idmc_model <- function(x, ...) {
-	infos <- x$infos
+summary.idmc_model <- function(object, ...)
+	structure(object$infos, class='summary.idmc_model')
+
+print.summary.idmc_model <- function(x, ...) {
+	infos <- x
 	cat('= iDMC model =\n')
 	cat('Name: ', infos[[1]]["name"],'\n')
 	cat('Description: ', infos[[1]]["description"],'\n')
 	cat('Type: ', if(infos[[1]]["type"]=="D") "discrete" 
-		else if(infos[[1]]["type"]=="C") "continue"
+		else if(infos[[1]]["type"]=="C") "continuous"
 		else "invalid model type", '\n')
 	cat('Parameters: ', paste(infos[[4]], collapse=", "),'\n')
 	cat('Variables: ', paste(infos[[5]], collapse=", "),'\n')
 	cat('Has inverse: ', infos[[2]]["has_inverse"]!=0,'\n')
 	cat('Has jacobian: ', infos[[2]]["has_jacobian"]!=0,'\n')
+}
+
+print.idmc_model <- function(x, ...){
+	cat('\n')
+	cat(x$text, sep='\n')
+	cat('\n')
 }
