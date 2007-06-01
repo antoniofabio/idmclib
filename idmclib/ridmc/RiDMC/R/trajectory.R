@@ -28,7 +28,8 @@ CTrajectory <- function(idmc_model, par, var, eps, integrator=0) {
 print.idmc_ctrajectory <- function(x, ...) {
 	modelInfo <- x$model$infos
 	cat('= iDMC model continuous trajectory =\n')
-	cat('model: ', modelInfo[[1]]['name'],',',sep='')
+	cat('model: ', modelInfo[[1]]['name'], '\n')
+	cat('parameter values: ', paste(x$par, sep=','), '\n')
 	cat('starting point: ', paste(x$var, sep=','),'\n')
 	cat('step size: ', x$eps, '\n')
 	cat('step function: ', x$integrator, '\n')

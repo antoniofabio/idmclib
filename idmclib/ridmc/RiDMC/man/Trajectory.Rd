@@ -10,10 +10,11 @@ CTrajectory(idmc_model, par, var, eps, integrator=0)
 \method{print}{idmc_ctrajectory}(x, ...)
 }
 \arguments{
- \item{idmc_model}{a model object, as returned by \code{\link{Model}}}
+ \item{idmc_model,x}{a model object, as returned by \code{\link{Model}}}
  \item{par, var}{model parameters values and starting point value}
  \item{eps}{integration step}
  \item{integrator}{an integer code between 0 and 9 indicating what integrator to use}
+ \item{...}{arguments to and from other methods}
 }
 \description{
 Computes continuous time model trajectories.

@@ -1,15 +1,15 @@
 
 Model <- function(filename=NULL, text = readLines(filename)) {
+	ans <- list()
+	ans$text <- text
 	text <- paste(text, collapse="\n")
 	model <- .Call("ridmc_model_alloc", text, PACKAGE='RiDMC')
-	ans <- list()
 	ans$model <- model
 	infos <- .Call("ridmc_model_getInfos", model, PACKAGE='RiDMC')
 	names(infos[[1]]) <- c("name","description","type")
 	names(infos[[2]]) <- c("has_inverse","has_jacobian")
 	names(infos[[3]]) <- c("n.pars","n.vars")
 	ans$infos <- infos
-	ans$text <- text
 	ans$f <- function(par, var)
 		.Call("ridmc_model_f", model, as.double(par), as.double(var), PACKAGE='RiDMC')
 	ans$g <- function(par, var)
@@ -23,26 +23,42 @@ Model <- function(filename=NULL, text = readLines(filename)) {
 	class(ans) <- "idmc_model"
 	return(ans)
 }
-
-summary.idmc_model <- function(object, ...)
-	structure(object$infos, class='summary.idmc_model')
-
-print.summary.idmc_model <- function(x, ...) {
-	infos <- x
-	cat('= iDMC model =\n')
-	cat('Name: ', infos[[1]]["name"],'\n')
-	cat('Description: ', infos[[1]]["description"],'\n')
-	cat('Type: ', if(infos[[1]]["type"]=="D") "discrete" 
-		else if(infos[[1]]["type"]=="C") "continuous"
-		else "invalid model type", '\n')
-	cat('Parameters: ', paste(infos[[4]], collapse=", "),'\n')
-	cat('Variables: ', paste(infos[[5]], collapse=", "),'\n')
-	cat('Has inverse: ', infos[[2]]["has_inverse"]!=0,'\n')
-	cat('Has jacobian: ', infos[[2]]["has_jacobian"]!=0,'\n')
-}
+getModelType <- function(obj, ...)
+	obj$infos[[1]]['type']
+getModelName <- function(obj, ...)
+	obj$infos[[1]]['name']
+getModelDescription <- function(obj, ...)
+	obj$infos[[1]]['description']
+getModelParNames <- function(obj, ...)
+	obj$infos[[4]]
+getModelVarNames <- function(obj, ...)
+	obj$infos[[5]]
+getModelText <- function(obj, ...)
+	obj$text
+getModelHasInverse <- function(obj, ...)
+	obj$infos[[2]]["has_inverse"]
+getModelHasJacobian <- function(obj, ...)
+	obj$infos[[2]]["has_jacobian"]
 
 print.idmc_model <- function(x, ...){
+	cat('= iDMC model text =\n')
+	cat(getModelText(x), sep='\n')
 	cat('\n')
-	cat(x$text, sep='\n')
-	cat('\n')
+}
+
+summary.idmc_model <- function(object, ...)
+	structure(object, class='summary.idmc_model')
+
+print.summary.idmc_model <- function(x, ...) {
+	cat('= iDMC model =\n')
+	cat('Name: ', getModelName(x),'\n')
+	cat('Description: ', getModelDescription(x),'\n')
+	type <- getModelType(x)
+	cat('Type: ', if(type=="D") "discrete" 
+		else if(type=="C") "continuous"
+		else "invalid model type", '\n')
+	cat('Parameters: ', paste(getModelParNames(x), collapse=", "),'\n')
+	cat('Variables: ', paste(getModelVarNames(x), collapse=", "),'\n')
+	cat('Has inverse: ', getModelHasInverse(x)!=0,'\n')
+	cat('Has jacobian: ', getModelHasJacobian(x)!=0,'\n')
 }

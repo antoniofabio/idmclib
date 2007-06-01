@@ -16,6 +16,7 @@ Model(filename=NULL, text = readLines(filename))
 \item{filename}{file name to be opened}
 \item{text}{char vector containing lua model specification}
 \item{x, object}{\code{idmc_model} object}
+ \item{...}{arguments to and from other methods}
 }
 \description{
 Loads a new model from its LUA description

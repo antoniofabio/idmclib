@@ -1,6 +1,17 @@
 \name{internals}
 \alias{RiDMC-internals}
 \alias{checkModelParVar}
+\alias{getModelType}
+\alias{getModelName}
+\alias{getModelDescription}
+\alias{getModelParNames}
+\alias{getModelVarNames}
+\alias{getModelText}
+\alias{getModelHasInverse}
+\alias{getModelHasJacobian}
+\alias{getBasinModel}
+\alias{getBasinData}
+
 \title{
 RiDMC internal functions
 }
