@@ -41,9 +41,18 @@ print.idmc_basin <- function(x, ...){
 	cat('attractor iterations: ', x$attractorIterations, '\n')
 }
 
-plot.idmc_basin <- function(x, y, palette=rainbow, ...) {
+plot.idmc_basin <- function(x, y, palette=rainbow, xlab, ylab, ...) {
 	mat <- getBasinData(x)
 	nl <- length(unique(as.vector(mat)))
 	nc <- NCOL(mat)
-	image(mat[,nc:1], breaks=c(1:(nl+1)-0.5) , col=palette(nl), ... )
+	mdl <- getBasinModel(x)
+	if(missing(xlab))
+		xlab <- getModelVarNames(mdl)[1]
+	if(missing(ylab))
+		ylab <- getModelVarNames(mdl)[2]
+	image(x=seq(x$xlim[1], x$xlim[2], length=x$xres),
+		y=seq(x$ylim[1], x$ylim[2], length=x$yres),
+		z=mat[,nc:1], 
+		breaks=c(1:(nl+1)-0.5) , col=palette(nl), 
+		xlab=xlab, ylab=ylab, ... )
 }

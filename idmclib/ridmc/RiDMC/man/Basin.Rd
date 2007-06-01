@@ -8,7 +8,7 @@ Computes basins of attraction for a 2-dim. discrete dynamical system
 \usage{
 Basin(model, parms, xlim, xres=100, ylim, yres=100, attractorLimit, attractorIterations)
 \method{print}{idmc_basin}(x, ...)
-\method{plot}{idmc_basin}(x, y, palette=rainbow, ...)
+\method{plot}{idmc_basin}(x, y, palette=rainbow, xlab, ylab, ...)
 }
 \arguments{
  \item{model,x}{iDMC model object}
@@ -19,6 +19,7 @@ Basin(model, parms, xlim, xres=100, ylim, yres=100, attractorLimit, attractorIte
  \item{attractorIterations}{max number of attractor iterations}
  \item{y}{unused}
  \item{palette}{palette functions for generating image colors}
+ \item{xlab, ylab}{x and y axes labels}
  \item{...}{arguments to and from other methods}
 }
 \description{
