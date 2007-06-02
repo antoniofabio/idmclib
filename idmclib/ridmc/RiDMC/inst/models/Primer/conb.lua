@@ -1,5 +1,3 @@
---%  ft| TRAJECTORY_T0_V0_A1_O1 sn| Convergence~to~a~fixed~point n| #0 d| 0.1 n| #1 d| 0.1 n| #2 d| -0.35 n| #3 d| -1 n| #4 d| 0.01 n| #5 d| 0 n| #6 d| 3000 n| #7 d| 3000 n| #8 d| x n| #9 d| y 
---@@
 name = "Conb"
 description = " See Model refs in user's guide"
 type = "C"

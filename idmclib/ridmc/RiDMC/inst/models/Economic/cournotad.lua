@@ -1,6 +1,3 @@
---%  ft| BIFURCATION_1 sn| Bifurcation~diagram n| #0 d| 0.01 n| #1 d| 0.01 n| #2 d| 1 n| #3 d| 0.6 n| #4 d| b n| #5 d| 10 n| #6 d| 26 n| #7 d| 0.01 n| #8 d| 0.1 n| #9 d| 500 n| #10 d| 200 n| #11 d| x 
---%  ft| TRAJECTORY_T0_V0_A1_O0 sn| Quasiperiodic~trajectory n| #0 d| 0.01 n| #1 d| 0.01 n| #2 d| 1 n| #3 d| 12 n| #4 d| 0.6 n| #5 d| 100 n| #6 d| 5000 n| #7 d| 5000 n| #8 d| x n| #9 d| y 
---@@
 name = "Adaptive Cournot Oligopoly"
 description = "See Model refs in user's guide"
 type = "D"

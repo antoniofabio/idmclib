@@ -1,6 +1,3 @@
---%  ft| TRAJECTORY_T0_V0_A1_O0 sn| Closed-curve~orbit n| #0 d| 0.1 n| #1 d| 0.2 n| #2 d| 0.3 n| #3 d| 0 n| #4 d| 0 n| #5 d| 0 n| #6 d| 0 n| #7 d| 0 n| #8 d| 0 n| #9 d| 1.2 n| #10 d| 0 n| #11 d| 4 n| #12 d| 0 n| #13 d| 1.1 n| #14 d| 1 n| #15 d| 0 n| #16 d| 30000 n| #17 d| 30000 n| #18 d| x1 n| #19 d| x3 
---%  ft| BIFURCATION_1 sn| x1:~0.1~~x2:~0.2~~x3:~0.3~~n_1:~0~~n_2:~0~~U1:~0~~U2:~0~~g_1:~0~~ n| #0 d| 0.1 n| #1 d| 0.2 n| #2 d| 0.3 n| #3 d| 0 n| #4 d| 0 n| #5 d| 0 n| #6 d| 0 n| #7 d| 0 n| #8 d| 0 n| #9 d| 1.2 n| #10 d| 0 n| #11 d| 4 n| #12 d| 1.15 n| #13 d| 1 n| #14 d| w n| #15 d| 0.25 n| #16 d| 0.6 n| #17 d| -0.1 n| #18 d| 2.3 n| #19 d| 500 n| #20 d| 200 n| #21 d| x1 
---@@
 name = "BH"
 description = "See Model refs in user's guide"
 type = "D"

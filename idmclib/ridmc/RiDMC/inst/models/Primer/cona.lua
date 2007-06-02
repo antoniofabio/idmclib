@@ -1,5 +1,3 @@
---%  ft| TRAJECTORY_T0_V0_A1_O1 sn| Oscillatory~convergence~to~a~fixed~point n| #0 d| 1.1 n| #1 d| -1.1 n| #2 d| -0.5 n| #3 d| 0.01 n| #4 d| 0 n| #5 d| 1000 n| #6 d| 1000 n| #7 d| x n| #8 d| y 
---@@
 name = "Cona"
 description = " See Model refs in user's guide"
 type = "C"

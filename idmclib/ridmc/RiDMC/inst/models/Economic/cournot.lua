@@ -1,6 +1,3 @@
---%  ft| BIFURCATION_1 sn| Period~-~doubling~route~to~chaos n| #0 d| 0.01 n| #1 d| 0.01 n| #2 d| 1 n| #3 d| b n| #4 d| 5.77 n| #5 d| 6.25 n| #6 d| -0.01 n| #7 d| 0.17 n| #8 d| 3000 n| #9 d| 200 n| #10 d| x 
---%  ft| TRAJECTORY_T0_V0_A1_O0 sn| Chaotic~attractor n| #0 d| 0.01 n| #1 d| 0.01 n| #2 d| 1 n| #3 d| 6.2 n| #4 d| 100 n| #5 d| 5000 n| #6 d| 5000 n| #7 d| x n| #8 d| y 
---@@
 name = "Cournot Olygopoly"
 description = "See Model refs in user's guide"
 type = "D"
