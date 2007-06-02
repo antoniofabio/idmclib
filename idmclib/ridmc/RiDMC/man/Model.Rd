@@ -8,14 +8,12 @@ Load a model
 }
 \usage{
 Model(filename=NULL, text = readLines(filename))
-\method{print}{idmc_model}(x, ...)
 \method{summary}{idmc_model}(object, ...)
-\method{print}{summary.idmc_model}(x, ...)
 }
 \arguments{
 \item{filename}{file name to be opened}
 \item{text}{char vector containing lua model specification}
-\item{x, object}{\code{idmc_model} object}
+\item{object}{\code{idmc_model} object}
  \item{...}{arguments to and from other methods}
 }
 \description{

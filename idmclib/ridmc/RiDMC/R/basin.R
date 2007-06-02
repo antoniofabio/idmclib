@@ -1,7 +1,10 @@
 Basin <- function(model, parms, xlim, xres=100, ylim, 
 	yres=100, attractorLimit, attractorIterations) {
-	if(!inherits(model, "idmc_model"))
-		stop("'model' should be and idmc_model object")
+	checkModelParVar(model, parms)
+	checkPositiveScalar(xres)
+	checkPositiveScalar(yres)
+	checkPositiveScalar(attractorLimit)
+	checkPositiveScalar(attractorIterations)
 	if(getModelType(model)!="D")
 		stop("'model' should be a discrete model")
 	if(length(getModelVarNames(model))!=2)
@@ -36,7 +39,7 @@ print.idmc_basin <- function(x, ...){
 	cat('Model: ', getModelName(mdl), '\n')
 	cat('x-range: ', paste(x$xlim, collapse=','), '\n')
 	cat('y-range: ', paste(x$ylim, collapse=','), '\n')
-	cat('resolution: ', x$xres, 'by', 'x$yres\n')
+	cat('resolution: ', x$xres, 'by', x$yres, '\n')
 	cat('transient: ', x$attractorLimit, '\n')
 	cat('attractor iterations: ', x$attractorIterations, '\n')
 }

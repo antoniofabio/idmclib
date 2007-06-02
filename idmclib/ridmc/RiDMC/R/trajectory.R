@@ -1,10 +1,8 @@
 CTrajectory <- function(idmc_model, par, var, eps, integrator=0) {
-	if(!inherits(idmc_model,"idmc_model"))
-		stop("'idmc_model' should be an idmc_model object")
+	checkModelParVar(idmc_model, par, var)
 	integrator <- as.integer(integrator)
 	if((integrator<0)||(integrator>9)) 
 		stop('\'integrator\' should be an integer code between 0 and 9')
-	checkModelParVar(idmc_model, par, var)
 	if(eps<=0)
 		stop('\'eps\' must be a striclty positive real number')
 	ans <- list()
@@ -33,12 +31,4 @@ print.idmc_ctrajectory <- function(x, ...) {
 	cat('starting point: ', paste(x$var, sep=','),'\n')
 	cat('step size: ', x$eps, '\n')
 	cat('step function: ', x$integrator, '\n')
-}
-
-checkModelParVar <- function(model, par, var) {
-	npnv <- model$infos[[3]]
-	if(length(par)!=npnv[1])
-		stop('model has exactly', npnv[1], 'parameters')
-	if(length(var)!=npnv[2])
-		stop('model has exactly', npnv[1], 'variables')
 }

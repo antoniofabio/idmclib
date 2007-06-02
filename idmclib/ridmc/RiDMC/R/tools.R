@@ -11,3 +11,22 @@ exModelFile <- function(modelName) {
 	fname <- file.path(p,fname)
 	return(fname)
 }
+
+checkModelParVar <- function(model, par, var) {
+	txt <- sQuote(deparse(substitute(model)))
+	if(!inherits(model, "idmc_model"))
+		stop(txt,"should be and idmc_model object")
+	npnv <- model$infos[[3]]
+	if((!missing(par))&&(length(par)!=npnv[1]))
+		stop('model has exactly', npnv[1], 'parameters')
+	if((!missing(var))&&(length(var)!=npnv[2]))
+		stop('model has exactly', npnv[1], 'variables')
+}
+
+checkPositiveScalar <- function(arg) {
+	txt <- sQuote(deparse(substitute(arg)))
+	if((!is.numeric(arg))||(length(arg)>1))
+		stop(txt, 'should be a numeric scalar')
+	if(arg<=0)
+		stop(txt, 'should be a positive numeric scalar')
+}
