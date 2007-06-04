@@ -2,12 +2,14 @@
 \alias{Trajectory}
 \alias{CTrajectory}
 \alias{print.idmc_ctrajectory}
+\alias{as.matrix.idmc_ctrajectory}
 \title{
 Continuous model trajectory
 }
 \usage{
 CTrajectory(idmc_model, par, var, eps, integrator=0)
 \method{print}{idmc_ctrajectory}(x, ...)
+\method{as.matrix}{idmc_ctrajectory}(x, ...)
 }
 \arguments{
  \item{idmc_model,x}{a model object, as returned by \code{\link{Model}}}
