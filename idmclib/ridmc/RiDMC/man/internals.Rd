@@ -12,8 +12,8 @@
 \alias{getModelHasJacobian}
 \alias{getBasinModel}
 \alias{getBasinData}
-\alias{getCTrajectoryModel}
-\alias{getCTrajectoryValues}
+\alias{getTrajectoryModel}
+\alias{getTrajectoryValues}
 \title{
 RiDMC internal functions
 }
