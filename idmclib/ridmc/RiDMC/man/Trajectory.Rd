@@ -62,17 +62,14 @@ Antonio, Fabio Di Narzo
 \examples{
 ##Load model:
 model <- Model(exModelFile('lorenz'))
-
 ##Compute trajectory:
 trajectory <- CTrajectory(model, 
 	c(10, 28, 2.667), c(1.0, 2.0, 1.0), 
 	0.005, 0, nsteps=20000, transient=1000 )
 ##See basic informations:
 trajectory
-
-##Plot trajectory:
+##Plot it:
 plot(trajectory)
-
 ##Re-plot as regular multivariate time series:
 plot(as.ts(trajectory))
 

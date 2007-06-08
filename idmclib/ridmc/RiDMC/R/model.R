@@ -1,10 +1,15 @@
 
 Model <- function(filename=NULL, text = readLines(filename)) {
 	ans <- list()
+	text1 <- paste(text, collapse="\n")
+	pointer <- .Call("ridmc_model_alloc", text1, PACKAGE='RiDMC')
+	ans <- buildModel(pointer, text)
+	return(ans)
+}
+buildModel <- function(pointer, text) {
+	ans <- list()
 	ans$text <- text
-	text <- paste(text, collapse="\n")
-	model <- .Call("ridmc_model_alloc", text, PACKAGE='RiDMC')
-	ans$model <- model
+	ans$model <- model <- pointer
 	infos <- .Call("ridmc_model_getInfos", model, PACKAGE='RiDMC')
 	names(infos[[1]]) <- c("name","description","type")
 	names(infos[[2]]) <- c("has_inverse","has_jacobian")

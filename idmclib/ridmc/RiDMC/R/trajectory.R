@@ -22,10 +22,8 @@ CTrajectory <- function(idmc_model, par, var, eps, integrator=0,
 	ans$getValue <- function()
 		.Call("ridmc_ctrajectory_getValue", trajectory, PACKAGE='RiDMC')
 	ans$getModel <- function() {
-		ans <- model
-		##We have to replace C pointer:
-		ans$model <- .Call("ridmc_ctrajectory_getModel", trajectory, PACKAGE='RiDMC')
-		ans
+		pp <- .Call("ridmc_ctrajectory_getModel", trajectory, PACKAGE='RiDMC')
+		buildModel(pp, idmc_model$text)
 	}
 	vnames <- getModelVarNames(idmc_model)
 	values <- matrix(var, 1, length(vnames))
@@ -57,10 +55,8 @@ DTrajectory <- function(idmc_model, par, var, nsteps=1, transient=0, seed) {
 	ans$getValue <- function()
 		.Call("ridmc_dtrajectory_getValue", trajectory, PACKAGE='RiDMC')
 	ans$getModel <- function() {
-		ans <- model
-		##We have to replace C pointer:
-		ans$model <- .Call("ridmc_dtrajectory_getModel", trajectory, PACKAGE='RiDMC')
-		ans
+		pp <- .Call("ridmc_dtrajectory_getModel", trajectory, PACKAGE='RiDMC')
+		buildModel(pp, model$text)
 	}
 	vnames <- getModelVarNames(idmc_model)
 	values <- matrix(var, 1, length(vnames))
