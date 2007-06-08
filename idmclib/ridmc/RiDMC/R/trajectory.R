@@ -40,7 +40,7 @@ CTrajectory <- function(idmc_model, par, var, eps, integrator=0,
 	}
 	stepTrajectory(ans, nsteps=nsteps)
 }
-DTrajectory <- function(idmc_model, par, var, nsteps=0, transient=0, seed) {
+DTrajectory <- function(idmc_model, par, var, nsteps=1, transient=0, seed) {
 	checkModelParVar(idmc_model, par, var)
 	ans <- list()
 	ans$transient <- transient

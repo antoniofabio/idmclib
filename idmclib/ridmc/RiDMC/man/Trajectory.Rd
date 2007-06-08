@@ -90,7 +90,7 @@ function f(a, x, y)
         return x1, y1
 end
 '))
-m <- Model(text=lines)
+m <- Model(text=text)
 tr <- DTrajectory(m, 0.5, c(0,0), 100, seed=123)
 plot(tr)
 }
