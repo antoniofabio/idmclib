@@ -74,3 +74,54 @@ SEXP ridmc_ctrajectory_getValue(SEXP t) {
 	UNPROTECT(1);
 	return ans;
 }
+
+SEXP ridmc_ctrajectory_getModel(SEXP t) {
+	SEXP ans;
+	idmc_model *m = ((idmc_traj_ctrajectory*) R_ExternalPtrAddr(t))->model;
+	PROTECT(ans = R_MakeExternalPtr(m, R_NilValue, R_NilValue));
+	UNPROTECT(1);
+	return ans;
+}
+
+void ridmc_dtrajectory_free(SEXP p);
+
+SEXP ridmc_dtrajectory_alloc(SEXP m, SEXP pars, SEXP vars) {
+	idmc_traj_trajectory *pans;
+	SEXP ans;
+	int ians = idmc_traj_trajectory_alloc(
+		R_ExternalPtrAddr(m), 
+		REAL( pars ), REAL (vars),
+		&pans);
+	if(ians!=IDMC_OK)
+		RIDMC_ERROR(ians);
+	PDEBUG("allocated trajectory %p\n", pans);
+	PROTECT(ans = R_MakeExternalPtr(pans, R_NilValue, R_NilValue));
+	R_RegisterCFinalizer(ans, ridmc_dtrajectory_free);
+	UNPROTECT(1);
+	return ans;
+}
+
+void ridmc_dtrajectory_free(SEXP p) {
+	idmc_traj_trajectory_free( R_ExternalPtrAddr(p) );
+	PDEBUG("deallocated trajectory %p\n", R_ExternalPtrAddr(p));
+}
+
+SEXP ridmc_dtrajectory_step(SEXP t) {
+	idmc_traj_trajectory_step( R_ExternalPtrAddr(t) );
+	return R_NilValue;
+}
+
+SEXP ridmc_dtrajectory_getValue(SEXP t) {
+	idmc_traj_trajectory *tr = R_ExternalPtrAddr(t);
+	SEXP ans = pdToNumVec(tr->var, tr->model->var_len);
+	UNPROTECT(1);
+	return ans;
+}
+
+SEXP ridmc_dtrajectory_getModel(SEXP t) {
+	SEXP ans;
+	idmc_model *m = ((idmc_traj_trajectory*) R_ExternalPtrAddr(t))->model;
+	PROTECT(ans = R_MakeExternalPtr(m, R_NilValue, R_NilValue));
+	UNPROTECT(1);
+	return ans;
+}

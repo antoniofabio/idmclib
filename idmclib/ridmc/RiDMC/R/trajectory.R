@@ -1,5 +1,5 @@
 CTrajectory <- function(idmc_model, par, var, eps, integrator=0, 
-	nsteps=0, transient=0) {
+	nsteps=1, transient=0, seed) {
 	checkModelParVar(idmc_model, par, var)
 	integrator <- as.integer(integrator)
 	if((integrator<0)||(integrator>9)) 
@@ -21,59 +21,82 @@ CTrajectory <- function(idmc_model, par, var, eps, integrator=0,
 		.Call("ridmc_ctrajectory_step", trajectory, PACKAGE='RiDMC')
 	ans$getValue <- function()
 		.Call("ridmc_ctrajectory_getValue", trajectory, PACKAGE='RiDMC')
+	ans$getModel <- function() {
+		ans <- model
+		##We have to replace C pointer:
+		ans$model <- .Call("ridmc_ctrajectory_getModel", trajectory, PACKAGE='RiDMC')
+		ans
+	}
 	vnames <- getModelVarNames(idmc_model)
 	values <- matrix(var, 1, length(vnames))
 	colnames(values) <- vnames
 	ans$values <- values
 	class(ans) <- c("idmc_ctrajectory","idmc_trajectory")
-	stepTrajectory(ans, nsteps=nsteps, transient=transient)
+	if(!missing(seed))
+		setTrajectorySeed(ans, seed)
+	if(transient>0) {
+		ans <- stepTrajectory(ans, nsteps=transient)
+		ans$values <- ans$values[NROW(ans$values),,drop=FALSE]
+	}
+	stepTrajectory(ans, nsteps=nsteps)
 }
-DTrajectory <- function(idmc_model, par, var, nsteps=0, transient=0) {
+DTrajectory <- function(idmc_model, par, var, nsteps=0, transient=0, seed) {
 	checkModelParVar(idmc_model, par, var)
 	ans <- list()
-	currValue <- var
-	model <- idmc_model
-	ans$eps <- 1
 	ans$transient <- transient
 	ans$par <- par
 	ans$var <- var
+	ans$eps <- 1
+	model <- idmc_model
 	ans$model <- model
+	trajectory <- .Call("ridmc_dtrajectory_alloc", 
+		idmc_model$model, as.double(par), as.double(var), PACKAGE='RiDMC')
+	ans$trajectory <- trajectory
 	ans$step <- function()
-		currValue <<- model$f(par, currValue)
+		.Call("ridmc_dtrajectory_step", trajectory, PACKAGE='RiDMC')
 	ans$getValue <- function()
-		currValue
+		.Call("ridmc_dtrajectory_getValue", trajectory, PACKAGE='RiDMC')
+	ans$getModel <- function() {
+		ans <- model
+		##We have to replace C pointer:
+		ans$model <- .Call("ridmc_dtrajectory_getModel", trajectory, PACKAGE='RiDMC')
+		ans
+	}
 	vnames <- getModelVarNames(idmc_model)
 	values <- matrix(var, 1, length(vnames))
 	colnames(values) <- vnames
 	ans$values <- values
 	class(ans) <- c("idmc_dtrajectory","idmc_trajectory")
-	stepTrajectory(ans, nsteps=nsteps, transient=transient)
+	if(!missing(seed))
+		setTrajectorySeed(ans, seed)
+	if(transient>0) {
+		ans <- stepTrajectory(ans, nsteps=transient)
+		ans$values <- ans$values[NROW(ans$values),,drop=FALSE]
+	}
+	ans$values <- ans$values[NROW(ans$values),,drop=FALSE]
+	stepTrajectory(ans, nsteps=nsteps)
 }
 getTrajectoryModel <- function(idmc_trajectory)
-	idmc_trajectory$model
+	idmc_trajectory$getModel()
 getTrajectoryValues <- function(idmc_trajectory)
 	idmc_trajectory$values
+setTrajectorySeed <- function(idmc_trajectory, seed)
+	getTrajectoryModel(idmc_trajectory)$set.seed(seed)
 as.matrix.idmc_trajectory <- function(x, ...)
 	getTrajectoryValues(x)
 as.ts.idmc_trajectory <- function(x, ...)
 	ts(as.matrix(x), frequency = 1/x$eps, ...)
 
-stepTrajectory <- function(idmc_trajectory, nsteps=1, transient) {
+stepTrajectory <- function(idmc_trajectory, nsteps=1) {
 	tr <- idmc_trajectory
 	vars <- getModelVarNames(getTrajectoryModel(tr))
 	oldTr <- getTrajectoryValues(idmc_trajectory)
-	if((!missing(transient))&&(transient>0)&&(tr$transient>0)) {
-		oldTr <- oldTr[1,,drop=FALSE]
-		for(i in seq_len(transient))
-			tr$step()
-		oldTr[1,] <- tr$getValue()
-	}
-	tr2 <- matrix(,nsteps, length(vars))
+	newTr <- matrix(,nsteps, length(vars))
 	for(i in seq_len(nsteps)) {
 		tr$step()
-		tr2[i,] <- tr$getValue()
+		newTr[i,] <- tr$getValue()
 	}
-	tr$values <- rbind(oldTr, tr2)
+	tr$values <- rbind(oldTr, newTr)
 	tr
 }
 
