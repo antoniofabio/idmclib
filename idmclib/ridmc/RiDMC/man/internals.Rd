@@ -14,6 +14,7 @@
 \alias{getBasinData}
 \alias{getTrajectoryModel}
 \alias{getTrajectoryValues}
+\alias{buildModel}
 \title{
 RiDMC internal functions
 }

@@ -20,7 +20,6 @@ Bifurcation(idmc_model, which.var.store=1, par, var,
  \item{transient}{transient length}
  \item{max.period}{max period for a cycle}
  \item{x}{an \code{idmc_bifurcation} object}
- \item{vars}{variables to be plotted}
  \item{type, pch, main, xlab, ylab}{usual plot options}
  \item{y}{currently unused}
  \item{...}{arguments to and from other methods}
