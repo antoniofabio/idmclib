@@ -15,6 +15,8 @@
 \alias{getTrajectoryModel}
 \alias{getTrajectoryValues}
 \alias{buildModel}
+\alias{checkModelDiscrete}
+\alias{checkModelContinuous}
 \title{
 RiDMC internal functions
 }
