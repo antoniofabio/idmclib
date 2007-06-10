@@ -32,10 +32,13 @@ Antonio, Fabio Di Narzo
 }
 \keyword{ misc }
 \seealso{
-\code{\link{Model}}
+\code{\link{Model}}, \code{\link{LyapunovExponents}}
 }
 \examples{
 m <- Model(exModelFile('logistic'))
 bf <- Bifurcation(m, par=1, var=0.5, par.min=1.001, par.max=3.99)
 plot(bf, cex=0.5)
+
+le <- LyapunovExponents(m, par=1, var=0.5, par.min=3.0, par.max=3.5, time=100)
+#plot(le)
 }
