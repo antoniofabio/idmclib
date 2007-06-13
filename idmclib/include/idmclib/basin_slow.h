@@ -23,6 +23,8 @@ Last modified: $Date$
 #include "model.h"
 #include "raster.h"
 
+#define OVERLAP_FACTOR 0.1
+
 typedef struct {
 	idmc_model* model; /*model object*/
 	double *parameters; /*model parameters*/
@@ -37,6 +39,9 @@ typedef struct {
 	int attractorColor; int basinColor; /*current attractor and basin colors*/
 	int index; /*iteration index*/
 	int state, attr, color; /*support temp variables*/
+	int *attractorsSamplePoints; /*buffer with sample ids of attractors already found*/
+	int *attractorsCoincidence; /*coincidence information among attractors*/
+	int nAttractors; /*how many attractors were found*/
 } idmc_basin_slow;
 
 /* Allocate new 'idmc_basin_slow' object
@@ -53,12 +58,10 @@ int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
 	double xmin, double xmax, int xres,
 	double ymin, double ymax, int yres, 
 	int attractorLimit, int attractorIterations, int ntries,
-	idmc_basin** out_basin);
+	idmc_basin_slow** out_basin);
 /*deallocates an idmc_basin object*/
-void idmc_basin_slow_free(idmc_basin* p);
-/*do one algorithm step*/
-int idmc_basin_slow_step(idmc_basin* p);
+void idmc_basin_slow_free(idmc_basin_slow* p);
 /*check if algorithm finished*/
-int idmc_basin_slow_finished(idmc_basin* p);
+int idmc_basin_slow_finished(idmc_basin_slow* p);
 
 #endif

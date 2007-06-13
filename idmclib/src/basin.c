@@ -108,8 +108,6 @@ static void fillBasinTrack(idmc_basin* p, double *startPoint, int iterations, in
 Iterates one cell in the basin grid. Algorithm due to Daniele Pizzoni, 
 translated from the iDMC (1.9.4 and following versions) java software
 */
-/*Stopping condition:*/
-#define basin_finished(p) ((p)->currId >= ((p)->dataLength))
 /*some utility definitions:*/
 #define attractorLimit (p->attractorLimit)
 #define attractorIterations (p->attractorIterations)

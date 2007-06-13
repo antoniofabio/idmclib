@@ -32,4 +32,7 @@
 
 #define isOdd(value) ( (value) == ( ((value)/2) * 2 ) )
 
+/*Stopping condition:*/
+#define basin_finished(p) ((p)->currId >= ((p)->dataLength))
+
 #endif

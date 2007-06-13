@@ -23,10 +23,16 @@ SLOW BASINS ALGORITHM
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
 #include "defines.h"
+#include "gsl_rng_lualib.h"
 #include "raster.h"
 #include "model.h"
 #include "basin_slow.h"
+
+#define getAttractorIndex(color) ((color)-2)/2
+#define getAttractorColor(index) (index)*2+2
 
 int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
 	double xmin, double xmax, int xres,
@@ -35,9 +41,9 @@ int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
 	idmc_basin_slow** out_basin)
 {
 	int i;
-	idmc_basin* ans;
+	idmc_basin_slow* ans;
 	idmc_raster* raster;
-	ans = (idmc_basin*) malloc( sizeof(idmc_basin) );
+	ans = (idmc_basin_slow*) malloc( sizeof(idmc_basin_slow) );
 	if(ans==NULL)
 		return IDMC_EMEM;
 	ans->model = idmc_model_clone(m);
@@ -74,7 +80,17 @@ int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
 		idmc_basin_slow_free(ans);
 		return IDMC_EMEM;
 	}
-
+	ans->attractorsSamplePoints = (int*) malloc(ntries*sizeof(int));
+	if(ans->attractorsSamplePoints == NULL){
+		idmc_basin_slow_free(ans);
+		return IDMC_EMEM;
+	}
+	ans->attractorsCoincidence = (int*) malloc(ntries*sizeof(int));
+	if(ans->attractorsCoincidence == NULL){
+		idmc_basin_slow_free(ans);
+		return IDMC_EMEM;
+	}
+	ans->nAttractors = 0;
 	ans->dataLength = ans->raster->xres * ans->raster->yres;
 	ans->attractorLimit = attractorLimit;
 	ans->attractorIterations = attractorIterations;
@@ -89,7 +105,7 @@ int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
 	return IDMC_OK;
 }
 
-void idmc_basin_slow_free(idmc_basin* p) {
+void idmc_basin_slow_free(idmc_basin_slow* p) {
 	if(p->model!=NULL)
 		idmc_model_free(MODEL(p));
 	if(p->parameters!=NULL)
@@ -102,135 +118,88 @@ void idmc_basin_slow_free(idmc_basin* p) {
 		free(p->startPoint);
 	if(p->work!=NULL)
 		free(p->work);
+	if(p->attractorsSamplePoints!=NULL)
+		free(p->attractorsSamplePoints);
+	if(p->attractorsCoincidence!=NULL)
+		free(p->attractorsCoincidence);
 	free(p);
 }
 
-static void fillBasinSlowTrack(idmc_basin* p, double *startPoint, int iterations, int value);
+static void fillBasinSlowTrack(idmc_basin_slow* p, double *startPoint, int iterations, int value);
 
+#define STEP(ans) idmc_model_f(m, p->parameters, (ans), (ans))
 /*
-Iterates one cell in the basin grid. Algorithm due to Daniele Pizzoni, 
-translated from the iDMC (1.9.4 and following versions) java software
+Init basin_slow object: find attractors
 */
-/*Stopping condition:*/
-#define basin_finished(p) ((p)->currId >= ((p)->dataLength))
-/*some utility definitions:*/
-#define attractorLimit (p->attractorLimit)
-#define attractorIterations (p->attractorIterations)
-#define startPoint (p->startPoint)
-#define currentPoint (p->currentPoint)
-#define index (p->index)
-#define state (p->state)
-#define attr (p->attr)
-#define color (p->color)
-int idmc_basin_slow_step(idmc_basin_slow* p) {
-	if( basin_finished(p) ) /*algorithm ended*/
-		return IDMC_OK;
-
-	getCurrPoint(p, startPoint); /*get start point coordinates*/
-	index++; /*iteration index*/
-	memcpy(currentPoint, startPoint, 2 * sizeof(double) ); /*copy start point to current point*/
-	setValue(p, currentPoint, p->basinColor); /*set cell value to current basin color*/
-	
-	color = p->basinColor;
-	attr = -1;
-
-	for (int i = 0;;) {
-		idmc_model_f(MODEL(p), p->parameters, currentPoint, currentPoint);
-		i++;
-		if (isPointInfinite(currentPoint)) {
-			fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
-			break;
-		}
-		if (!isPointInsideBounds(p, currentPoint)) {
-			if (i >= attractorLimit) {
-				fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+void idmc_basin_slow_init(idmc_basin_slow* p) {
+	idmc_model *m = MODEL(p);
+	idmc_raster *r = RASTER(p);
+	gsl_rng* rng = getGslRngState(m->L);
+	//gsl_rng_uniform(rng)
+	int try, xres, yres;
+	int x,y;
+	double xy[2];
+	int i, attractorColor, attractorIndex, gs, isInfinite, isNewAttractor;
+	int *attractorsCoincidence = p->attractorsCoincidence;
+	xres = r->xres;
+	yres = r->yres;
+	attractorIndex=0;
+	/*for each try...*/
+	for(try = p->ntries; try>0; try--) {
+		/*some initialization code:*/
+		attractorColor = getAttractorColor(attractorIndex);
+		memset(attractorsCoincidence, 0, (p->ntries)*sizeof(int));
+		isInfinite=0;
+		isNewAttractor=1;
+		/*set random starting point*/
+		x = (int)(gsl_rng_uniform(rng) * (double)xres);
+		y = (int)(gsl_rng_uniform(rng) * (double)yres);
+		xy[0] = idmc_raster_XY2x(r, x, y);
+		xy[1] = idmc_raster_XY2x(r, x, y);
+		/*start map iterations*/
+		for(i = p->attractorLimit + p->attractorIterations; i>0; i--) {
+			STEP(xy);
+			if(isPointInfinite(xy)) {
+				isInfinite=1;
 				break;
 			}
-			else
-				continue;
-		}
-
-		state = getValue(p, currentPoint);
-		
-		/* untouched */
-		if (state == 0) {
-			setValue(p, currentPoint, color);
-			continue;
-		}
-		/* infinity */
-		if (state == IDMC_BASIN_INFINITY) {
-			fillBasinSlowTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
-			break;
-		}
-
-		/*current basin color*/
-		if (state == p->basinColor) {
-			if (attr == -1) {
-				attr = i;
-				continue;
-			}
-			else if (i - attr < attractorLimit) {
-				continue;
-			}
-			else if (i - attr < (attractorLimit+attractorIterations)) {
-				if (color != p->attractorColor) {
-					color = p->attractorColor;
+			if (i> (p->attractorLimit) && isPointInsideBounds(p, xy)){
+				gs = getValue(p, xy);
+				if (!gs){
+					if (gs!=INFINITY){
+						attractorColor = gs;
+						attractorsCoincidence[getAttractorIndex(attractorColor)]++;
+					}
 				}
-		
-				setValue(p, currentPoint, color);
-				continue;
 			}
-			else {
-				continue;
-			}
-			// not reached
-		}
-
-		/*current attractor color*/
-		if (state == p->attractorColor) {
-			if ( (attr != -1) && ( (i - attr) < (attractorLimit+attractorIterations) ) ) {
-				continue;
-			}
-			else {
-				p->attractorColor += 2;
-				p->basinColor = p->attractorColor+1;
-				//addSamplePoint(p, currentPoint);
-				break;
+		}/*end map iterations*/
+		if (!isInfinite){
+			for (int ii=0;ii<attractorIndex;ii++){
+				if (attractorsCoincidence[ii]>OVERLAP_FACTOR*(p->attractorIterations)){
+					isNewAttractor=0;
+					break;
+				}
 			}
 		}
-		attr = -1;
-		
-		/* another basin encountered */
-		if (!isOdd(state) && 
-			( state != p->basinColor ) && 
-			( state != IDMC_BASIN_INFINITY ) ) {
-				fillBasinSlowTrack(p, startPoint, i - 1, state);
-			break;
+		else
+			isNewAttractor=0;
+		if (!isInfinite){
+			if (isNewAttractor) {
+				fillBasinSlowTrack(p,
+					xy,
+					p->attractorIterations,
+					getAttractorColor(attractorIndex));
+				p->attractorsSamplePoints[attractorIndex] = idmc_raster_xy2I(
+					r, xy[0], xy[1]);
+				attractorIndex++;
+			}
 		}
-		
-		/* another attractor encountered */
-		if (isOdd(state) && 
-			(state != p->attractorColor) && 
-			(state != IDMC_BASIN_INFINITY) ) {
-				fillBasinSlowTrack(p, startPoint, i - 1, state+1);
-			break;
-		}
-
-		/*shouldn't be reached*/
-		return IDMC_EMATH;
-	}
-	return IDMC_OK;
+	}/*end for each try*/
+	p->nAttractors = attractorIndex;
 }
-#undef attractorLimit
-#undef attractorIterations
-#undef startPoint
-#undef currentPoint
-#undef index
-#undef state
-#undef attr
-#undef color
+#undef STEP
 
-static void fillBasinSlowTrack(idmc_basin* p, double *startPoint, int iterations, int value) {
+static void fillBasinSlowTrack(idmc_basin_slow* p, double *startPoint, int iterations, int value) {
 	memcpy(p->work, startPoint, 2 * sizeof(double));
 	setValue(p, p->work, value);
 	for(int i=0; i<iterations; i++) {
@@ -241,6 +210,6 @@ static void fillBasinSlowTrack(idmc_basin* p, double *startPoint, int iterations
 	}
 }
 
-int idmc_basin_slow_finished(idmc_basin *p) {
+int idmc_basin_slow_finished(idmc_basin_slow *p) {
 	return basin_finished(p);
 }
