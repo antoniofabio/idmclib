@@ -61,6 +61,8 @@ int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
 	idmc_basin_slow** out_basin);
 /*deallocates an idmc_basin object*/
 void idmc_basin_slow_free(idmc_basin_slow* p);
+/*init basin (find attractors)*/
+int idmc_basin_slow_init(idmc_basin_slow* p);
 /*check if algorithm finished*/
 int idmc_basin_slow_finished(idmc_basin_slow* p);
 

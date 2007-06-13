@@ -131,11 +131,10 @@ static void fillBasinSlowTrack(idmc_basin_slow* p, double *startPoint, int itera
 /*
 Init basin_slow object: find attractors
 */
-void idmc_basin_slow_init(idmc_basin_slow* p) {
+int idmc_basin_slow_init(idmc_basin_slow* p) {
 	idmc_model *m = MODEL(p);
 	idmc_raster *r = RASTER(p);
 	gsl_rng* rng = getGslRngState(m->L);
-	//gsl_rng_uniform(rng)
 	int try, xres, yres;
 	int x,y;
 	double xy[2];
@@ -196,6 +195,7 @@ void idmc_basin_slow_init(idmc_basin_slow* p) {
 		}
 	}/*end for each try*/
 	p->nAttractors = attractorIndex;
+	return IDMC_OK;
 }
 #undef STEP
 
