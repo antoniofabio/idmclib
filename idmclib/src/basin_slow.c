@@ -16,6 +16,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
 Last modified: $Date$
+
+SLOW BASINS ALGORITHM
 */
 #include <math.h>
 #include <stdlib.h>
@@ -24,13 +26,13 @@ Last modified: $Date$
 #include "defines.h"
 #include "raster.h"
 #include "model.h"
-#include "basin.h"
+#include "basin_slow.h"
 
-int idmc_basin_alloc(idmc_model *m, double *parameters,
+int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
 	double xmin, double xmax, int xres,
 	double ymin, double ymax, int yres,
-	int attractorLimit, int attractorIterations,
-	idmc_basin** out_basin)
+	int attractorLimit, int attractorIterations, int ntries,
+	idmc_basin_slow** out_basin)
 {
 	int i;
 	idmc_basin* ans;
@@ -40,18 +42,18 @@ int idmc_basin_alloc(idmc_model *m, double *parameters,
 		return IDMC_EMEM;
 	ans->model = idmc_model_clone(m);
 	if(ans->model==NULL) {
-		idmc_basin_free(ans);
+		idmc_basin_slow_free(ans);
 		return IDMC_EMEM;
 	}
 	ans->parameters = (double*) malloc( m->par_len * sizeof(double));
 	if(ans->parameters==NULL) {
-		idmc_basin_free(ans);
+		idmc_basin_slow_free(ans);
 		return IDMC_EMEM;
 	}
 	memcpy(ans->parameters, parameters, m->par_len * sizeof(double));
 	i = idmc_raster_alloc(xmin, xmax, xres, ymin, ymax, yres, &raster);
 	if(i != IDMC_OK) {
-		idmc_basin_free(ans);
+		idmc_basin_slow_free(ans);
 		return i;
 	}
 	idmc_raster_set(raster, 0);
@@ -59,23 +61,24 @@ int idmc_basin_alloc(idmc_model *m, double *parameters,
 
 	ans->currentPoint = (double*) malloc(2*sizeof(double));
 	if(ans->currentPoint==NULL) {
-		idmc_basin_free(ans);
+		idmc_basin_slow_free(ans);
 		return IDMC_EMEM;
 	}
 	ans->startPoint = (double*) malloc(2*sizeof(double));
 	if(ans->startPoint==NULL) {
-		idmc_basin_free(ans);
+		idmc_basin_slow_free(ans);
 		return IDMC_EMEM;
 	}
 	ans->work = (double*) malloc(2*sizeof(double));
 	if(ans->work==NULL) {
-		idmc_basin_free(ans);
+		idmc_basin_slow_free(ans);
 		return IDMC_EMEM;
 	}
 
 	ans->dataLength = ans->raster->xres * ans->raster->yres;
 	ans->attractorLimit = attractorLimit;
 	ans->attractorIterations = attractorIterations;
+	ans->ntries = ntries;
 
 	ans->currId = 0;
         ans->attractorColor = 2;
@@ -86,7 +89,7 @@ int idmc_basin_alloc(idmc_model *m, double *parameters,
 	return IDMC_OK;
 }
 
-void idmc_basin_free(idmc_basin* p) {
+void idmc_basin_slow_free(idmc_basin* p) {
 	if(p->model!=NULL)
 		idmc_model_free(MODEL(p));
 	if(p->parameters!=NULL)
@@ -102,7 +105,7 @@ void idmc_basin_free(idmc_basin* p) {
 	free(p);
 }
 
-static void fillBasinTrack(idmc_basin* p, double *startPoint, int iterations, int value);
+static void fillBasinSlowTrack(idmc_basin* p, double *startPoint, int iterations, int value);
 
 /*
 Iterates one cell in the basin grid. Algorithm due to Daniele Pizzoni, 
@@ -119,7 +122,7 @@ translated from the iDMC (1.9.4 and following versions) java software
 #define state (p->state)
 #define attr (p->attr)
 #define color (p->color)
-int idmc_basin_step(idmc_basin* p) {
+int idmc_basin_slow_step(idmc_basin_slow* p) {
 	if( basin_finished(p) ) /*algorithm ended*/
 		return IDMC_OK;
 
@@ -135,12 +138,12 @@ int idmc_basin_step(idmc_basin* p) {
 		idmc_model_f(MODEL(p), p->parameters, currentPoint, currentPoint);
 		i++;
 		if (isPointInfinite(currentPoint)) {
-			fillBasinTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+			fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
 			break;
 		}
 		if (!isPointInsideBounds(p, currentPoint)) {
 			if (i >= attractorLimit) {
-				fillBasinTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+				fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
 				break;
 			}
 			else
@@ -156,7 +159,7 @@ int idmc_basin_step(idmc_basin* p) {
 		}
 		/* infinity */
 		if (state == IDMC_BASIN_INFINITY) {
-			fillBasinTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
+			fillBasinSlowTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
 			break;
 		}
 
@@ -201,7 +204,7 @@ int idmc_basin_step(idmc_basin* p) {
 		if (!isOdd(state) && 
 			( state != p->basinColor ) && 
 			( state != IDMC_BASIN_INFINITY ) ) {
-				fillBasinTrack(p, startPoint, i - 1, state);
+				fillBasinSlowTrack(p, startPoint, i - 1, state);
 			break;
 		}
 		
@@ -209,7 +212,7 @@ int idmc_basin_step(idmc_basin* p) {
 		if (isOdd(state) && 
 			(state != p->attractorColor) && 
 			(state != IDMC_BASIN_INFINITY) ) {
-				fillBasinTrack(p, startPoint, i - 1, state+1);
+				fillBasinSlowTrack(p, startPoint, i - 1, state+1);
 			break;
 		}
 
@@ -227,8 +230,7 @@ int idmc_basin_step(idmc_basin* p) {
 #undef attr
 #undef color
 
-
-static void fillBasinTrack(idmc_basin* p, double *startPoint, int iterations, int value) {
+static void fillBasinSlowTrack(idmc_basin* p, double *startPoint, int iterations, int value) {
 	memcpy(p->work, startPoint, 2 * sizeof(double));
 	setValue(p, p->work, value);
 	for(int i=0; i<iterations; i++) {
@@ -239,6 +241,6 @@ static void fillBasinTrack(idmc_basin* p, double *startPoint, int iterations, in
 	}
 }
 
-int idmc_basin_finished(idmc_basin *p) {
+int idmc_basin_slow_finished(idmc_basin *p) {
 	return basin_finished(p);
 }
