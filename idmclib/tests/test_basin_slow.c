@@ -75,8 +75,9 @@ static char * test_init() {
 	mu_assert("can't create basin object", i==IDMC_OK);
 	idmc_model_setGslRngSeed(basin->model, 123);
 	i = idmc_basin_slow_init(basin);
-	printf("%d attractors found\n", basin->nAttractors);
 	mu_assert("can't init basin object", i==IDMC_OK);
+	printf("%d attractors found\n", basin->nAttractors);
+	mu_assert("invalid number of attractors found", basin->nAttractors==2);
 	idmc_basin_slow_free(basin);
 	return 0;
 }

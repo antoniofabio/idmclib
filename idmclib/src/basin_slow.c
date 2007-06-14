@@ -90,7 +90,7 @@ int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
 		idmc_basin_slow_free(ans);
 		return IDMC_EMEM;
 	}
-	ans->nAttractors = 0;
+	ans->nAttractors = 1;
 	ans->dataLength = ans->raster->xres * ans->raster->yres;
 	ans->attractorLimit = attractorLimit;
 	ans->attractorIterations = attractorIterations;
@@ -142,7 +142,10 @@ int idmc_basin_slow_init(idmc_basin_slow* p) {
 	int *attractorsCoincidence = p->attractorsCoincidence;
 	xres = r->xres;
 	yres = r->yres;
-	attractorIndex=0;
+	p->nAttractors = 1;
+	attractorIndex = 0;
+	/*clean raster data*/
+	memset(r->data, 0, (r->xres)*(r->yres)*sizeof(int));
 	/*for each try...*/
 	for(try = p->ntries; try>0; try--) {
 		/*some initialization code:*/
@@ -165,7 +168,7 @@ int idmc_basin_slow_init(idmc_basin_slow* p) {
 			if (i> (p->attractorLimit) && isPointInsideBounds(p, xy)){
 				gs = getValue(p, xy);
 				if (gs!=0){
-					if ((gs>IDMC_BASIN_INFINITY) && (!isOdd(gs))){
+					if (gs!=IDMC_BASIN_INFINITY){
 						attractorColor = gs;
 						attractorsCoincidence[getAttractorIndex(attractorColor)]++;
 					}
@@ -180,8 +183,9 @@ int idmc_basin_slow_init(idmc_basin_slow* p) {
 				}
 			}
 		}
-		else
+		else {
 			isNewAttractor=0;
+		}
 		if (!isInfinite){
 			if (isNewAttractor) {
 				fillBasinSlowTrack(p,
@@ -194,7 +198,7 @@ int idmc_basin_slow_init(idmc_basin_slow* p) {
 			}
 		}
 	}/*end for each try*/
-	p->nAttractors = attractorIndex;
+	p->nAttractors = attractorIndex-1;
 	return IDMC_OK;
 }
 #undef STEP

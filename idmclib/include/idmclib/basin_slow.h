@@ -33,6 +33,7 @@ typedef struct {
 	int attractorIterations; /*no. iterations for describing an attractor*/
 	int ntries; /*no. tries for finding attractors*/
 	int nAttractors; /*how many attractors were found*/
+
 	/*Internal data: */
 	int dataLength; /*total number of cells*/
 	int currId; /*current cell pointer*/
