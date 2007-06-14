@@ -49,8 +49,7 @@ ENDIF(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
 #add_subdirectory (pyidmc)
 add_subdirectory (tests)
 
-INSTALL(FILES AUTHORS BUGS ChangeLog license VERSION
-	DESTINATION lib/idmclib)
+INSTALL(FILES AUTHORS BUGS ChangeLog license DESTINATION lib/idmclib)
 INSTALL(DIRECTORY doc DESTINATION lib/idmclib)
 INSTALL(DIRECTORY include/idmclib DESTINATION include)
 
