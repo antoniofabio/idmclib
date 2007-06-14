@@ -38,11 +38,10 @@ typedef struct {
 	int dataLength; /*total number of cells*/
 	int currId; /*current cell pointer*/
 	double *startPoint, *currentPoint, *work; /*work memory spaces*/
-	int attractorColor; int basinColor; /*current attractor and basin colors*/
-	int index; /*iteration index*/
-	int state, attr, color; /*support temp variables*/
+	int state; /*support temp variables*/
 	int *attractorsSamplePoints; /*buffer with sample ids of attractors already found*/
 	int *attractorsCoincidence; /*coincidence information among attractors*/
+	int initialized; /*was idmc_basin_slow_init already called?*/
 } idmc_basin_slow;
 
 /* Allocate new 'idmc_basin_slow' object
@@ -64,6 +63,8 @@ int idmc_basin_slow_alloc(idmc_model *m, double *parameters,
 void idmc_basin_slow_free(idmc_basin_slow* p);
 /*init basin (find attractors)*/
 int idmc_basin_slow_init(idmc_basin_slow* p);
+/*do one algorithm step*/
+int idmc_basin_slow_step(idmc_basin_slow* p);
 /*check if algorithm finished*/
 int idmc_basin_slow_finished(idmc_basin_slow* p);
 
