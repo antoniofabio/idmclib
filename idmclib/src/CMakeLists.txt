@@ -3,6 +3,8 @@ add_subdirectory(idmclapack)
 
 SET(SOURCES 
 basin.c
+basin_common.c
+basin_slow.c
 gsl_rng_lualib.c
 lexp.c
 model.c

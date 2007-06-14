@@ -29,6 +29,7 @@ idmc_lexp: Lyapunov spectrum for a given model (discrete and continuous)
 idmc_cycles: basic period-k cycles finding support functions. Also a separate routine for eigenvalues modulus of real nonsimmetric matrices is provided
 idmc_raster: mostly here for internal use. Data structures and methods for (integer) raster image manipulation. Used in the idmc_basin module
 idmc_basin: fast algorithm for identifying basins of attraction of 2-dimensional maps
+idmc_basin_slow: slow (but sometimes better) basins of attraction algorithm
 
 3. Python bindings
 Low-level python bindings were provided via SWIG, but are no longer mantained.
@@ -41,10 +42,8 @@ Java bindings are provided via SWIG. They're low-level, so maybe you'll need to 
 Whatch at the SWIG interface files and to generated java files for the API. A full usage example is the companion iDMC software (2.x.x series).
 
 5. R bindings
-R bindings are totally written by hand. They're incomplete and low-level, but working and usable 
-(tests succesfully run under linux and windows).
-Some object-oriented R wrapping code was written in the ridmc.R file.
-Watch at the ridmcTest.R file for usage examples, and to the various C sources for the API.
+R bindings are provided via a regular R package, RiDMC, with bounded documentation. It is distributed separately
+on the idmclib web site.
 
 6. BLAS/LAPACK
 The DGEER lapack routine is used for computing eigenvalues of real, nonsymmetric matrices. This added dependency on blas and lapack libraries.
