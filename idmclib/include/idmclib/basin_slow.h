@@ -32,6 +32,7 @@ typedef struct {
 	int attractorLimit; /*no. iterations for transient*/
 	int attractorIterations; /*no. iterations for describing an attractor*/
 	int ntries; /*no. tries for finding attractors*/
+	int nAttractors; /*how many attractors were found*/
 	/*Internal data: */
 	int dataLength; /*total number of cells*/
 	int currId; /*current cell pointer*/
@@ -41,7 +42,6 @@ typedef struct {
 	int state, attr, color; /*support temp variables*/
 	int *attractorsSamplePoints; /*buffer with sample ids of attractors already found*/
 	int *attractorsCoincidence; /*coincidence information among attractors*/
-	int nAttractors; /*how many attractors were found*/
 } idmc_basin_slow;
 
 /* Allocate new 'idmc_basin_slow' object

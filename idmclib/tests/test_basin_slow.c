@@ -60,24 +60,24 @@ static char * test_init() {
 	int buflen, result;
 	char *buffer;
 	static double parms = 1.0;
-	f = fopen("test2.lua", "rb");
-	mu_assert("can't open file 'test2.lua'", f);
+	f = fopen("henon.lua", "rb");
+	mu_assert("can't open file 'henon.lua'", f);
 	buflen = loadFile(f, &buffer);
 	fclose(f);
 	i = idmc_model_alloc(buffer, buflen, &model);
 	free(buffer);
 	mu_assert("can't create model object", i==IDMC_OK);
-
 	i = idmc_basin_slow_alloc(model, &parms,
-		-1.5, 1.5, 300,
-		-1.5, 1.5, 300,
-		1000, 100, 30, &basin);
+		-2.0, 2.0, 300,
+		-2.0, 2.0, 300,
+		1000, 1000, 20, &basin);
 	idmc_model_free(model);
 	mu_assert("can't create basin object", i==IDMC_OK);
-
+	idmc_model_setGslRngSeed(basin->model, 123);
 	i = idmc_basin_slow_init(basin);
+	printf("%d attractors found\n", basin->nAttractors);
 	mu_assert("can't init basin object", i==IDMC_OK);
-	//idmc_basin_slow_free(basin);
+	idmc_basin_slow_free(basin);
 	return 0;
 }
 

@@ -164,8 +164,8 @@ int idmc_basin_slow_init(idmc_basin_slow* p) {
 			}
 			if (i> (p->attractorLimit) && isPointInsideBounds(p, xy)){
 				gs = getValue(p, xy);
-				if (!gs){
-					if (gs!=INFINITY){
+				if (gs!=0){
+					if ((gs>IDMC_BASIN_INFINITY) && (!isOdd(gs))){
 						attractorColor = gs;
 						attractorsCoincidence[getAttractorIndex(attractorColor)]++;
 					}
