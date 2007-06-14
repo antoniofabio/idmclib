@@ -1,5 +1,7 @@
 0.6.0
+- added basin_slow module
 - added version info functions
+- moved R bindings to separate, indipendent project
 
 0.5.0 - 13/04/2007
 - minor cleaning to C sources to avoid gcc warnings
