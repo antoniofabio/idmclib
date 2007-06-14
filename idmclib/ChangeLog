@@ -1,3 +1,6 @@
+0.6.0
+- added version info functions
+
 0.5.0 - 13/04/2007
 - minor cleaning to C sources to avoid gcc warnings
 - migrated the whole package to the CMake build system. Now building
