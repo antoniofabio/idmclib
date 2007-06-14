@@ -11,6 +11,7 @@ cycles.c
 lexp_aux.c
 matrices.c
 raster.c
+version.c
 )
 
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include/idmclib)
