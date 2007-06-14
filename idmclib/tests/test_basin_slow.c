@@ -62,7 +62,7 @@ static char * test_init() {
 	FILE *f;
 	int buflen, result;
 	char *buffer;
-	static double parms = 1.0;
+	static double parms[2] = {1.42, 0.3};
 	f = fopen("henon.lua", "rb");
 	mu_assert("can't open file 'henon.lua'", f);
 	buflen = loadFile(f, &buffer);
@@ -70,7 +70,7 @@ static char * test_init() {
 	i = idmc_model_alloc(buffer, buflen, &model);
 	free(buffer);
 	mu_assert("can't create model object", i==IDMC_OK);
-	i = idmc_basin_slow_alloc(model, &parms,
+	i = idmc_basin_slow_alloc(model, parms,
 		-2.0, 2.0, 300,
 		-2.0, 2.0, 300,
 		1000, 1000, 20, &basin);
@@ -79,12 +79,12 @@ static char * test_init() {
 	idmc_model_setGslRngSeed(basin->model, 123);
 	i = idmc_basin_slow_init(basin);
 	mu_assert("can't init basin object", i==IDMC_OK);
-	printf("%d\n", basin->nAttractors);
-	//mu_assert("invalid number of attractors found", basin->nAttractors==2);
+	mu_assert("invalid number of attractors found", basin->nAttractors==3);
 	idmc_basin_slow_free(basin);
 	return 0;
 }
 
+/*Test the result of a full run on the cremona model*/
 static char * test_stepAll() {
 	idmc_basin_slow* basin;
 	idmc_model* model;
@@ -92,7 +92,7 @@ static char * test_stepAll() {
 	FILE *f;
 	int buflen, result;
 	char *buffer;
-	static double parms = 1.0;
+	static double parms = 1.33;
 	f = fopen("cremona.lua", "rb");
 	mu_assert("can't open file 'cremona.lua'", f);
 	buflen = loadFile(f, &buffer);
@@ -109,7 +109,6 @@ static char * test_stepAll() {
 	idmc_model_setGslRngSeed(basin->model, 123);
 	while(!idmc_basin_slow_finished(basin))
 		idmc_basin_slow_step(basin);
-	printf("%d %d\n", sumVector(basin->raster->data, 400), sumVector(basin->raster->data, 400));
 	mu_assert("unexpected basin final result", 
 		sumVector(basin->raster->data, 400) == 1465);
 	mu_assert("unexpected basin final result", 
