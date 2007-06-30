@@ -110,9 +110,9 @@ static char * test_stepAll() {
 	while(!idmc_basin_slow_finished(basin))
 		idmc_basin_slow_step(basin);
 	mu_assert("unexpected basin final result", 
-		sumVector(basin->raster->data, 400) == 1465);
+		sumVector(basin->raster->data, 400) == 1359);
 	mu_assert("unexpected basin final result", 
-		sumVector2(basin->raster->data, 400) == 10373);
+		sumVector2(basin->raster->data, 400) == 9199);
 	idmc_basin_slow_free(basin);
 	return 0;
 }
