@@ -1,3 +1,7 @@
+0.6.1
+- improved version-info definitions
+- fixed bug in basin_slow module
+
 0.6.0
 - added basin_slow module
 - added version info functions
