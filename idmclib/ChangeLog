@@ -1,3 +1,6 @@
+0.7.0
+- added version info functions to java interface
+
 0.6.1
 - improved version-info definitions
 - fixed bug in basin_slow module

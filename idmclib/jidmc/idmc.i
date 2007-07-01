@@ -19,6 +19,7 @@
 #include <idmclib/lexp.h>
 #include <idmclib/raster.h>
 #include <idmclib/basin.h>
+#include <idmclib/version.h>
 
 typedef idmc_model Model;
 typedef idmc_raster Raster;
@@ -54,3 +55,4 @@ typedef idmc_traj_ctrajectory CTrajectory;
 %include "idmc_lexp.i"
 %include "idmc_raster.i"
 %include "idmc_basin.i"
+%include "idmc_version.i"

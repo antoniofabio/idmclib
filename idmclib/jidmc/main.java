@@ -13,6 +13,10 @@ public class main {
 	}
 	
 	public static void main(String argv[]) {
+		System.out.println("loaded idmclib - version " 
+			+ idmc.idmc_version_major() 
+			+ "." + idmc.idmc_version_minor()
+			+ "." + idmc.idmc_version_micro());
 		model();
 		try{
 			modelInvalidError();
