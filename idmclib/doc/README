@@ -6,7 +6,9 @@ For compiling idmclib you need a C99 and a Fortran77 compilers,
 plus the CMake (version >=2.4.6) build system.
 
 From the top project directory, type:
-# cmake .
+# mkdir build
+# cd build
+# cmake ..
 for configuring. If all goes right, type:
 # make
 to build all. Finally,
@@ -15,7 +17,7 @@ to install.
 
 1.1 Dependencies
 GLS-1.8 and LUA-5.0 (or compatibles) are required for compiling/linking the idmclib library.
-R-2.4.0, JDK-6 and SWIG-1.3 (or compatibles) are required for building the R and Java bindings.
+JDK-6 and SWIG-1.3 (or compatibles) are required for building the Java bindings.
 
 1.2 Configuration
 For fine-tuning compiling/linking flags, use CMake facilities.
