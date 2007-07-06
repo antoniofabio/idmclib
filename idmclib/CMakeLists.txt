@@ -13,7 +13,7 @@ CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/include/idmclib/version.h.cmake ${CMA
 SET(CMAKE_C_FLAGS --std=c99)
 
 
-SET(CPACK_SOURCE_IGNORE_FILES "/\\\\.;~$;/_;build/;CMakeFiles/;CMakeCache;gz$;Makefile\\\\.;trace;Testing/;foo;autom4te;cmake_install;CPack;\\\\.pem;ltmain.sh;configure;libtool;/config\\\\.;missing;SCons;autogen.sh;install-sh;Dart;\\\\.svn/;aclocal;log$;Makefile$")
+SET(CPACK_SOURCE_IGNORE_FILES "/\\\\.;~$;/_;build/;CMakeFiles/;CMakeCache;gz$;Makefile\\\\.;trace;Testing/;foo;autom4te;cmake_install;CPack;\\\\.pem;ltmain.sh;configure;libtool;/config\\\\.;missing;SCons;autogen.sh;install-sh;Dart;\\\\.svn/;aclocal;log$;Makefile$;\\\\.git$")
 INCLUDE(CPack)
 
 FIND_PATH(LUA_INCLUDEDIR lua.h
