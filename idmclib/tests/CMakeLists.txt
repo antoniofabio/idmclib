@@ -1,10 +1,8 @@
 include_directories (${idmclib_SOURCE_DIR}/include)
 link_directories (
 ${idmclib_BINARY_DIR}/src
-${idmclib_BINARY_DIR}/src/idmcblas
-${idmclib_BINARY_DIR}/src/idmclapack
 )
-LINK_LIBRARIES( idmclib idmclapack idmcblas
+LINK_LIBRARIES( idmclib
 	${LUA_LIBRARY} ${LUALIB_LIBRARY}
 	${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY})
 
