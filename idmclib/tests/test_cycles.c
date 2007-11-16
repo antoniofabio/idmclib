@@ -31,7 +31,7 @@ static char * test_1() {
 	sprintf(buffer, "error in computing cycles: %s", idmc_err_message[result]);
 	mu_assert(buffer, result==IDMC_OK);
 	mu_assert("Incorrect cycle found", (ans[0] - 0.180986) < 1e-5);
-	mu_assert("Incorrect cycle modulus reported", (eigmod[0] - 5.334716) < 1e-5);
+	mu_assert("Incorrect cycle modulus reported", abs(eigmod[0] - 5.334716) < 1e-5);
 	free(buffer);
 	idmc_model_free(model);
 	return 0;
