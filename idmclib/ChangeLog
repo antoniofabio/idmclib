@@ -1,3 +1,7 @@
+0.8.0
+- updated gsl version 1.9 (eigenvalues for nonsymm. matrices)
+- removed all BLAS/LAPACK fortran code. Now depending exclusively on gsl and lua
+
 0.7.0
 - added version info functions to java interface
 
