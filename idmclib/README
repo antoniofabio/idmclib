@@ -1,9 +1,8 @@
 Documentation for the idmclib C library
-Last modified: 06/07/2007 by Antonio, Fabio Di Narzo
+Last modified: 16/11/2007 by Antonio, Fabio Di Narzo
 
 1. Compiling
-For compiling idmclib you need a C99 and a Fortran77 compilers, 
-plus the CMake (version >=2.4.6) build system.
+For compiling idmclib you need a C99 compiler and the CMake (version >=2.4.6) build system.
 
 From the top project directory, type:
 # mkdir build
@@ -21,17 +20,19 @@ JDK-6 and SWIG-1.3 (or compatibles) are required for building the Java bindings.
 
 1.2 Configuration
 For fine-tuning compiling/linking flags, use CMake facilities.
+Under unixes, the 'ccmake' command lets you set all building variables 
+(such as paths to external libraries/programs) from an ncurses UI.
 	
 2. API
 Watch at the test directory for usage examples.
-The library is ideally divided in modules
-idmc_model: basic model allocation/methods
-idmc_traj: trajectories (for discrete and continuous models) allocation/methods
-idmc_lexp: Lyapunov spectrum for a given model (discrete and continuous)
-idmc_cycles: basic period-k cycles finding support functions. Also a separate routine for eigenvalues modulus of real nonsimmetric matrices is provided
-idmc_raster: mostly here for internal use. Data structures and methods for (integer) raster image manipulation. Used in the idmc_basin module
-idmc_basin: fast algorithm for identifying basins of attraction of 2-dimensional maps
-idmc_basin_slow: slow (but sometimes better) basins of attraction algorithm
+The library is ideally divided in modules:
+idmc_model	basic model allocation/methods
+idmc_traj	trajectories (for discrete and continuous models) allocation/methods
+idmc_lexp	Lyapunov spectrum for a given model (discrete and continuous)
+idmc_cycles	basic period-k cycles finding support functions. Also a separate routine for eigenvalues modulus of real nonsimmetric matrices is provided
+idmc_raster	mostly here for internal use. Data structures and methods for (integer) raster image manipulation. Used in the idmc_basin module
+idmc_basin	fast algorithm for identifying basins of attraction of 2-dimensional maps
+idmc_basin_slow	slow (but sometimes better) basins of attraction algorithm
 
 3. Python bindings
 Low-level python bindings were provided via SWIG, but are no longer mantained.
@@ -41,17 +42,11 @@ If you wish, you will have to manually build it.
 
 4. Java bindings
 Java bindings are provided via SWIG. They're low-level, so maybe you'll need to write your own high-level wrappers for using in your project.
-Whatch at the SWIG interface files and to generated java files for the API. A full usage example is the companion iDMC software (2.x.x series).
+Watch at the SWIG interface files and to generated java files for the API. A full usage example is the companion iDMC software (2.x.x series).
 
 5. R bindings
 R bindings are provided via a regular R package, RiDMC, with bounded documentation. It is distributed separately
 on the idmclib web site.
-
-6. BLAS/LAPACK
-The DGEER lapack routine is used for computing eigenvalues of real, nonsymmetric matrices. This added dependency on blas and lapack libraries.
-A minimal subset of these libraries is included in idmclib source distribution. These were renamed idmcblas and idmclapack.
-Anyway, you can always try to link against other blas/lapack implementations, as the ATLAS, AMD ACML or the Intel MKL. 
-For this, you'll have to manually hack the building process.
 
 APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings)
 - Install JDK-1.6 (if you don't already have it)
@@ -59,11 +54,13 @@ APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings
 - Install MinGW, C and Fortran compilers
 - Install MSYS (with GNU make)
 - Install CMake-2.4.6
-- Download and compile under MinGW/MSYS the LUA-5.0 and GSL-1.8 packages (maybe you can find ready-compiled libraries).
-Copy generated static libraries files (i.e.: liblua.a, liblualib.a, libgsl.a, libgslcblas.a) to the 'c:\mingw\lib' folder
+- Download and compile under MinGW/MSYS the LUA-5.0 and GSL-1.8 packages 
+  (maybe you can find ready-compiled libraries from the idmclib home page).
+- Copy generated static libraries files (i.e.: liblua.a, liblualib.a, libgsl.a, libgslcblas.a) to the 'c:\mingw\lib' folder
 - Unpack idmclib package somewhere. From the MSYS prompt, type:
 	# mkdir build
 	# cd build
 	# cmake ..
 	# make
+- In case of troubles, try using the cmake GUI from the windows start menu. That will let you fine tuning paths
 
