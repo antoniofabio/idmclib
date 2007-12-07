@@ -7,6 +7,7 @@ LINK_LIBRARIES( idmclib
 	${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY})
 
 add_executable ( test_model test_model.c  test_common.c)
+add_executable ( test_NumJac test_NumJac.c  test_common.c)
 add_executable ( test_errors test_errors.c  test_common.c)
 add_executable ( test_basin test_basin.c  test_common.c)
 add_executable ( test_basin_slow test_basin_slow.c test_common.c)
@@ -15,6 +16,7 @@ add_executable ( test_lexp test_lexp.c  test_common.c)
 add_executable ( test_raster test_lexp.c  test_common.c)
 
 ADD_TEST(model ${idmclib_BINARY_DIR}/tests/test_model)
+ADD_TEST(numJac ${idmclib_BINARY_DIR}/tests/test_NumJac)
 ADD_TEST(errors ${idmclib_BINARY_DIR}/tests/test_errors)
 ADD_TEST(basin ${idmclib_BINARY_DIR}/tests/test_basin)
 ADD_TEST(basin_slow ${idmclib_BINARY_DIR}/tests/test_basin_slow) 
@@ -24,7 +26,7 @@ ADD_TEST(cycles ${idmclib_BINARY_DIR}/tests/test_cycles)
 
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.lua")
 INSTALL(FILES ${files} DESTINATION lib/idmclib/tests)
-INSTALL(TARGETS test_model test_errors test_basin test_basin_slow test_cycles test_lexp test_raster
+INSTALL(TARGETS test_model test_NumJac test_errors test_basin test_basin_slow test_cycles test_lexp test_raster
   RUNTIME DESTINATION lib/idmclib/tests
   LIBRARY DESTINATION lib/idmclib/tests
   ARCHIVE DESTINATION lib/idmclib/tests
