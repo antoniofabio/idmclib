@@ -1,3 +1,9 @@
+0.8.1
+- fixed serious bug in Numerical Jacobian Evaluation routine
+- added more testing code
+- robustified error message reporting
+- misc code cleaning
+
 0.8.0
 - removed all BLAS/LAPACK fortran code. Now depending exclusively on gsl and lua
 - updated dependency from gsl version 1.9 (eigenvalues for nonsymm. matrices)
