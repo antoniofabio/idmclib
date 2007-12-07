@@ -390,7 +390,10 @@ static int eval_function(
 		model->var_len,                  // returns
 		0);
 	if (err != 0) {
-		sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + if(lua_strlen(L, -1)>12) 12 else 0);
+		if(lua_strlen(L, -1)>12)
+			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 12);
+		else
+			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 0);
 		lua_pop(L, 1);
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
@@ -491,7 +494,10 @@ static int eval_matrix(
 			model->var_len * model->var_len, // returns
 			0);
 	if (err != 0) {
-		sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + if(lua_strlen(L, -1)>12) 12 else 0);
+		if(lua_strlen(L, -1)>12)
+			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 12);
+		else
+			sprintf(model->errorMessage, "%s", lua_tostring(L, -1) + 0);
 		lua_pop(L, 1);
 		if (err == LUA_ERRRUN) {
 			return IDMC_ERUN;
