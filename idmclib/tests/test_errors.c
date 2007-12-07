@@ -31,8 +31,26 @@ static char * test_runtime() {
 	return 0;
 }
 
+static char * test_syntax() {
+	idmc_model *a;
+	FILE *f;
+	int buflen, result;
+	char *buffer;
+        double *par, *var;
+	f = fopen("test_synt_error.lua", "rb");
+	mu_assert("can't open file 'test_synt_error.lua'", f);
+	buflen = loadFile(f, &buffer);
+	fclose(f);
+	result = idmc_model_alloc(buffer, buflen, &a);
+	mu_assert("expected syntax error", result==IDMC_ELUASYNTAX);
+	free(buffer);
+	idmc_model_free(a);
+	return 0;
+}
+
 static char * test_model_all() {
 	mu_run_test(test_runtime);
+	mu_run_test(test_syntax);
 	return 0;
 }
 
