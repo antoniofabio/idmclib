@@ -448,7 +448,7 @@ int idmc_model_NumJf(idmc_model *model,
 	if(tmp!=IDMC_OK)
 		return tmp;
 	for(i=0; i<p1; i++) { //for each variable
-		memcpy(util2, var, p1); /*store x0*/
+		memcpy(util2, var, p1 * sizeof(double)); /*store x0*/
 		eps = ((var[i] < 1) ? 1: var[i]) * IDMC_EPS_VALUE;
 		util2[i] = var[i]+eps;
 		tmp = idmc_model_f(model,  par, util2, util3);
