@@ -239,6 +239,9 @@ static int idmc_panic (lua_State *L) {
 	return 0; // not reached
 }
 
+/*
+Pops last error message from lua stack and stores it in model errorMessage buffer
+*/
 static void storeErrorMessage(idmc_model *model) {
 	if(lua_strlen(model->L, -1)>12)
 		sprintf(model->errorMessage, "%s", lua_tostring(model->L, -1) + 12);

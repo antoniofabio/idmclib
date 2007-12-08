@@ -47,11 +47,9 @@ static char * test_syntax() {
 	buflen = loadFile(f, &buffer);
 	fclose(f);
 	result = idmc_model_alloc(buffer, buflen, &a);
-	strcpy(a->errorMessage, "empty");
 	mu_assert("expected syntax error", result==IDMC_ELUASYNTAX);
 	mu_assert("expected a non-null idmc_model pointer", a!=NULL);
-	printf("syntax error: %s\n", a->errorMessage);
-	mu_assert("expected a meaningful error message", strcmp(a->errorMessage, "empty"));
+	mu_assert("expected a meaningful error message", !strcmp(a->errorMessage, "8: unexpected symbol near `,'"));
 	free(buffer);
 	idmc_model_free(a);
 	return 0;
