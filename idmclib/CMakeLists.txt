@@ -4,7 +4,8 @@ IF(SWIG_FOUND)
 INCLUDE(${SWIG_USE_FILE})
 ENDIF(SWIG_FOUND)
 INCLUDE(FindJNI)
-FIND_PROGRAM(TEXINFO texinfo /usr/bin /usr/local/bin)
+FIND_PROGRAM(TEXI2HTML texi2html)
+FIND_PROGRAM(TEXI2PDF texi2pdf)
 
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "idmc: The iDMC C support library")
 SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
@@ -47,10 +48,7 @@ MESSAGE(STATUS "Java include paths and/or swig executable not found: not buildin
 If you want to build Java bindings, try manually setting JAVA_INCLUDE_PATH, JAVA_INCLUDE_PATH2 
 and/or SWIG_DIR, SWIG_EXECUTABLE variables")
 ENDIF(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
-IF(NOT TEXINFO)
-ELSE(NOT TEXINFO)
 add_subdirectory (doc)
-ENDIF(NOT TEXINFO)
 #add_subdirectory (pyidmc)
 add_subdirectory (tests)
 
