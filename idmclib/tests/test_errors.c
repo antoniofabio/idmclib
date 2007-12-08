@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <idmclib/model.h>
 #include "test_common.h"
 #include "minunit.h"
@@ -21,12 +22,16 @@ static char * test_runtime() {
 	mu_assert("cannot load model", result==IDMC_OK);
 	par = (double*) malloc( a->par_len * sizeof(double) );
 	var = (double*) malloc( a->var_len * sizeof(double) );
+	strcpy(a->errorMessage, "empty");
 	result = idmc_model_f(a, par, var, var);
-        mu_assert("expected runtime error", result==IDMC_ERUN);
+	mu_assert("expected runtime error", result==IDMC_ERUN);
+	mu_assert("expected meaningful runtime error message", strcmp(a->errorMessage, "empty"));
+	strcpy(a->errorMessage, "empty");
 	result = idmc_model_g(a, par, var, var);
-        mu_assert("expected runtime error", result==IDMC_ERUN);
-        free(par);
-        free(var);
+	mu_assert("expected runtime error", result==IDMC_ERUN);
+	mu_assert("expected meaningful runtime error message", strcmp(a->errorMessage, "empty"));
+	free(par);
+	free(var);
 	idmc_model_free(a);
 	return 0;
 }
@@ -42,7 +47,11 @@ static char * test_syntax() {
 	buflen = loadFile(f, &buffer);
 	fclose(f);
 	result = idmc_model_alloc(buffer, buflen, &a);
+	strcpy(a->errorMessage, "empty");
 	mu_assert("expected syntax error", result==IDMC_ELUASYNTAX);
+	mu_assert("expected a non-null idmc_model pointer", a!=NULL);
+	printf("syntax error: %s\n", a->errorMessage);
+	mu_assert("expected a meaningful error message", strcmp(a->errorMessage, "empty"));
 	free(buffer);
 	idmc_model_free(a);
 	return 0;
