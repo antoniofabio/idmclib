@@ -58,32 +58,38 @@ int idmc_model_alloc(const char* buffer, const int buffer_len,
 	idmc_model **s)
 @end example
 
-Allocates a new idmc model object, and eventually stores it in s. Can return the following error codes:
+Allocates a new idmc model object, and eventually stores it in s. Can return the following error codes (@pxref{common-return-values,,common return values}):
 @itemize @bullet
-@item memory error
-@item syntax error
-@item model error
+@item IDMC_OK
+@item IDMC_EMEM
+@item IDMC_ELUASYNTAX
+@item IDMC_EMODEL
 @end itemize
 
-@c FIXME: explain behaviour when syntax error occurs.
+Only if the result is @code{IDMC_OK} in @code{s} is stored a pointer to a valid @code{idmc_model} object.
+Whatever the result of @code{idmc_model_alloc}, you should free the memory after using the model object
+by calling @code{idmc_model_free} (see below).
+
+When syntax error occurs, a message with line reference is stored in the @code{s->errorMessage} slot.
 
 @example
 void idmc_model_free(idmc_model *s)
 @end example
 
-De-allocates a previously allocated model object.
+De-allocates a previously allocated model object. It is always safe to call @code{idmc_model_free}: @code{s} can be either
+a @code{NULL} pointer, or a pointer to a partially initialized (because of errors) @code{idmc_model} object.
 
 @example
 idmc_model* idmc_model_clone(idmc_model *s)
 @end example
 
-Clones a model object.
+Clones a model object. Returns a @code{NULL} pointer when memory issues.
 
 @example
 int idmc_model_setGslRngSeed(idmc_model *model, int seed)
 @end example
 
-Set RNG seed. Shouldn't return any error.
+Set RNG seed. Always returns @code{IDMC_OK}.
 
 @example
 int idmc_model_f(idmc_model *model, const double par[],
@@ -101,6 +107,20 @@ int idmc_model_NumJf(idmc_model *model, const double par[],
 
 Evaluate some model functions. These can return a runtime error, with relative message string stored in @code{model->errorMessage} buffer.
 
+Accepted arguments:
+@table @samp
+@item model
+@code{idmc_model} object
+@item par, var
+model parameters and variables values
+@item f, Jf
+result will be stored here
+@item util, util2, util3
+workspace pointers to a memory bloc of size: @code{model->nvar * sizeof(double)}
+@end table
+
+Return values: a common constant (@pxref{common-return-values,,common return values}).
+
 @section Trajectory
 
 Functions for trajectories computation.
@@ -114,18 +134,24 @@ typedef struct
         double *var; /*current value*/
         int step; /*current step number*/
  idmc_traj_trajectory
+@end example
 
+@example
 int idmc_traj_trajectory_alloc(idmc_model *model, double *parValues,
 	double *varValues, idmc_traj_trajectory **ans)
 @end example
 
-Allocate a new trajectory, with specified parameters and variables values. Result returned in ans.
+Allocate a new trajectory, with specified parameters and variables values. Result returned in @code{ans}.
 
-@code{void idmc_traj_trajectory_free(idmc_traj_trajectory *traj)}
+@example
+void idmc_traj_trajectory_free(idmc_traj_trajectory *traj)
+@end example
 
 De-allocates a trajectory object.
 
-@code{int idmc_traj_trajectory_step(idmc_traj_trajectory *traj)}
+@example
+int idmc_traj_trajectory_step(idmc_traj_trajectory *traj)
+@end example
 
 Iterates one step on the trajectory object.
 
@@ -155,6 +181,9 @@ int idmc_traj_ctrajectory_alloc(idmc_model *model,
 void idmc_traj_ctrajectory_free(idmc_traj_ctrajectory *trajectory);
 int idmc_traj_ctrajectory_step(idmc_traj_ctrajectory *trajectory);
 @end example
+which are completely analogous to their discrete counterparts.
+
+@c FIXME: fill better informations about 'step_function_code'
 
 @section Basins of attraction
 @example
@@ -172,9 +201,9 @@ Allocate new 'idmc_basin' object
 @item parameters
 	model parameters (vector will be copied)
 @item xmin, xmax, xres
-x axis ranges and resolution
+x axis range and resolution
 @item ymin, ymax, yres
-y axis ranges and resolution
+y axis range and resolution
 @item attractorLimit
 limit number of iterations before encountering an attractor
 @item attractorIterations
@@ -183,7 +212,7 @@ limit number of iterations for drawing an attractor
 result object 
 @end table
 
-Returns an integer code as defined in @code{defines.h}
+Returns an integer code as defined in @code{defines.h} (@pxref{common-return-values,,common return values}).
 
 @example
 void idmc_basin_free(idmc_basin* p)
@@ -236,7 +265,8 @@ int idmc_cycles_eigval(double *mat, int dim, double *ans)
 @end example
 
 This is an utility function which computes (in ans) modulus of the eigenvalues of the dim by dim real matrix mat.
-Lyapunov exponents
+
+@section Lyapunov exponents
 
 Functions for numerical computation of Lyapunov exponents for discrete and continuous dynamical systems.
 
@@ -245,14 +275,17 @@ int idmc_lexp(idmc_model* model, const double *par,
   double *startPoint, double *result, int iterations)
 @end example
 
-Compute Lyapunov exponents for discrete-time model model with parameters par in point startPoint. Stores result in result. You must provide the number of map iterations.
+Compute Lyapunov exponents for discrete-time model @code{model} with parameters @code{par} in point @code{startPoint}.
+Stores result in @code{result}. You must provide the number of map iterations.
 
 @example
 int idmc_lexp_ode(idmc_model* model, double *parameters,
 	double *startPoint, double *result, double time, double step)
 @end example
 
-Compute Lyapunov exponents for continuous-time model model with parameters parameters in point startPoint. Stores result in result. You must provide the time span time and the integration step step.
+Compute Lyapunov exponents for continuous-time model @code{model} with parameters @code{parameters}
+in point @code{startPoint}. Stores result in @code{result}. You must provide the time span @code{time}
+and the integration step @code{step}.
 
 @section Version info
 
@@ -265,6 +298,7 @@ int idmc_version_micro()
 @end example
 
 Their meaning should be evident.
+
 @chapter Constants
 
 The @code{defines.h} header defines the following constants.
@@ -274,13 +308,14 @@ The @code{defines.h} header defines the following constants.
 precision value for numerical derivative approximation
 @end table
 
+@anchor{common-return-values}
 The following are generic return codes for (almost) all library functions.
 @table @samp
 @item IDMC_OK
 normal operation
 
 @item IDMC_EMEM
-memory allocation
+memory allocation error
 
 @item IDMC_ELUASYNTAX
 syntax error from lua itself
