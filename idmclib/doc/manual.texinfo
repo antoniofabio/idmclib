@@ -125,16 +125,21 @@ Return values: a common constant (@pxref{common-return-values,,common return val
 
 Functions for trajectories computation.
 
-A discrete trajectory object is described by the following struct:
+@deftp {Data Type} idmc_trajectory
+A discrete trajectory object, with the following slots:
 
-@example
-typedef struct @{
-        idmc_model *model;
-        double *par;  /*parameters vector*/
-        double *var; /*current value*/
-        int step; /*current step number*/
-@} idmc_traj_trajectory
-@end example
+@table @code
+@item idmc_model* model
+	@code{idmc_model} object
+@item double* par
+	parameters vector
+@item double* var
+current value
+@item int step
+current step number
+@end table
+@end deftp
+
 
 @deftypefun int idmc_traj_trajectory_alloc @
 	(idmc_model* @var{model}, double* @var{parValues}, @
@@ -150,23 +155,22 @@ typedef struct @{
 Iterates one step on the trajectory object.
 @end deftypefun
 
-A continuous trajectory is described by the structure:
+@deftp {Data Type} idmc_traj_ctrajectory
+A continuous trajectory object, with the following slots:
 
-@example
-typedef struct @{
-        idmc_model *model;
-        double *par;  /*parameters vector*/
-        double *var; /*current value*/
-        double *error;
-        double step_size;
-        gsl_odeiv_step_type *step_function_code;
-        
-        gsl_odeiv_step *step_function; /*used internally*/
-        gsl_odeiv_system system; /*used internally*/
-@} idmc_traj_ctrajectory;
-@end example
+@table @code
+@item idmc_model* model
+@item double* par
+	parameters vector
+@item double* var
+	current value
+@item double* error
+@item double step_size
+@item gsl_odeiv_step_type* step_function_code
+@end table
+@end deftp
 
-which has the following methods:
+A @code{idmc_traj_ctrajectory} object has the following methods:
 
 @deftypefun int idmc_traj_ctrajectory_alloc (idmc_model* @var{model}, @
   double* @var{parValues}, double* @var{varValues}, @
