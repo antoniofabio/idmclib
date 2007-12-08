@@ -403,7 +403,7 @@ There are 3 basic functions for version info retrievial:
 @deftypefun int idmc_version_micro ()
 @end deftypefun
 
-Their meaning should be evident.
+Their meaning is evident.
 
 @chapter Constants
 
