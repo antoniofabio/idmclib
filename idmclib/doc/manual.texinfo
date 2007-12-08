@@ -244,27 +244,34 @@ int idmc_cycles_find(idmc_model* model,
   double* result, double *eigvals)
 @end example
 
-Try to find a cycle of period power for model model with parameters parameters. You have to feed a starting point start_point for the Newton-type algorithm used, the error tolerance epsilon and the max number of iterations max_iterations. An arbitrary point of the cycle is stored in result. In eigvals are stored modulus of eigenvalues associated with the cycle found (if any).
+Try to find a cycle of period power for model @code{model} with parameters @code{parameters}.
+You have to feed a starting point @code{start_point} for the Newton-type algorithm used,
+the error tolerance @code{epsilon} and the max number of iterations @code{max_iterations}.
+An arbitrary point of the cycle is stored in @code{result}.
+In @code{eigvals} are stored modulus of eigenvalues associated with the cycle found (if any).
 
 @example
 int idmc_cycles_powf(idmc_model *model, int pow,
 	double* par, double* var, double* ans)
 @end example
 
-Computes the pow iterate of model model with parameters par and values var.
+Computes the @code{pow} iterate of model @code{model} with parameters @code{par} and values @code{var}.
 
 @example
 int idmc_cycles_powNumJac(idmc_model *model, int pow, double* par,
 	double* var, double* Jf, double *util)
 @end example
 
-Numerically computes the jacobian of the powth iterate of model model with parameters par in point var. The result matrix is stored in Jf. util must point to a workspace memory of size 3 * (model->var_len).
+Numerically computes the jacobian of the powth iterate of model @code{model}
+with parameters @code{par} in point @code{var}. The result matrix is stored in @code{Jf}.
+@code{util} must point to a workspace memory of size @code{3 * (model->var_len)}.
 
 @example
 int idmc_cycles_eigval(double *mat, int dim, double *ans)
 @end example
 
-This is an utility function which computes (in ans) modulus of the eigenvalues of the dim by dim real matrix mat.
+This is an utility function which computes (in @code{ans}) modulus of the eigenvalues of the
+@code{dim} by @code{dim} real matrix @code{mat}.
 
 @section Lyapunov exponents
 
@@ -301,7 +308,7 @@ Their meaning should be evident.
 
 @chapter Constants
 
-The @code{defines.h} header defines the following constants.
+The @code{defines.h} header defines the constants described below.
 
 @table @samp
 @item IDMC_EPS_VALUE
