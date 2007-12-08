@@ -5,6 +5,8 @@
 @settitle Manual
 @c %**end of header
 
+@syncodeindex tp fn
+
 @copying
 This is the programmers manual of the @uref{http://idmclib.googlecode.com, idmclib} C library
 
@@ -98,7 +100,7 @@ Set RNG seed. Always returns @code{IDMC_OK}.
 @deftypefun int idmc_model_Jg (idmc_model* @var{model}, const double @var{par[]}, @
 	const double @var{var[]}, double @var{Jf[]})
 @end deftypefun
-@deftypefun int idmc_model_NumJf(idmc_model* @var{model}, const double @var{par[]}, @
+@deftypefun int idmc_model_NumJf (idmc_model* @var{model}, const double @var{par[]}, @
 	const double @var{var[]}, double @var{Jf[]}, @
 	double @var{util[]}, double @var{util2[]}, double @var{util3[]})
 @end deftypefun
@@ -289,7 +291,7 @@ In @var{eigvals} are stored modulus of eigenvalues associated with the cycle fou
 Computes the @var{pow} iterate of model @var{model} with parameters @var{par} and values @var{var}.
 @end deftypefun
 
-@deftypefun int idmc_cycles_powNumJac (idmc_model* @var{model}, int @var{pow}, double* @var{par},
+@deftypefun int idmc_cycles_powNumJac (idmc_model* @var{model}, int @var{pow}, double* @var{par}, @
 	double* @var{var}, double* @var{Jf}, double* @var{util})
 Numerically computes the jacobian of the @var{pow}th iterate of model @var{model}
 with parameters @var{par} in point @var{var}. The result matrix is stored in @var{Jf}.
@@ -311,7 +313,7 @@ Compute Lyapunov exponents for discrete-time model @var{model} with parameters @
 Stores result in @var{result}. You must provide the number of map iterations.
 @end deftypefun
 
-@deftypefun int idmc_lexp_ode (idmc_model* @var{model}, double* @var{parameters},
+@deftypefun int idmc_lexp_ode (idmc_model* @var{model}, double* @var{parameters}, @
 	double* @var{startPoint}, double* @var{result}, double @var{time}, double @var{step})
 Compute Lyapunov exponents for continuous-time model @var{model} with parameters @var{parameters}
 in point @var{startPoint}. Stores result in @var{result}. You must provide the time span @var{time}
@@ -367,5 +369,8 @@ algorithm failed
 @item IDMC_EINT
 interrupted by request
 @end table
+
+@unnumbered Functions and data types Index
+@printindex fn
 
 @bye
