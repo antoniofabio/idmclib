@@ -29,9 +29,6 @@ Copyright @copyright{} 2007 Marji Lines, Alfredo Medio
 @insertcopying
 @end ifnottex
 
-@chapter Rationale
-This is the first chapter.
-
 @chapter Modules
 
 The library is ideally divided in modules:
@@ -67,7 +64,7 @@ Allocates a new idmc model object, and eventually stores it in s. Can return the
 @item model error
 @end itemize
 
-FIXME: explain behaviour when syntax error occurs.
+@c FIXME: explain behaviour when syntax error occurs.
 
 @example
 void idmc_model_free(idmc_model *s)
