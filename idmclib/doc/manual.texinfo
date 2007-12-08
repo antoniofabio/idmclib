@@ -30,39 +30,47 @@ Copyright @copyright{} 2007 Marji Lines, Alfredo Medio
 @end ifnottex
 
 @chapter Rationale
-@cindex chapter, first
 This is the first chapter.
 
 @chapter Modules
-@cindex chapter, second
 
 The library is ideally divided in modules:
-@enumerate
-@item idmc_model	basic model allocation/methods
-@item idmc_traj	trajectories (for discrete and continuous models) allocation/methods
-@item idmc_lexp	Lyapunov spectrum for a given model (discrete and continuous)
-@item idmc_cycles	basic period-k cycles finding support functions. Also a separate routine for eigenvalues modulus of real nonsimmetric matrices is provided
-@item idmc_raster	mostly here for internal use. Data structures and methods for (integer) raster image manipulation. Used in the idmc_basin module
-@item idmc_basin	fast algorithm for identifying basins of attraction of 2-dimensional maps
-@item idmc_basin_slow	slow (but sometimes better) basins of attraction algorithm
-@end enumerate
+@table
+@item idmc_model
+basic model allocation/methods
+@item idmc_traj
+trajectories (for discrete and continuous models) allocation/methods
+@item idmc_lexp
+Lyapunov spectrum for a given model (discrete and continuous)
+@item idmc_cycles
+basic period-k cycles finding support functions. Also a separate routine for eigenvalues modulus of real nonsimmetric matrices is provided
+@item idmc_raster
+mostly here for internal use. Data structures and methods for (integer) raster image manipulation. Used in the idmc_basin module
+@item idmc_basin
+fast algorithm for identifying basins of attraction of 2-dimensional maps
+@item idmc_basin_slow
+slow (but sometimes better) basins of attraction algorithm
+@end table
 
 @section Model
 The model module is probably the most important module, as it contains all the base functions for model allocation and manipulation.
 
-int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s)
+@code{int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s) }
 
 Allocates a new idmc model object, and eventually stores it in s. Can return the following error codes:
+@itemize @bullet
+@item memory error
+@item syntax error
+@item model error
+@end itemize
 
-    * memory error
-    * syntax error
-    * model error 
+FIXME: explain behaviour when syntax error occurs.
 
-void idmc_model_free(idmc_model *s)
+@code{void idmc_model_free(idmc_model *s) }
 
 De-allocates a previously allocated model object.
 
-idmc_model* idmc_model_clone(idmc_model *s)
+@code{ idmc_model* idmc_model_clone(idmc_model *s) }
 
 Clones a model object.
 
@@ -70,14 +78,16 @@ int idmc_model_setGslRngSeed(idmc_model *model, int seed)
 
 Set RNG seed. Shouldn't return any error.
 
+@example
 int idmc_model_f(idmc_model *model, const double par[], const double var[], double f[]);
 int idmc_model_g(idmc_model *model, const double par[], const double var[], double f[]);
 int idmc_model_Jf(idmc_model *model, const double par[], const double var[], double Jf[]);
 int idmc_model_Jg(idmc_model *model, const double par[], const double var[], double Jf[]);
 int idmc_model_NumJf(idmc_model *model, const double par[], const double var[], double Jf[], 
                            double util[], double util2[], double util3[]);
+@end example
 
-Evaluate some model functions. These can return a runtime error, with relative message string stored in model->errorMessage buffer.
+Evaluate some model functions. These can return a runtime error, with relative message string stored in @code{model->errorMessage} buffer.
 
 @section Trajectory
 
@@ -85,28 +95,31 @@ Functions for trajectories computation.
 
 A discrete trajectory object is described by the following struct:
 
-@c typedef struct {
+@example
+typedef struct 
         idmc_model *model;
         double *par;  /*parameters vector*/
         double *var; /*current value*/
         int step; /*current step number*/
-@c } idmc_traj_trajectory;
+ idmc_traj_trajectory;
 
 int idmc_traj_trajectory_alloc(idmc_model *model, double *parValues, double *varValues, idmc_traj_trajectory **ans)
+@end example
 
 Allocate a new trajectory, with specified parameters and variables values. Result returned in ans.
 
-void idmc_traj_trajectory_free(idmc_traj_trajectory *traj)
+@code{void idmc_traj_trajectory_free(idmc_traj_trajectory *traj)}
 
 De-allocates a trajectory object.
 
-int idmc_traj_trajectory_step(idmc_traj_trajectory *traj)
+@code{int idmc_traj_trajectory_step(idmc_traj_trajectory *traj)}
 
 Iterates one step on the trajectory object.
 
 A continuous trajectory is described by the structure:
 
-@c typedef struct {
+@example
+typedef struct 
         idmc_model *model;
         double *par;  /*parameters vector*/
         double *var; /*current value*/
@@ -116,46 +129,64 @@ A continuous trajectory is described by the structure:
         
         gsl_odeiv_step *step_function; /*used internally*/
         gsl_odeiv_system system; /*used internally*/
-@c } idmc_traj_ctrajectory;
+ idmc_traj_ctrajectory;
+@end example
 
 which has the following methods:
 
+@example
 int idmc_traj_ctrajectory_alloc(idmc_model *model, 
   double *parValues, double *varValues, 
   double step_size, gsl_odeiv_step_type *step_function_code,
   idmc_traj_ctrajectory **ans);
 void idmc_traj_ctrajectory_free(idmc_traj_ctrajectory *trajectory);
 int idmc_traj_ctrajectory_step(idmc_traj_ctrajectory *trajectory);
+@end example
 
 @section Basins of attraction
-
+@example
 int idmc_basin_alloc(idmc_model *m, double *parameters,
         double xmin, double xmax, int xres,
         double ymin, double ymax, int yres, 
         int attractorLimit, int attractorIterations,
         idmc_basin** out_basin)
-
+@end example
 Allocate new 'idmc_basin' object
 
-    * m: model object (object is cloned)
-    * parameters: model parameters (vector will be copied)
-    * xmin, xmax, xres: x axis ranges and resolution
-    * ymin, ymax, yres: y axis ranges and resolution
-    * attractorLimit: limit number of iterations before encountering an attractor
-    * attractorIterations: limit number of iterations for drawing an attractor
-    * out_basin: result object 
+@table @samp
+@item m
+	model object (object is cloned)
+@item parameters
+	model parameters (vector will be copied)
+@item xmin, xmax, xres
+x axis ranges and resolution
+@item ymin, ymax, yres
+y axis ranges and resolution
+@item attractorLimit
+limit number of iterations before encountering an attractor
+@item attractorIterations
+limit number of iterations for drawing an attractor
+@item out_basin
+result object 
+@end table
 
-Returns an integer code as defined in defines.h
+Returns an integer code as defined in @code{defines.h}
 
+@example
 void idmc_basin_free(idmc_basin* p)
+@end example
 
 Deallocates an idmc_basin object.
 
+@example
 int idmc_basin_step(idmc_basin* p)
+@end example
 
 Do one algorithm step.
 
+@example
 int idmc_basin_finished(idmc_basin* p)
+@end example
 
 Check if algorithm has finished.
 
@@ -163,36 +194,48 @@ Check if algorithm has finished.
 
 Functions for finding periodic cycles for a given dynamical system.
 
+@example
 int idmc_cycles_find(idmc_model* model, 
   double *parameters, double *start_point, 
   int power, double epsilon, 
   int max_iterations, 
   double* result, double *eigvals)
+@end example
 
 Try to find a cycle of period power for model model with parameters parameters. You have to feed a starting point start_point for the Newton-type algorithm used, the error tolerance epsilon and the max number of iterations max_iterations. An arbitrary point of the cycle is stored in result. In eigvals are stored modulus of eigenvalues associated with the cycle found (if any).
 
+@example
 int idmc_cycles_powf(idmc_model *model, int pow, double* par, double* var, double* ans)
+@end example
 
 Computes the pow iterate of model model with parameters par and values var.
 
+@example
 int idmc_cycles_powNumJac(idmc_model *model, int pow, double* par, double* var, double* Jf, double *util)
+@end example
 
 Numerically computes the jacobian of the powth iterate of model model with parameters par in point var. The result matrix is stored in Jf. util must point to a workspace memory of size 3 * (model->var_len).
 
+@example
 int idmc_cycles_eigval(double *mat, int dim, double *ans)
+@end example
 
 This is an utility function which computes (in ans) modulus of the eigenvalues of the dim by dim real matrix mat.
 Lyapunov exponents
 
 Functions for numerical computation of Lyapunov exponents for discrete and continuous dynamical systems.
 
+@example
 int idmc_lexp(idmc_model* model, const double *par, 
   double *startPoint, double *result, int iterations)
+@end example
 
 Compute Lyapunov exponents for discrete-time model model with parameters par in point startPoint. Stores result in result. You must provide the number of map iterations.
 
+@example
 int idmc_lexp_ode(idmc_model* model, double *parameters, double *startPoint,
   double *result, double time, double step)
+@end example
 
 Compute Lyapunov exponents for continuous-time model model with parameters parameters in point startPoint. Stores result in result. You must provide the time span time and the integration step step.
 
@@ -200,36 +243,47 @@ Compute Lyapunov exponents for continuous-time model model with parameters param
 
 There are 3 basic functions for version info retrievial:
 
+@example
 int idmc_version_major()
 int idmc_version_minor()
 int idmc_version_micro()
+@end example
 
 Their meaning should be evident.
 @chapter Constants
 
-The defines.h header defines the following constants.
+The @code{defines.h} header defines the following constants.
 
-IDMC_EPS_VALUE: precision value for numerical derivative approximation.
+@table @samp
+@item IDMC_EPS_VALUE
+precision value for numerical derivative approximation
+@end table
 
 The following are generic return codes for (almost) all library functions.
+@table @samp
+@item IDMC_OK
+normal operation
 
-IDMC_OK: normal operation
+@item IDMC_EMEM
+memory allocation
 
-IDMC_EMEM: memory allocation
+@item IDMC_ELUASYNTAX
+syntax error from lua itself
 
-IDMC_ELUASYNTAX: syntax error from lua itself
+@item IDMC_ERUN
+lua runtime error
 
-IDMC_ERUN: lua runtime error
+@item IDMC_EMODEL
+malformed model
 
-IDMC_EMODEL: malformed model
+@item IDMC_EERROR
+inconsistent state (disaster)
 
-IDMC_EERROR: inconsistent state (disaster)
+@item IDMC_EMATH
+algorithm failed
 
-IDMC_EMATH: algorithm failed
-
-IDMC_EINT: interrupted by request
-
-@unnumbered Index
-@printindex cp
+@item IDMC_EINT
+interrupted by request
+@end table
 
 @bye
