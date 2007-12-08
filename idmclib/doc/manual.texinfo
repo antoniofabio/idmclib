@@ -1,5 +1,6 @@
 \input texinfo  @c -*-texinfo-*-
 @c %**start of header
+@afourpaper
 @setfilename manual.info
 @settitle Manual
 @c %**end of header
