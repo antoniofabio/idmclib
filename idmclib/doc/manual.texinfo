@@ -136,24 +136,19 @@ typedef struct @{
 @} idmc_traj_trajectory
 @end example
 
-@example
-int idmc_traj_trajectory_alloc(idmc_model *model, double *parValues,
-	double *varValues, idmc_traj_trajectory **ans)
-@end example
+@deftypefun int idmc_traj_trajectory_alloc @
+	(idmc_model* @var{model}, double* @var{parValues}, @
+		double* @var{varValues}, idmc_traj_trajectory** @var{ans})
+	Allocate a new trajectory, with specified parameters and variables values. Result returned in @var{ans}.
+@end deftypefun
 
-Allocate a new trajectory, with specified parameters and variables values. Result returned in @code{ans}.
+@deftypefun void idmc_traj_trajectory_free (idmc_traj_trajectory* @var{traj})
+	De-allocates a trajectory object.
+@end deftypefun
 
-@example
-void idmc_traj_trajectory_free(idmc_traj_trajectory *traj)
-@end example
-
-De-allocates a trajectory object.
-
-@example
-int idmc_traj_trajectory_step(idmc_traj_trajectory *traj)
-@end example
-
+@deftypefun int idmc_traj_trajectory_step (idmc_traj_trajectory* @var{traj})
 Iterates one step on the trajectory object.
+@end deftypefun
 
 A continuous trajectory is described by the structure:
 
@@ -173,29 +168,28 @@ typedef struct @{
 
 which has the following methods:
 
-@example
-int idmc_traj_ctrajectory_alloc(idmc_model *model, 
-  double *parValues, double *varValues, 
-  double step_size, gsl_odeiv_step_type *step_function_code,
-  idmc_traj_ctrajectory **ans)
-void idmc_traj_ctrajectory_free(idmc_traj_ctrajectory *trajectory)
-int idmc_traj_ctrajectory_step(idmc_traj_ctrajectory *trajectory)
-@end example
+@deftypefun int idmc_traj_ctrajectory_alloc (idmc_model* @var{model}, @
+  double* @var{parValues}, double* @var{varValues}, @
+  double @var{step_size}, gsl_odeiv_step_type* @var{step_function_code}, @
+  idmc_traj_ctrajectory** @var{ans})
+@end deftypefun
+@deftypefun void idmc_traj_ctrajectory_free (idmc_traj_ctrajectory* @var{trajectory})
+@end deftypefun
+@deftypefun int idmc_traj_ctrajectory_step (idmc_traj_ctrajectory* @var{trajectory})
+@end deftypefun
 which are completely analogous to their discrete counterparts.
 
 @c FIXME: fill better informations about 'step_function_code'
 
 @section Basins of attraction
-@example
-int idmc_basin_alloc(idmc_model *m, double *parameters,
-        double xmin, double xmax, int xres,
-        double ymin, double ymax, int yres, 
-        int attractorLimit, int attractorIterations,
-        idmc_basin** out_basin)
-@end example
-Allocate new 'idmc_basin' object
+@deftypefun int idmc_basin_alloc (idmc_model* @var{m}, double* @var{parameters}, @
+        double @var{xmin}, double @var{xmax}, int @var{xres}, @
+        double @var{ymin}, double @var{ymax}, int @var{yres}, @
+        int @var{attractorLimit}, int @var{attractorIterations}, @
+        idmc_basin** @var{out_basin})
+	Allocate new 'idmc_basin' object
 
-@table @samp
+@table @var
 @item m
 	model object (object is cloned)
 @item parameters
@@ -214,41 +208,35 @@ result object
 
 Returns an integer code as defined in @code{defines.h} (@pxref{common-return-values,,common return values}).
 
-@example
-void idmc_basin_free(idmc_basin* p)
-@end example
+@end deftypefun
 
-Deallocates an idmc_basin object.
+@deftypefun void idmc_basin_free (idmc_basin* @var{p})
+	Deallocates an idmc_basin object.
+@end deftypefun
 
-@example
-int idmc_basin_step(idmc_basin* p)
-@end example
+@deftypefun int idmc_basin_step (idmc_basin* @var{p})
+	Do one algorithm step.
+@end deftypefun
 
-Do one algorithm step.
-
-@example
-int idmc_basin_finished(idmc_basin* p)
-@end example
-
-Check if algorithm has finished.
+@deftypefun int idmc_basin_finished (idmc_basin* @var{p})
+	Check if algorithm has finished.
+@end deftypefun
 
 @section Periodic cycles
 
 Functions for finding periodic cycles for a given dynamical system.
 
-@example
-int idmc_cycles_find(idmc_model* model, 
-  double *parameters, double *start_point, 
-  int power, double epsilon, 
-  int max_iterations, 
-  double* result, double *eigvals)
-@end example
-
-Try to find a cycle of period power for model @code{model} with parameters @code{parameters}.
-You have to feed a starting point @code{start_point} for the Newton-type algorithm used,
-the error tolerance @code{epsilon} and the max number of iterations @code{max_iterations}.
-An arbitrary point of the cycle is stored in @code{result}.
-In @code{eigvals} are stored modulus of eigenvalues associated with the cycle found (if any).
+@deftypefun int idmc_cycles_find (idmc_model* @var{model}, @
+  double* @var{parameters}, double* @var{start_point}, @
+  int @var{power}, double @var{epsilon}, @
+  int @var{max_iterations}, @
+  double* @var{result}, double* @var{eigvals})
+Try to find a cycle of period power for model @var{model} with parameters @var{parameters}.
+You have to feed a starting point @var{start_point} for the Newton-type algorithm used,
+the error tolerance @var{epsilon} and the max number of iterations @var{max_iterations}.
+An arbitrary point of the cycle is stored in @var{result}.
+In @var{eigvals} are stored modulus of eigenvalues associated with the cycle found (if any).
+@end deftypefun
 
 @example
 int idmc_cycles_powf(idmc_model *model, int pow,
