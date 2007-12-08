@@ -56,7 +56,8 @@ slow (but sometimes better) basins of attraction algorithm
 The model module is probably the most important module, as it contains all the base functions for model allocation and manipulation.
 
 @example
-int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s)
+int idmc_model_alloc(const char* buffer, const int buffer_len,
+	idmc_model **s)
 @end example
 
 Allocates a new idmc model object, and eventually stores it in s. Can return the following error codes:
