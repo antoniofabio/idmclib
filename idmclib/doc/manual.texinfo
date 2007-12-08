@@ -305,32 +305,29 @@ This is an utility function which computes (in @var{ans}) modulus of the eigenva
 
 Functions for numerical computation of Lyapunov exponents for discrete and continuous dynamical systems.
 
-@example
-int idmc_lexp(idmc_model* model, const double *par,
-  double *startPoint, double *result, int iterations)
-@end example
+@deftypefun int idmc_lexp (idmc_model* @var{model}, const double* @var{par}, @
+  double* @var{startPoint}, double* @var{result}, int @var{iterations})
+Compute Lyapunov exponents for discrete-time model @var{model} with parameters @var{par} in point @var{startPoint}.
+Stores result in @var{result}. You must provide the number of map iterations.
+@end deftypefun
 
-Compute Lyapunov exponents for discrete-time model @code{model} with parameters @code{par} in point @code{startPoint}.
-Stores result in @code{result}. You must provide the number of map iterations.
-
-@example
-int idmc_lexp_ode(idmc_model* model, double *parameters,
-	double *startPoint, double *result, double time, double step)
-@end example
-
-Compute Lyapunov exponents for continuous-time model @code{model} with parameters @code{parameters}
-in point @code{startPoint}. Stores result in @code{result}. You must provide the time span @code{time}
-and the integration step @code{step}.
+@deftypefun int idmc_lexp_ode (idmc_model* @var{model}, double* @var{parameters},
+	double* @var{startPoint}, double* @var{result}, double @var{time}, double @var{step})
+Compute Lyapunov exponents for continuous-time model @var{model} with parameters @var{parameters}
+in point @var{startPoint}. Stores result in @var{result}. You must provide the time span @var{time}
+and the integration step @var{step}.
+@end deftypefun
 
 @section Version info
 
 There are 3 basic functions for version info retrievial:
 
-@example
-int idmc_version_major()
-int idmc_version_minor()
-int idmc_version_micro()
-@end example
+@deftypefun int idmc_version_major ()
+@end deftypefun
+@deftypefun int idmc_version_minor ()
+@end deftypefun
+@deftypefun int idmc_version_micro ()
+@end deftypefun
 
 Their meaning should be evident.
 
