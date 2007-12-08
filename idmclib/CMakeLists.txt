@@ -1,7 +1,10 @@
 PROJECT(idmclib C)
 FIND_PACKAGE(SWIG)
+IF(SWIG_FOUND)
 INCLUDE(${SWIG_USE_FILE})
+ENDIF(SWIG_FOUND)
 INCLUDE(FindJNI)
+FIND_PROGRAM(TEXINFO texinfo /usr/bin /usr/local/bin)
 
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "idmc: The iDMC C support library")
 SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
@@ -11,7 +14,6 @@ SET(CPACK_PACKAGE_VERSION_MINOR 8)
 SET(CPACK_PACKAGE_VERSION_PATCH 2)
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/include/idmclib/version.h.cmake ${CMAKE_CURRENT_SOURCE_DIR}/include/idmclib/version.h)
 SET(CMAKE_C_FLAGS --std=c99)
-
 
 SET(CPACK_SOURCE_IGNORE_FILES "/\\\\.;~$;/_;build/;CMakeFiles/;CMakeCache;gz$;Makefile\\\\.;trace;Testing/;foo;autom4te;cmake_install;CPack;\\\\.pem;ltmain.sh;configure;libtool;/config\\\\.;missing;SCons;autogen.sh;install-sh;Dart;\\\\.svn/;aclocal;log$;Makefile$;\\\\.git$")
 INCLUDE(CPack)
@@ -45,7 +47,10 @@ MESSAGE(STATUS "Java include paths and/or swig executable not found: not buildin
 If you want to build Java bindings, try manually setting JAVA_INCLUDE_PATH, JAVA_INCLUDE_PATH2 
 and/or SWIG_DIR, SWIG_EXECUTABLE variables")
 ENDIF(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
+IF(NOT TEXINFO)
+ELSE(NOT TEXINFO)
 add_subdirectory (doc)
+ENDIF(NOT TEXINFO)
 #add_subdirectory (pyidmc)
 add_subdirectory (tests)
 
