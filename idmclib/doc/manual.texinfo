@@ -35,7 +35,7 @@ This is the first chapter.
 @chapter Modules
 
 The library is ideally divided in modules:
-@table
+@table @samp
 @item idmc_model
 basic model allocation/methods
 @item idmc_traj
@@ -55,7 +55,9 @@ slow (but sometimes better) basins of attraction algorithm
 @section Model
 The model module is probably the most important module, as it contains all the base functions for model allocation and manipulation.
 
-@code{int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s) }
+@example
+int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s)
+@end example
 
 Allocates a new idmc model object, and eventually stores it in s. Can return the following error codes:
 @itemize @bullet
@@ -66,25 +68,36 @@ Allocates a new idmc model object, and eventually stores it in s. Can return the
 
 FIXME: explain behaviour when syntax error occurs.
 
-@code{void idmc_model_free(idmc_model *s) }
+@example
+void idmc_model_free(idmc_model *s)
+@end example
 
 De-allocates a previously allocated model object.
 
-@code{ idmc_model* idmc_model_clone(idmc_model *s) }
+@example
+idmc_model* idmc_model_clone(idmc_model *s)
+@end example
 
 Clones a model object.
 
+@example
 int idmc_model_setGslRngSeed(idmc_model *model, int seed)
+@end example
 
 Set RNG seed. Shouldn't return any error.
 
 @example
-int idmc_model_f(idmc_model *model, const double par[], const double var[], double f[]);
-int idmc_model_g(idmc_model *model, const double par[], const double var[], double f[]);
-int idmc_model_Jf(idmc_model *model, const double par[], const double var[], double Jf[]);
-int idmc_model_Jg(idmc_model *model, const double par[], const double var[], double Jf[]);
-int idmc_model_NumJf(idmc_model *model, const double par[], const double var[], double Jf[], 
-                           double util[], double util2[], double util3[]);
+int idmc_model_f(idmc_model *model, const double par[],
+	const double var[], double f[])
+int idmc_model_g(idmc_model *model, const double par[], 
+	const double var[], double f[])
+int idmc_model_Jf(idmc_model *model, const double par[],
+	const double var[], double Jf[])
+int idmc_model_Jg(idmc_model *model, const double par[],
+	const double var[], double Jf[])
+int idmc_model_NumJf(idmc_model *model, const double par[],
+	const double var[], double Jf[],
+	double util[], double util2[], double util3[])
 @end example
 
 Evaluate some model functions. These can return a runtime error, with relative message string stored in @code{model->errorMessage} buffer.
@@ -101,9 +114,10 @@ typedef struct
         double *par;  /*parameters vector*/
         double *var; /*current value*/
         int step; /*current step number*/
- idmc_traj_trajectory;
+ idmc_traj_trajectory
 
-int idmc_traj_trajectory_alloc(idmc_model *model, double *parValues, double *varValues, idmc_traj_trajectory **ans)
+int idmc_traj_trajectory_alloc(idmc_model *model, double *parValues,
+	double *varValues, idmc_traj_trajectory **ans)
 @end example
 
 Allocate a new trajectory, with specified parameters and variables values. Result returned in ans.
@@ -205,13 +219,15 @@ int idmc_cycles_find(idmc_model* model,
 Try to find a cycle of period power for model model with parameters parameters. You have to feed a starting point start_point for the Newton-type algorithm used, the error tolerance epsilon and the max number of iterations max_iterations. An arbitrary point of the cycle is stored in result. In eigvals are stored modulus of eigenvalues associated with the cycle found (if any).
 
 @example
-int idmc_cycles_powf(idmc_model *model, int pow, double* par, double* var, double* ans)
+int idmc_cycles_powf(idmc_model *model, int pow,
+	double* par, double* var, double* ans)
 @end example
 
 Computes the pow iterate of model model with parameters par and values var.
 
 @example
-int idmc_cycles_powNumJac(idmc_model *model, int pow, double* par, double* var, double* Jf, double *util)
+int idmc_cycles_powNumJac(idmc_model *model, int pow, double* par,
+	double* var, double* Jf, double *util)
 @end example
 
 Numerically computes the jacobian of the powth iterate of model model with parameters par in point var. The result matrix is stored in Jf. util must point to a workspace memory of size 3 * (model->var_len).
@@ -226,15 +242,15 @@ Lyapunov exponents
 Functions for numerical computation of Lyapunov exponents for discrete and continuous dynamical systems.
 
 @example
-int idmc_lexp(idmc_model* model, const double *par, 
+int idmc_lexp(idmc_model* model, const double *par,
   double *startPoint, double *result, int iterations)
 @end example
 
 Compute Lyapunov exponents for discrete-time model model with parameters par in point startPoint. Stores result in result. You must provide the number of map iterations.
 
 @example
-int idmc_lexp_ode(idmc_model* model, double *parameters, double *startPoint,
-  double *result, double time, double step)
+int idmc_lexp_ode(idmc_model* model, double *parameters,
+	double *startPoint, double *result, double time, double step)
 @end example
 
 Compute Lyapunov exponents for continuous-time model model with parameters parameters in point startPoint. Stores result in result. You must provide the time span time and the integration step step.
