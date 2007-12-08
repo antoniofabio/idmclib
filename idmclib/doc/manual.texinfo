@@ -284,28 +284,22 @@ An arbitrary point of the cycle is stored in @var{result}.
 In @var{eigvals} are stored modulus of eigenvalues associated with the cycle found (if any).
 @end deftypefun
 
-@example
-int idmc_cycles_powf(idmc_model *model, int pow,
-	double* par, double* var, double* ans)
-@end example
+@deftypefun int idmc_cycles_powf (idmc_model* @var{model}, int @var{pow}, @
+	double* @var{par}, double* @var{var}, double* @var{ans})
+Computes the @var{pow} iterate of model @var{model} with parameters @var{par} and values @var{var}.
+@end deftypefun
 
-Computes the @code{pow} iterate of model @code{model} with parameters @code{par} and values @code{var}.
+@deftypefun int idmc_cycles_powNumJac (idmc_model* @var{model}, int @var{pow}, double* @var{par},
+	double* @var{var}, double* @var{Jf}, double* @var{util})
+Numerically computes the jacobian of the @var{pow}th iterate of model @var{model}
+with parameters @var{par} in point @var{var}. The result matrix is stored in @var{Jf}.
+@var{util} must point to a workspace memory of size @code{3 * (model->var_len)}.
+@end deftypefun
 
-@example
-int idmc_cycles_powNumJac(idmc_model *model, int pow, double* par,
-	double* var, double* Jf, double *util)
-@end example
-
-Numerically computes the jacobian of the powth iterate of model @code{model}
-with parameters @code{par} in point @code{var}. The result matrix is stored in @code{Jf}.
-@code{util} must point to a workspace memory of size @code{3 * (model->var_len)}.
-
-@example
-int idmc_cycles_eigval(double *mat, int dim, double *ans)
-@end example
-
-This is an utility function which computes (in @code{ans}) modulus of the eigenvalues of the
-@code{dim} by @code{dim} real matrix @code{mat}.
+@deftypefun int idmc_cycles_eigval (double* @var{mat}, int @var{dim}, double* @var{ans})
+This is an utility function which computes (in @var{ans}) modulus of the eigenvalues of the
+@var{dim} by @var{dim} real matrix @var{mat}.
+@end deftypefun
 
 @section Lyapunov exponents
 
