@@ -1,4 +1,5 @@
 0.8.2
+- upgraded java bindings to reporting new syntax error messages
 - robustified idmc_model_free functions (now accepts even NULL pointers)
 - added detailed syntax error message reporting to the user
 

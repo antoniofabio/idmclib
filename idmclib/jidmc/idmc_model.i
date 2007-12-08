@@ -24,11 +24,23 @@
 		free(msg); \
 		return code; \
 	}
+#define THROW_SYNTAX_EXCEPTION(obj) \
+	if(1) { \
+	char *msg = (char*) malloc(1024); \
+	sprintf(msg,"[idmclib error: %s] %s", idmc_err_message[IDMC_ELUASYNTAX], ((Model*) (obj))->errorMessage ); \
+	jclass clazz = (*jenv)->FindClass(jenv, "java/lang/RuntimeException"); \
+	(*jenv)->ThrowNew(jenv, clazz, msg); \
+	free(msg); \
+	return IDMC_ELUASYNTAX; \
+	} \
 %}
 
 %exception Model {
 	$action
-	THROW_RUNTIME_EXCEPTION(NULL, result->interrupt);
+	if(result->interrupt == IDMC_ELUASYNTAX) {
+		THROW_SYNTAX_EXCEPTION(result);
+	}	else
+		THROW_RUNTIME_EXCEPTION(arg1, result->interrupt);
 }
 %exception f {
 	$action
