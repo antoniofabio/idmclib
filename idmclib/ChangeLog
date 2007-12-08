@@ -1,4 +1,5 @@
 0.8.2
+- added API documentation in texinfo (html,pdf,...) format
 - upgraded java bindings to reporting new syntax error messages
 - robustified idmc_model_free functions (now accepts even NULL pointers)
 - added detailed syntax error message reporting to the user
