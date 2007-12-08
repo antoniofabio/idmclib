@@ -1,3 +1,7 @@
+0.8.2
+- robustified idmc_model_free functions (now accepts even NULL pointers)
+- added detailed syntax error message reporting to the user
+
 0.8.1
 - fixed serious bug in Numerical Jacobian Evaluation routine
 - added more testing code

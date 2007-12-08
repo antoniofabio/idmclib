@@ -186,6 +186,7 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 }
 
 void idmc_model_free(idmc_model *model) {
+	if(model!=NULL) {
 	if (model->var != NULL) {
 		if (model->var[0] != NULL)
 			free(model->var[0]);
@@ -220,6 +221,7 @@ void idmc_model_free(idmc_model *model) {
 	free(model->type);
 
 	free(model);
+	}
 }
 
 idmc_model* idmc_model_clone(idmc_model *s) {
