@@ -6,7 +6,7 @@
 @c %**end of header
 
 @copying
-This is the programmers manual of the idmclib C library
+This is the programmers manual of the @uref{http://idmclib.googlecode.com, idmclib} C library
 
 Copyright @copyright{} 2007 Marji Lines, Alfredo Medio
 @end copying
@@ -25,7 +25,7 @@ Copyright @copyright{} 2007 Marji Lines, Alfredo Medio
 
 @ifnottex
 @node Top
-@top idmclib API
+@top idmclib programmers manual
 
 @insertcopying
 @end ifnottex
@@ -33,32 +33,32 @@ Copyright @copyright{} 2007 Marji Lines, Alfredo Medio
 @chapter Modules
 
 The library is ideally divided in modules:
-@table @samp
+@table @code
 @item idmc_model
 basic model allocation/methods
 @item idmc_traj
 trajectories (for discrete and continuous models) allocation/methods
-@item idmc_lexp
-Lyapunov spectrum for a given model (discrete and continuous)
-@item idmc_cycles
-basic period-k cycles finding support functions. Also a separate routine for eigenvalues modulus of real nonsimmetric matrices is provided
 @item idmc_raster
 mostly here for internal use. Data structures and methods for (integer) raster image manipulation. Used in the idmc_basin module
 @item idmc_basin
 fast algorithm for identifying basins of attraction of 2-dimensional maps
 @item idmc_basin_slow
 slow (but sometimes better) basins of attraction algorithm
+@item idmc_cycles
+basic period-k cycles finding support functions. Also a separate routine for eigenvalues modulus of real nonsimmetric matrices is provided
+@item idmc_lexp
+Lyapunov spectrum for a given model (discrete and continuous)
+@item idmc_version
+Version informations
 @end table
 
 @section Model
 The model module is probably the most important module, as it contains all the base functions for model allocation and manipulation.
 
-@example
-int idmc_model_alloc(const char* buffer, const int buffer_len,
-	idmc_model **s)
-@end example
-
-Allocates a new idmc model object, and eventually stores it in s. Can return the following error codes (@pxref{common-return-values,,common return values}):
+@deftypefun int idmc_model_alloc (const char* @var{buffer}, const int @var{buffer_len}, @
+	idmc_model** @var{s})
+Allocates a new @code{idmc_model} object, and eventually stores it in @var{s}.
+Can return one of the following error codes (@pxref{common-return-values,,common return values}):
 @itemize @bullet
 @item IDMC_OK
 @item IDMC_EMEM
@@ -66,49 +66,47 @@ Allocates a new idmc model object, and eventually stores it in s. Can return the
 @item IDMC_EMODEL
 @end itemize
 
-Only if the result is @code{IDMC_OK} in @code{s} is stored a pointer to a valid @code{idmc_model} object.
+Only if the result is @code{IDMC_OK} in @var{s} is stored a pointer to a valid @code{idmc_model} object.
 Whatever the result of @code{idmc_model_alloc}, you should free the memory after using the model object
 by calling @code{idmc_model_free} (see below).
 
 When syntax error occurs, a message with line reference is stored in the @code{s->errorMessage} slot.
+@end deftypefun
 
-@example
-void idmc_model_free(idmc_model *s)
-@end example
-
-De-allocates a previously allocated model object. It is always safe to call @code{idmc_model_free}: @code{s} can be either
+@deftypefun void idmc_model_free (idmc_model* @var{s})
+De-allocates a previously allocated model object. It is always safe to call @code{idmc_model_free}: @var{s} can be either
 a @code{NULL} pointer, or a pointer to a partially initialized (because of errors) @code{idmc_model} object.
+@end deftypefun
 
-@example
-idmc_model* idmc_model_clone(idmc_model *s)
-@end example
-
+@deftypefun idmc_model* idmc_model_clone (idmc_model* @var{s})
 Clones a model object. Returns a @code{NULL} pointer when memory issues.
+@end deftypefun
 
-@example
-int idmc_model_setGslRngSeed(idmc_model *model, int seed)
-@end example
-
+@deftypefun int idmc_model_setGslRngSeed (idmc_model* @var{model}, int @var{seed})
 Set RNG seed. Always returns @code{IDMC_OK}.
+@end deftypefun
 
-@example
-int idmc_model_f(idmc_model *model, const double par[],
-	const double var[], double f[])
-int idmc_model_g(idmc_model *model, const double par[], 
-	const double var[], double f[])
-int idmc_model_Jf(idmc_model *model, const double par[],
-	const double var[], double Jf[])
-int idmc_model_Jg(idmc_model *model, const double par[],
-	const double var[], double Jf[])
-int idmc_model_NumJf(idmc_model *model, const double par[],
-	const double var[], double Jf[],
-	double util[], double util2[], double util3[])
-@end example
+@deftypefun int idmc_model_f (idmc_model* @var{model}, const double @var{par[]}, @
+	const double @var{var[]}, double @var{f[]})
+@end deftypefun
+@deftypefun int idmc_model_g (idmc_model* @var{model}, const double @var{par[]}, @
+	const double @var{var[]}, double @var{f[]})
+@end deftypefun
+@deftypefun int idmc_model_Jf (idmc_model* @var{model}, const double @var{par[]}, @
+	const double @var{var[]}, double @var{Jf[]})
+@end deftypefun
+@deftypefun int idmc_model_Jg (idmc_model* @var{model}, const double @var{par[]}, @
+	const double @var{var[]}, double @var{Jf[]})
+@end deftypefun
+@deftypefun int idmc_model_NumJf(idmc_model* @var{model}, const double @var{par[]}, @
+	const double @var{var[]}, double @var{Jf[]}, @
+	double @var{util[]}, double @var{util2[]}, double @var{util3[]})
+@end deftypefun
 
 Evaluate some model functions. These can return a runtime error, with relative message string stored in @code{model->errorMessage} buffer.
 
 Accepted arguments:
-@table @samp
+@table @var
 @item model
 @code{idmc_model} object
 @item par, var
