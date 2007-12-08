@@ -208,34 +208,34 @@ y axis settings
 @end table
 @end deftp
 
-@defun int idmc_raster_alloc (double @var{xmin}, double @var{xmax}, int @var{xres}, @
+@deftypefun int idmc_raster_alloc (double @var{xmin}, double @var{xmax}, int @var{xres}, @
 	double @var{ymin}, double @var{ymax}, int @var{yres}, @
 	idmc_raster** @var{out_raster})
-@end defun
+@end deftypefun
 
-@defun void idmc_raster_free (idmc_raster* @var{p})
-@end defun
+@deftypefun void idmc_raster_free (idmc_raster* @var{p})
+@end deftypefun
 
-@defun void idmc_raster_setxy (idmc_raster* @var{p}, double @var{x}, double @var{y}, int @var{value})
-@end defun
+@deftypefun void idmc_raster_setxy (idmc_raster* @var{p}, double @var{x}, double @var{y}, int @var{value})
+@end deftypefun
 
-@defun int idmc_raster_getxy (idmc_raster* @var{p}, double @var{x}, double @var{y})
-@end defun
+@deftypefun int idmc_raster_getxy (idmc_raster* @var{p}, double @var{x}, double @var{y})
+@end deftypefun
 
-@defun void idmc_raster_setXY (idmc_raster* @var{p}, int @var{X}, int @var{Y}, int @var{value})
-@end defun
+@deftypefun void idmc_raster_setXY (idmc_raster* @var{p}, int @var{X}, int @var{Y}, int @var{value})
+@end deftypefun
 
-@defun int idmc_raster_getXY (idmc_raster* @var{p}, int @var{X}, int @var{Y})
-@end defun
+@deftypefun int idmc_raster_getXY (idmc_raster* @var{p}, int @var{X}, int @var{Y})
+@end deftypefun
 
-@defun void idmc_raster_set (idmc_raster* @var{p}, int @var{value})
-@end defun
+@deftypefun void idmc_raster_set (idmc_raster* @var{p}, int @var{value})
+@end deftypefun
 
-@defun int idmc_raster_isxyInsideBounds (idmc_raster* @var{p}, double @var{x}, double @var{y})
-@end defun
+@deftypefun int idmc_raster_isxyInsideBounds (idmc_raster* @var{p}, double @var{x}, double @var{y})
+@end deftypefun
 
-@defun int idmc_raster_isXYInsideBounds (idmc_raster* @var{p}, int @var{x}, int @var{y})
-@end defun
+@deftypefun int idmc_raster_isXYInsideBounds (idmc_raster* @var{p}, int @var{x}, int @var{y})
+@end deftypefun
 
 The following macros can be used for translating from real
 to integer coordinate systems:
