@@ -3,12 +3,13 @@
 @afourpaper
 @setfilename manual.info
 @settitle idmclib Manual
+@include version.texinfo
 @c %**end of header
-
 @syncodeindex tp fn
 
 @copying
-This is the manual of the @uref{http://idmclib.googlecode.com, idmclib} C library
+This is the manual of the @uref{http://idmclib.googlecode.com, idmclib} C library,
+version @version
 
 Copyright @copyright{} 2007 Marji Lines, Alfredo Medio
 
