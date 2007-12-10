@@ -40,6 +40,8 @@ License''.
 @insertcopying
 @end ifnottex
 
+@include specifyingModels.texinfo
+
 @chapter Modules
 
 The library is ideally divided in modules:
