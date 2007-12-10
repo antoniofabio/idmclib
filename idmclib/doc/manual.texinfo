@@ -408,7 +408,7 @@ There are 3 basic functions for version info retrievial:
 
 Their meaning is evident.
 
-@chapter Constants
+@section Constants
 
 The @code{defines.h} header defines the constants described below.
 
