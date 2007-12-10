@@ -2,7 +2,7 @@
 
 @chapter Writing models
 
-Models are written in the LUA language, with some additions provided by the idmclib library.
+iDMC models are written in the Lua language, with some additions provided by the idmclib library.
 
 @section Basic model structure
 The basic structure for the model file can be seen from the logistic model below:
@@ -23,9 +23,84 @@ function Jf(mu, x)
 end
 @end example
 
+For continuous time systems change @code{type} to @code{"C"}.
+Typical mistakes are forgetting to put the parameters and variables
+always in the same order when defining functions and not making proper
+use of quotation marks.
+
 @section Syntax
+The Lua language (Copyright, 2003 Tecgraf, PUC-Rio) is ``a powerful, light-weight
+programming language designed for extending applications''. This description
+and the following excerpts are from the @cite{Lua 5.0 Reference Manual},
+Roberto Ierusalimschy, Luiz Henrique de Figueiredo and Waldemar Celes, Tecgraf Computer Science Department PUC-Rio, 2003 (downloadable from www.lua.org).
+That document describes version 5.0 of the Lua programming language and the
+Application Program Interface that allows interaction between Lua
+programs and their host C programs. For our purposes only the following
+characteristics of the language are central.
+
+Page 3. Numerical constants may be written with an optional decimal part
+and an optional decimal exponent. Examples of valid numerical constants are
+@example
+3 3.0 3.1416 314.16e-2 0.31416E1
+@end example
+
+Pages 8-10. Lua supports the usual arithmetic operators:
+the binary @code{+} (addition),
+@code{-} (subtraction), @code{*} (multiplication), @code{/} (division),
+@code{^} (exponentiation), and unary (negation).
+
+The relational operators in Lua are
+@example
+== ~= < > <= >=
+@end example
+
+These operators always result in @code{false} or @code{true}.
+Equality (@code{==}) first compares the type of its operands.
+If the types are different, then the result is @code{false}.
+Otherwise, the values of the operands are compared. Numbers
+and strings are compared in the usual way. The operator @code{~=}
+is exactly the negation of equality (@code{==}). The order
+of operators work as follows. If both arguments are numbers,
+then they are compared as such. Otherwise, if both arguments are strings,
+then their values are compared according to the current locale.
+
+The logical operators in Lua are
+@example
+and or not
+@end example
+
+All logical operators consider both @code{false} and @code{nil} as false and anything
+else as true. The operator @code{not} always return @code{false} or @code{true}.
+The conjuction operator @code{and} returns its first argument if this value is
+@code{false} or @code{nil}; otherwise, @code{and} returns its second argument.
+The disjunction operator @code{or} returns its first argument if this value
+is different from @code{nil} and @code{false}; otherwise, @code{or} returns
+its second argument. Both @code{and} and @code{or} use short cut evaluation, that is, the second operand is evaluated only if necessary.
+
+Operator precedence in Lua follows, from lower to higher priority:
+@example
+or
+and
+< > <= >= ~= ==
++ -
+* /
+not - (unary)
+^
+@end example
+
+You can use parentheses to change the precedences in an expression. The exponentiation
+operator is right associative. All other binary operators are left associative.
 
 @section Mathematical functions
+From page 50 of the @cite{Lua 5.0 Reference Manual}. The library is an
+interface to most of the functions of the standard C math library. (Some have
+slightly different names.) It provides all its functions inside the table
+@code{math}. In addition, it registers the @code{global_pow} for the binary
+exponentiation operator @code{^} so that @code{x^y} returns @math{x^y}.
+The library provides the following functions:
+@example
+
+@end example
 
 @section Random number generation
 To the LUA interpreter embedded in the idmclib, some functions for random number generation where added.
