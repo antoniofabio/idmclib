@@ -32,23 +32,21 @@ setSeed(...)
 accepts a positive integer as argument, and can be used (not necessary) to initialize the internal random number generator.
 The following table summarize the new available LUA functions, their accepted arguments and the corresponding distribution.
 
-@table
-function		arguments		distribution
--------------------------------------------------------------------
-runif			none			Unif(0,1)
-rber			p				Bernoulli of parameter 'p'
-rbinom			p,n				Binomial of parameters 'p' and 'n'
-rgeom			p				Geometric of parameter 'p'
-rnorm			none			Standard gaussian
-rpois			mu				Poisson with mean 'mu'
-rlaplace		a				Laplace of width 'a'
-rexponential	mu				Exponential with mean 'mu'
-rbeta			a,b				Beta with parameters 'a','b'
-rlognormal		zeta,sigma		Lognormal with parameters 'zeta','sigma'
-rlogistic		a				Logistic with parameter 'a'
-rpareto			a,b				Pareto of order 'a', with x>='b'
--------------------------------------------------------------------
-@end table
+@multitable {rexponential} {arguments} {Lognormal with parameters 'zeta','sigma'}
+@headitem function @tab arguments @tab distribution
+@item runif @tab none @tab Unif(0,1)
+@item rber @tab p @tab Bernoulli of parameter 'p'
+@item rbinom @tab p,n @tab Binomial of parameters 'p' and 'n'
+@item rgeom @tab p @tab Geometric of parameter 'p'
+@item rnorm @tab none @tab Standard gaussian
+@item rpois @tab mu @tab Poisson with mean 'mu'
+@item rlaplace @tab a @tab Laplace of width 'a'
+@item rexponential @tab mu @tab Exponential with mean 'mu'
+@item rbeta @tab a,b @tab Beta with parameters 'a','b'
+@item rlognormal @tab zeta,sigma @tab Lognormal with parameters 'zeta','sigma'
+@item rlogistic @tab a @tab Logistic with parameter 'a'
+@item rpareto @tab a,b @tab Pareto of order 'a', with x>='b'
+@end multitable
 
 Those functions calls, behind the scenes, the corresponding functions of the Gnu Scientific Library (GSL) for the random number generation.
 For details on the parametrization/density formula of those distributions, please refer to the GSL documentation.
