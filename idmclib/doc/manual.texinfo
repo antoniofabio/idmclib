@@ -42,7 +42,7 @@ License''.
 
 @include specifyingModels.texinfo
 
-@chapter Modules
+@chapter API
 
 The library is ideally divided in modules:
 @table @code

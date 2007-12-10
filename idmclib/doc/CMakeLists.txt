@@ -1,6 +1,7 @@
 ADD_CUSTOM_COMMAND(
     OUTPUT    ${idmclib_BINARY_DIR}/doc/manual.html
     DEPENDS   ${idmclib_SOURCE_DIR}/doc/manual.texinfo ${idmclib_SOURCE_DIR}/doc/version.texinfo
+							${idmclib_SOURCE_DIR}/doc/specifyingModels.texinfo
     COMMAND   texi2html
     ARGS      ${idmclib_SOURCE_DIR}/doc/manual.texinfo
 )
@@ -8,6 +9,7 @@ ADD_CUSTOM_COMMAND(
 ADD_CUSTOM_COMMAND(
     OUTPUT    ${idmclib_BINARY_DIR}/doc/manual.pdf
     DEPENDS   ${idmclib_SOURCE_DIR}/doc/manual.texinfo ${idmclib_SOURCE_DIR}/doc/version.texinfo
+							${idmclib_SOURCE_DIR}/doc/specifyingModels.texinfo
     COMMAND   texi2pdf
     ARGS      ${idmclib_SOURCE_DIR}/doc/manual.texinfo
 )

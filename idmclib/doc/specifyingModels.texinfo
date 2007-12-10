@@ -23,6 +23,10 @@ function Jf(mu, x)
 end
 @end example
 
+@section Syntax
+
+@section Mathematical functions
+
 @section Random number generation
 To the LUA interpreter embedded in the idmclib, some functions for random number generation where added.
 The function @code{setSeed}:
