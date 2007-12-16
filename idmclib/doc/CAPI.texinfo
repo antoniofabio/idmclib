@@ -1,0 +1,402 @@
+@chapter C API
+
+The library is ideally divided in modules:
+@table @code
+@item idmc_model
+basic model allocation/methods
+@item idmc_traj
+trajectories (for discrete and continuous models) allocation/methods
+@item idmc_raster
+mostly here for internal use. Data structures and methods for (integer) raster image manipulation. Used in the idmc_basin module
+@item idmc_basin
+fast algorithm for identifying basins of attraction of 2-dimensional maps
+@item idmc_basin_slow
+slow (but sometimes better) basins of attraction algorithm
+@item idmc_cycles
+basic period-k cycles finding support functions. Also a separate routine for eigenvalues modulus of real nonsimmetric matrices is provided
+@item idmc_lexp
+Lyapunov spectrum for a given model (discrete and continuous)
+@item idmc_version
+Version informations
+@end table
+
+@section Model
+The model module is probably the most important module, as it contains all the base functions for model allocation and manipulation.
+
+@deftypefun int idmc_model_alloc (const char* @var{buffer}, const int @var{buffer_len}, @
+	idmc_model** @var{s})
+Allocates a new @code{idmc_model} object, and eventually stores it in @var{s}.
+Can return one of the following error codes (@pxref{common-return-values,,common return values}):
+@itemize @bullet
+@item IDMC_OK
+@item IDMC_EMEM
+@item IDMC_ELUASYNTAX
+@item IDMC_EMODEL
+@end itemize
+
+Only if the result is @code{IDMC_OK} in @var{s} is stored a pointer to a valid @code{idmc_model} object.
+Whatever the result of @code{idmc_model_alloc}, you should free the memory after using the model object
+by calling @code{idmc_model_free} (see below).
+
+When syntax error occurs, a message with line reference is stored in the @code{s->errorMessage} slot.
+@end deftypefun
+
+@deftypefun void idmc_model_free (idmc_model* @var{s})
+De-allocates a previously allocated model object. It is always safe to call @code{idmc_model_free}: @var{s} can be either
+a @code{NULL} pointer, or a pointer to a partially initialized (because of errors) @code{idmc_model} object.
+@end deftypefun
+
+@deftypefun idmc_model* idmc_model_clone (idmc_model* @var{s})
+Clones a model object. Returns a @code{NULL} pointer when memory issues.
+@end deftypefun
+
+@deftypefun int idmc_model_setGslRngSeed (idmc_model* @var{model}, int @var{seed})
+Set RNG seed. Always returns @code{IDMC_OK}.
+@end deftypefun
+
+@deftypefun int idmc_model_f (idmc_model* @var{model}, const double @var{par[]}, @
+	const double @var{var[]}, double @var{f[]})
+@end deftypefun
+@deftypefun int idmc_model_g (idmc_model* @var{model}, const double @var{par[]}, @
+	const double @var{var[]}, double @var{f[]})
+@end deftypefun
+@deftypefun int idmc_model_Jf (idmc_model* @var{model}, const double @var{par[]}, @
+	const double @var{var[]}, double @var{Jf[]})
+@end deftypefun
+@deftypefun int idmc_model_Jg (idmc_model* @var{model}, const double @var{par[]}, @
+	const double @var{var[]}, double @var{Jf[]})
+@end deftypefun
+@deftypefun int idmc_model_NumJf (idmc_model* @var{model}, const double @var{par[]}, @
+	const double @var{var[]}, double @var{Jf[]}, @
+	double @var{util[]}, double @var{util2[]}, double @var{util3[]})
+@end deftypefun
+
+Evaluate some model functions. These can return a runtime error, with relative message string stored in @code{model->errorMessage} buffer.
+
+Accepted arguments:
+@table @var
+@item model
+@code{idmc_model} object
+@item par, var
+model parameters and variables values
+@item f, Jf
+result will be stored here
+@item util, util2, util3
+workspace pointers to a memory bloc of size: @code{model->nvar * sizeof(double)}
+@end table
+
+Return values: a common constant (@pxref{common-return-values,,common return values}).
+
+@section Trajectory
+
+Functions for trajectories computation.
+
+@deftp {Data Type} idmc_trajectory
+A discrete trajectory object, with the following slots:
+
+@table @code
+@item idmc_model* model
+	@code{idmc_model} object
+@item double* par
+	parameters vector
+@item double* var
+current value
+@item int step
+current step number
+@end table
+@end deftp
+
+
+@deftypefun int idmc_traj_trajectory_alloc @
+	(idmc_model* @var{model}, double* @var{parValues}, @
+		double* @var{varValues}, idmc_traj_trajectory** @var{ans})
+	Allocate a new trajectory, with specified parameters and variables values. Result returned in @var{ans}.
+@end deftypefun
+
+@deftypefun void idmc_traj_trajectory_free (idmc_traj_trajectory* @var{traj})
+	De-allocates a trajectory object.
+@end deftypefun
+
+@deftypefun int idmc_traj_trajectory_step (idmc_traj_trajectory* @var{traj})
+Iterates one step on the trajectory object.
+@end deftypefun
+
+@deftp {Data Type} idmc_traj_ctrajectory
+A continuous trajectory object, with the following slots:
+
+@table @code
+@item idmc_model* model
+@item double* par
+	parameters vector
+@item double* var
+	current value
+@item double* error
+@item double step_size
+@item gsl_odeiv_step_type* step_function_code
+@end table
+@end deftp
+
+A @code{idmc_traj_ctrajectory} object has the following methods:
+
+@deftypefun int idmc_traj_ctrajectory_alloc (idmc_model* @var{model}, @
+  double* @var{parValues}, double* @var{varValues}, @
+  double @var{step_size}, gsl_odeiv_step_type* @var{step_function_code}, @
+  idmc_traj_ctrajectory** @var{ans})
+@end deftypefun
+@deftypefun void idmc_traj_ctrajectory_free (idmc_traj_ctrajectory* @var{trajectory})
+@end deftypefun
+@deftypefun int idmc_traj_ctrajectory_step (idmc_traj_ctrajectory* @var{trajectory})
+@end deftypefun
+which are completely analogous to their discrete counterparts.
+
+@c FIXME: fill better informations about 'step_function_code'
+
+@section Raster image
+
+@deftp {Data Type} idmc_raster
+
+@table @code
+@item int *data
+main data block
+@item double xmin, xrange, xeps
+@item int xres
+x axis settings
+@item double ymin, yrange, yeps
+@item int yres
+y axis settings
+@end table
+@end deftp
+
+@deftypefun int idmc_raster_alloc (double @var{xmin}, double @var{xmax}, int @var{xres}, @
+	double @var{ymin}, double @var{ymax}, int @var{yres}, @
+	idmc_raster** @var{out_raster})
+@end deftypefun
+
+@deftypefun void idmc_raster_free (idmc_raster* @var{p})
+@end deftypefun
+
+@deftypefun void idmc_raster_setxy (idmc_raster* @var{p}, double @var{x}, double @var{y}, int @var{value})
+@end deftypefun
+
+@deftypefun int idmc_raster_getxy (idmc_raster* @var{p}, double @var{x}, double @var{y})
+@end deftypefun
+
+@deftypefun void idmc_raster_setXY (idmc_raster* @var{p}, int @var{X}, int @var{Y}, int @var{value})
+@end deftypefun
+
+@deftypefun int idmc_raster_getXY (idmc_raster* @var{p}, int @var{X}, int @var{Y})
+@end deftypefun
+
+@deftypefun void idmc_raster_set (idmc_raster* @var{p}, int @var{value})
+@end deftypefun
+
+@deftypefun int idmc_raster_isxyInsideBounds (idmc_raster* @var{p}, double @var{x}, double @var{y})
+@end deftypefun
+
+@deftypefun int idmc_raster_isXYInsideBounds (idmc_raster* @var{p}, int @var{x}, int @var{y})
+@end deftypefun
+
+The following macros can be used for translating from real
+to integer coordinate systems:
+@table @code
+@item idmc_raster_x2X(p, x)
+@item idmc_raster_y2Y(p, y)
+@end table
+
+The following macros translate @code{(X,Y)}/@code{(x,y)} pairs to
+linear array index and vice-versa:
+@table @code
+@item idmc_raster_XY2I(p, X, Y)
+@item idmc_raster_xy2I(p, x, y)
+@item idmc_raster_I2Y(p, I)
+@item idmc_raster_I2X(p, I)
+@item idmc_raster_I2y(p, I)
+@item idmc_raster_I2x(p, I)
+@item idmc_raster_XY2x(p, X, Y)
+@item idmc_raster_XY2y(p, X, Y)
+@end table
+
+@section Basins of attraction
+@deftypefun int idmc_basin_alloc (idmc_model* @var{m}, double* @var{parameters}, @
+        double @var{xmin}, double @var{xmax}, int @var{xres}, @
+        double @var{ymin}, double @var{ymax}, int @var{yres}, @
+        int @var{attractorLimit}, int @var{attractorIterations}, @
+        idmc_basin** @var{out_basin})
+	Allocate new 'idmc_basin' object
+
+@table @var
+@item m
+	model object (object is cloned)
+@item parameters
+	model parameters (vector will be copied)
+@item xmin, xmax, xres
+x axis range and resolution
+@item ymin, ymax, yres
+y axis range and resolution
+@item attractorLimit
+limit number of iterations before encountering an attractor
+@item attractorIterations
+limit number of iterations for drawing an attractor
+@item out_basin
+result object 
+@end table
+
+Returns an integer code as defined in @code{defines.h} (@pxref{common-return-values,,common return values}).
+
+@end deftypefun
+
+@deftypefun void idmc_basin_free (idmc_basin* @var{p})
+	Deallocates an idmc_basin object.
+@end deftypefun
+
+@deftypefun int idmc_basin_step (idmc_basin* @var{p})
+	Do one algorithm step.
+@end deftypefun
+
+@deftypefun int idmc_basin_finished (idmc_basin* @var{p})
+	Check if algorithm has finished.
+@end deftypefun
+
+@section Slow Basins
+Basins of attraction with slow algorithm
+
+@deftypefun int idmc_basin_slow_alloc (idmc_model* @var{m}, double* @var{parameters}, @
+	double @var{xmin}, double @var{xmax}, int @var{xres}, @
+	double @var{ymin}, double @var{ymax}, int @var{yres}, @
+	int @var{attractorLimit}, int @var{attractorIterations}, int @var{ntries}, @
+	idmc_basin_slow** @var{out_basin})
+Allocate new 'idmc_basin_slow' object
+@table @var
+@item m
+model object (object is cloned)
+@item parameters
+model parameters (vector will be copied)
+@item xmin, xmax, xres
+x axis ranges and resolution
+@item ymin, ymax, yres
+y axis ranges and resolution
+@item attractorLimit
+limit number of iterations before encountering an attractor
+@item attractorIterations
+limit number of iterations for drawing an attractor
+@item out_basin
+result object
+@end table
+Returns an integer code as defined in 'defines.h' (@pxref{common-return-values,,common return values}).
+@end deftypefun
+
+@deftypefun void idmc_basin_slow_free (idmc_basin_slow* @var{p})
+Deallocates an idmc_basin object
+@end deftypefun
+
+@deftypefun int idmc_basin_slow_init (idmc_basin_slow* @var{p})
+Init basin (find attractors)
+@end deftypefun
+
+@deftypefun int idmc_basin_slow_step (idmc_basin_slow* @var{p})
+Do one algorithm step
+@end deftypefun
+
+@deftypefun int idmc_basin_slow_finished (idmc_basin_slow* @var{p})
+Check if algorithm finished
+@end deftypefun
+
+@section Periodic cycles
+
+Functions for finding periodic cycles for a given dynamical system.
+
+@deftypefun int idmc_cycles_find (idmc_model* @var{model}, @
+  double* @var{parameters}, double* @var{start_point}, @
+  int @var{power}, double @var{epsilon}, @
+  int @var{max_iterations}, @
+  double* @var{result}, double* @var{eigvals})
+Try to find a cycle of period power for model @var{model} with parameters @var{parameters}.
+You have to feed a starting point @var{start_point} for the Newton-type algorithm used,
+the error tolerance @var{epsilon} and the max number of iterations @var{max_iterations}.
+An arbitrary point of the cycle is stored in @var{result}.
+In @var{eigvals} are stored modulus of eigenvalues associated with the cycle found (if any).
+@end deftypefun
+
+@deftypefun int idmc_cycles_powf (idmc_model* @var{model}, int @var{pow}, @
+	double* @var{par}, double* @var{var}, double* @var{ans})
+Computes the @var{pow} iterate of model @var{model} with parameters @var{par} and values @var{var}.
+@end deftypefun
+
+@deftypefun int idmc_cycles_powNumJac (idmc_model* @var{model}, int @var{pow}, double* @var{par}, @
+	double* @var{var}, double* @var{Jf}, double* @var{util})
+Numerically computes the jacobian of the @var{pow}th iterate of model @var{model}
+with parameters @var{par} in point @var{var}. The result matrix is stored in @var{Jf}.
+@var{util} must point to a workspace memory of size @code{3 * (model->var_len)}.
+@end deftypefun
+
+@deftypefun int idmc_cycles_eigval (double* @var{mat}, int @var{dim}, double* @var{ans})
+This is an utility function which computes (in @var{ans}) modulus of the eigenvalues of the
+@var{dim} by @var{dim} real matrix @var{mat}.
+@end deftypefun
+
+@section Lyapunov exponents
+
+Functions for numerical computation of Lyapunov exponents for discrete and continuous dynamical systems.
+
+@deftypefun int idmc_lexp (idmc_model* @var{model}, const double* @var{par}, @
+  double* @var{startPoint}, double* @var{result}, int @var{iterations})
+Compute Lyapunov exponents for discrete-time model @var{model} with parameters @var{par} in point @var{startPoint}.
+Stores result in @var{result}. You must provide the number of map iterations.
+@end deftypefun
+
+@deftypefun int idmc_lexp_ode (idmc_model* @var{model}, double* @var{parameters}, @
+	double* @var{startPoint}, double* @var{result}, double @var{time}, double @var{step})
+Compute Lyapunov exponents for continuous-time model @var{model} with parameters @var{parameters}
+in point @var{startPoint}. Stores result in @var{result}. You must provide the time span @var{time}
+and the integration step @var{step}.
+@end deftypefun
+
+@section Version info
+
+There are 3 basic functions for version info retrievial:
+
+@deftypefun int idmc_version_major ()
+@end deftypefun
+@deftypefun int idmc_version_minor ()
+@end deftypefun
+@deftypefun int idmc_version_micro ()
+@end deftypefun
+
+Their meaning is evident.
+
+@section Constants
+
+The @code{defines.h} header defines the constants described below.
+
+@table @samp
+@item IDMC_EPS_VALUE
+precision value for numerical derivative approximation
+@end table
+
+@anchor{common-return-values}
+The following are generic return codes for (almost) all library functions.
+@table @samp
+@item IDMC_OK
+normal operation
+
+@item IDMC_EMEM
+memory allocation error
+
+@item IDMC_ELUASYNTAX
+syntax error from lua itself
+
+@item IDMC_ERUN
+lua runtime error
+
+@item IDMC_EMODEL
+malformed model
+
+@item IDMC_EERROR
+inconsistent state (disaster)
+
+@item IDMC_EMATH
+algorithm failed
+
+@item IDMC_EINT
+interrupted by request
+@end table
