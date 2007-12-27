@@ -38,7 +38,6 @@ extern char *idmc_err_message[];
 
 #define IDMC_MAXSTRLEN 1024
 
-
 typedef struct {
 	lua_State* L;
 	int par_len;
