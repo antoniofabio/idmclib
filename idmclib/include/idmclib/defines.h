@@ -33,7 +33,7 @@ Last modified: $Date$
 #define IDMC_EMODEL 4
 /* inconsistent state (disaster) */
 #define IDMC_EERROR 5
-/* algorithm failed */
+/* algorithm failed, or logical error */
 #define IDMC_EMATH 6
 /* interrupted by request */
 #define IDMC_EINT 7
