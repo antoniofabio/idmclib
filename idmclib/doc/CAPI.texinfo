@@ -152,6 +152,13 @@ which are completely analogous to their discrete counterparts.
 @c FIXME: fill better informations about 'step_function_code'
 
 @section Raster image
+This module functions and data types are declared in the @code{idmclib/raster.h} header file.
+
+The @code{raster} module contains data structures and methods for handling raster images coded as integer arrays.
+
+This module is here mostly for internal use, and is heavily used by the basins of attraction functions.
+
+@c FIXME: explain real and integer coordinate systems
 
 @deftp {Data Type} idmc_raster
 
@@ -165,35 +172,46 @@ x axis settings
 @item int yres
 y axis settings
 @end table
+Structure which encapsulates a raster image data
 @end deftp
 
 @deftypefun int idmc_raster_alloc (double @var{xmin}, double @var{xmax}, int @var{xres}, @
 	double @var{ymin}, double @var{ymax}, int @var{yres}, @
 	idmc_raster** @var{out_raster})
+Allocate a new @code{idmc_raster} object. Returns @var{IDMC_OK} if all goes right, @var{IDMC_EMEM}
+if there are memory errors (@pxref{common-return-values,,common return values}).
 @end deftypefun
 
 @deftypefun void idmc_raster_free (idmc_raster* @var{p})
+De-allocate a previously allocated @code{idmc_raster} object.
 @end deftypefun
 
 @deftypefun void idmc_raster_setxy (idmc_raster* @var{p}, double @var{x}, double @var{y}, int @var{value})
+Set the value @var{value} in position (@var{x},@var{y}) (real coordinates).
 @end deftypefun
 
 @deftypefun int idmc_raster_getxy (idmc_raster* @var{p}, double @var{x}, double @var{y})
+Get the value at position (@var{x},@var{y}) (real coordinates).
 @end deftypefun
 
 @deftypefun void idmc_raster_setXY (idmc_raster* @var{p}, int @var{X}, int @var{Y}, int @var{value})
+Set the value @var{value} in position (@var{X},@var{Y}) (integer coordinates).
 @end deftypefun
 
 @deftypefun int idmc_raster_getXY (idmc_raster* @var{p}, int @var{X}, int @var{Y})
+Get the value at position (@var{X},@var{Y}) (integer coordinates).
 @end deftypefun
 
 @deftypefun void idmc_raster_set (idmc_raster* @var{p}, int @var{value})
+Set the value @var{value} for the whole raster @var{p}.
 @end deftypefun
 
 @deftypefun int idmc_raster_isxyInsideBounds (idmc_raster* @var{p}, double @var{x}, double @var{y})
+Check if point (@var{x},@var{y}) (real coordinates) is inside bounds of raster @var{p}.
 @end deftypefun
 
 @deftypefun int idmc_raster_isXYInsideBounds (idmc_raster* @var{p}, int @var{x}, int @var{y})
+Check if point (@var{x},@var{y}) (integer coordinates) is inside bounds of raster @var{p}.
 @end deftypefun
 
 The following macros can be used for translating from real
