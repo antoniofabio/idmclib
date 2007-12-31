@@ -21,6 +21,8 @@ Version informations
 @end table
 
 @section Model
+This module functions and data types are declared in the @code{idmclib/model.h} header file.
+
 The model module is probably the most important module, as it contains all the base functions for model allocation and manipulation.
 
 @deftypefun int idmc_model_alloc (const char* @var{buffer}, const int @var{buffer_len}, @
@@ -88,8 +90,9 @@ workspace pointers to a memory bloc of size: @code{model->nvar * sizeof(double)}
 Return values: a common constant (@pxref{common-return-values,,common return values}).
 
 @section Trajectory
+This module functions and data types are declared in the @code{idmclib/traj.h} header file.
 
-Functions for trajectories computation.
+The @code{traj} module contains functions for trajectories computation.
 
 @deftp {Data Type} idmc_trajectory
 A discrete trajectory object, with the following slots:
@@ -235,6 +238,11 @@ linear array index and vice-versa:
 @end table
 
 @section Basins of attraction
+This module functions and data types are declared in the @code{idmclib/basin.h} header file.
+
+The @code{basin} module contains functions and data types for computing basins of attraction
+of discrete-time, bivariate dynamical systems.
+
 @deftypefun int idmc_basin_alloc (idmc_model* @var{m}, double* @var{parameters}, @
         double @var{xmin}, double @var{xmax}, int @var{xres}, @
         double @var{ymin}, double @var{ymax}, int @var{yres}, @
@@ -276,7 +284,11 @@ Returns an integer code as defined in @code{defines.h} (@pxref{common-return-val
 @end deftypefun
 
 @section Slow Basins
-Basins of attraction with slow algorithm
+This module functions and data types are declared in the @code{idmclib/basin_slow.h} header file.
+
+The @code{basin_slow} module contains functions and data types for computing basins of attraction
+of discrete-time, bivariate dynamical systems with a slower (but sometimes more precise)
+algorithm w.r.t. that of the @code{basin} module.
 
 @deftypefun int idmc_basin_slow_alloc (idmc_model* @var{m}, double* @var{parameters}, @
 	double @var{xmin}, double @var{xmax}, int @var{xres}, @
@@ -320,8 +332,10 @@ Check if algorithm finished
 @end deftypefun
 
 @section Periodic cycles
+This module functions and data types are declared in the @code{idmclib/cycles.h} header file.
 
-Functions for finding periodic cycles for a given dynamical system.
+The @code{cycles} module contains functions and data types for finding periodic cycles for 
+discrete time dynamical systems.
 
 @deftypefun int idmc_cycles_find (idmc_model* @var{model}, @
   double* @var{parameters}, double* @var{start_point}, @
@@ -353,8 +367,10 @@ This is an utility function which computes (in @var{ans}) modulus of the eigenva
 @end deftypefun
 
 @section Lyapunov exponents
+This module functions and data types are declared in the @code{idmclib/lexp.h} header file.
 
-Functions for numerical computation of Lyapunov exponents for discrete and continuous dynamical systems.
+The @code{lexp} module contains functions and data types for
+the numerical computation of Lyapunov exponents of discrete and continuous dynamical systems.
 
 @deftypefun int idmc_lexp (idmc_model* @var{model}, const double* @var{par}, @
   double* @var{startPoint}, double* @var{result}, int @var{iterations})
@@ -370,8 +386,9 @@ and the integration step @var{step}.
 @end deftypefun
 
 @section Version info
+This module functions and data types are declared in the @code{idmclib/version.h} header file.
 
-There are 3 basic functions for version info retrievial:
+This module contains 3 basic functions for version info retrievial with evident meaning:
 
 @deftypefun int idmc_version_major ()
 @end deftypefun
@@ -380,10 +397,7 @@ There are 3 basic functions for version info retrievial:
 @deftypefun int idmc_version_micro ()
 @end deftypefun
 
-Their meaning is evident.
-
 @section Constants
-
 The @code{defines.h} header defines the constants described below.
 
 @table @samp
