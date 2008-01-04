@@ -8,7 +8,7 @@ it has a total of 3197 lines, distributed over 25 header and source files.
 The C Application Programming Interface (API) is fully documented, while internal details can be deduced from
 direct inspection of sources, where more obscure parts are well commented.
 
-Thanks to the open source license, idmclib source code can be studied
+Thanks to the open source license, idmclib source code can be freely studied
 and reused in other projects. The final user can link his own software
 to the officially distributed library, as well as take part or all of the sources
 and freely modify them for his needs.
@@ -16,15 +16,11 @@ and freely modify them for his needs.
 @section History
 The first version of DMC (an MS DOS software) was released in 1993 (?)...
 
-iDMC was developed within a research project financed by the Italian
-Ministry of Universities, the Universities of Udine and Ca'Foscari of
-Venice, the Friuli-Venezia Giulia Region.
-
 In 2004 M. Lines and A. Medio, with the financial support of the Italian
 Ministry of Universities, the Universities of Udine and Ca'Foscari of
 Venice and the Friuli-Venezia Giulia Region, started a new project.
 Within this project, DMC was completely rewritten, and renamed iDMC,
-the @emph{interactive}, Dynamical Model Calculator.
+the @emph{interactive} Dynamical Model Calculator.
 
 In contrast with DMC, iDMC has a modern, cross-platform Graphical User Interface (GUI)
 written in Java. Dynamical systems are coded in an easy to learn scripting language, Lua,
@@ -32,13 +28,13 @@ so no compilation is necessary for the end user for analysing a new model.
 Even if the GUI is written in Java, the computational core is still coded in C.
 
 The iDMC software is easy to use, and produces good quality plots
-with very little efforts. However, from the developer point of view,
+with very little efforts from the final user. However, from the developer point of view,
 the GUI shell code has become
 huge and relatively hard to maintain, with long learning periods
 for new developers. In addition, the software at this point contains a mix of Java and C code,
 requiring (in principle) skills in these two programming languages
 at the same time, reducing in practice the set of potential developers
-who can work on the project.
+who can contribute to the project.
 
 For these reasons in 2007, financially supported by the University of Udine (Italy),
 a cleanup of iDMC was started. All the C sources were extracted and packed in a self-sufficient,
