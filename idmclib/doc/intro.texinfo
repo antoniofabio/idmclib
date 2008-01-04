@@ -2,26 +2,19 @@
 @chapter Introduction
 The idmclib is a compact C library for the numerical analysis of discrete and continuous time dynamical systems.
 
-Apart from the C API, it has bindings for:
-@itemize @bullet
-@item Java
-@item R
-@item Python (unmantained)
-@end itemize
-
 The library has been written with simplicity in mind. Currently (version 0.8.2)
 it has a total of 3197 lines, distributed over 25 header and source files.
 
-The C API is fully documented, while internal details can be deduced from
+The C Application Programming Interface (API) is fully documented, while internal details can be deduced from
 direct inspection of sources, where more obscure parts are well commented.
 
-Thanks to the open source license, idmclib code can be easily studied
+Thanks to the open source license, idmclib source code can be studied
 and reused in other projects. The final user can link his own software
 to the officially distributed library, as well as take part or all of the sources
-and freely adapt them to his needs.
+and freely modify them for his needs.
 
 @section History
-The first version of DMC was an MS DOS software...
+The first version of DMC (an MS DOS software) was released in 1993 (?)...
 
 iDmc was developed within a research project financed by the Italian
 Ministry of Universities, the Universities of Udine and Ca'Foscari of
@@ -40,12 +33,13 @@ Even if the GUI is written in Java, the computational core is still coded in C.
 The iDMC software is easy to use, and produces good quality plots
 with very little efforts. However the GUI shell code has become
 huge and relatively hard to maintain, with long learning periods
-for new developers. In addition, the software contains Java and C code,
-so requires (in principle) competence in these two programming languages
-at the same time, reducing in practice the set of potential developers.
+for new developers. In addition, the software contains a mix of Java and C code,
+so requires (in principle) knoweledges in these two programming languages
+at the same time, reducing in practice the set of potential developers
+who can work on the project.
 
 For these reasons in 2007, financially supported by the University of Udine (Italy),
 a cleanup of iDMC was started. All the C sources were extracted and packed in a self-sufficient,
 well documented C library.
 Currently, iDMC is a pure Java software, while the idmclib library is a plain C library
-with bindings to other programming languages.
+with bindings to other programming languages, such as Java, R and Python.
