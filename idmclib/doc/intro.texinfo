@@ -23,19 +23,28 @@ and freely adapt them to his needs.
 @section History
 The first version of DMC was an MS DOS software...
 
-In .... the Ministry of ... started a new project. DMC was completely rewritten,
-and renamed iDMC.
-iDMC has a modern, cross-platform Graphical User Interface (GUI) written in Java,
-and dynamical systems are coded in an easy to learn scripting language, Lua.
+iDmc was developed within a research project financed by the Italian
+Ministry of Universities, the Universities of Udine and Ca'Foscari of
+Venice, the Friuli-Venezia Giulia Region.
+
+In 2004 M. Lines and A. Medio, with the financial support of the Italian
+Ministry of Universities, the Universities of Udine and Ca'Foscari of
+Venice and the Friuli-Venezia Giulia Region, started a new project.
+Within this project, DMC was completely rewritten, and renamed iDMC.
+
+In contrast with DMC, iDMC has a modern, cross-platform Graphical User Interface (GUI)
+written in Java. Dynamical systems are coded in an easy to learn scripting language, Lua,
+so no compilation is necessary for the end user for analysing a new model.
 Even if the GUI is written in Java, the computational core is still coded in C.
 
 The iDMC software is easy to use, and produces good quality plots
 with very little efforts. However the GUI shell code has become
 huge and relatively hard to maintain, with long learning periods
 for new developers. In addition, the software contains Java and C code,
-so requires (in principle) competence in these two programming languages.
+so requires (in principle) competence in these two programming languages
+at the same time, reducing in practice the set of potential developers.
 
-For these reasons in 2007, financially supported by the University of Udine (Italy)
+For these reasons in 2007, financially supported by the University of Udine (Italy),
 a cleanup of iDMC was started. All the C sources were extracted and packed in a self-sufficient,
 well documented C library.
 Currently, iDMC is a pure Java software, while the idmclib library is a plain C library
