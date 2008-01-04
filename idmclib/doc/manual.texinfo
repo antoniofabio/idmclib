@@ -40,6 +40,8 @@ License''.
 @insertcopying
 @end ifnottex
 
+@include intro.texinfo
+
 @include specifyingModels.texinfo
 
 @include CAPI.texinfo
