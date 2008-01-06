@@ -28,7 +28,7 @@ so no compilation is necessary for the end user for analysing a new model.
 Even if the GUI is written in Java, the computational core is still coded in C.
 
 The iDMC software is easy to use, and produces good quality plots
-with very little efforts from the final user. However, from the developer point of view,
+with very little efforts for the final user. However, from the developer point of view,
 the GUI shell code has become
 huge and relatively hard to maintain, with long learning periods
 for new developers. In addition, the software at this point contains a mix of Java and C code,
