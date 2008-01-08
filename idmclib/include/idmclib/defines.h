@@ -18,6 +18,10 @@ Last modified: $Date$
 #ifndef _IDMC_DEFINES_H
 #define _IDMC_DEFINES_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* eps value for numerical derivative computation */
 #define IDMC_EPS_VALUE 2e-8
 
@@ -37,5 +41,9 @@ Last modified: $Date$
 #define IDMC_EMATH 6
 /* interrupted by request */
 #define IDMC_EINT 7
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

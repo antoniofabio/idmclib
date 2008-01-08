@@ -1,5 +1,10 @@
 #ifndef __BASINS_COMMON_H__
 #define __BASINS_COMMON_H__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <string.h>
 #include "defines.h"
 #include "raster.h"
@@ -41,5 +46,9 @@ void fillRasterTrack(idmc_raster *r, idmc_model *m,
 
 /*Stopping condition:*/
 #define basin_finished(p) ((p)->currId >= ((p)->dataLength))
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
