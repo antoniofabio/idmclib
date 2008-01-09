@@ -25,6 +25,39 @@ This module functions and data types are declared in the @code{idmclib/model.h} 
 
 The model module is probably the most important module, as it contains all the base functions for model allocation and manipulation.
 
+@deftp {Data Type} idmc_model
+An @code{idmc_model} object, with the following slots:
+
+@table @code
+@item int par_len
+	number of parameters
+@item char** par
+	parameters names
+@item int var_len
+	number of variables
+@item char** var
+	variables names
+@item has_inverse
+@item has_jacobian
+	boolean flags
+@item char* buffer
+	model code buffer
+@item int buflen
+	model buffer length
+@item char* name
+	model name
+@item char* desc
+	model description
+@item char* type
+	model type
+@item char* errorMessage
+	last error message buffer
+@item int interrupt
+	generic external interrupt flag
+@end table
+@end deftp
+
+
 @deftypefun int idmc_model_alloc (const char* @var{buffer}, const int @var{buffer_len}, @
 	idmc_model** @var{s})
 Allocates a new @code{idmc_model} object, and eventually stores it in @var{s}.
