@@ -34,7 +34,7 @@ FIND_LIBRARY(GSLCBLAS_LIBRARY gslcblas
 FIND_LIBRARY(M_LIBRARY m
   PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/idmclib.pc.cmake ${CMAKE_CURRENT_SOURCE_DIR}/idmclib.pc)
+CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/idmclib.pc.cmake ${PROJECT_BINARY_DIR}/idmclib.pc)
 
 EXECUTE_PROCESS(
    COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -56,8 +56,7 @@ add_subdirectory (doc)
 add_subdirectory (tests)
 
 INSTALL(FILES AUTHORS BUGS ChangeLog license README DESTINATION lib/idmclib)
-INSTALL(FILES idmclib.pc DESTINATION lib/pkgconfig)
+INSTALL(FILES ${PROJECT_BINARY_DIR}/idmclib.pc DESTINATION lib/pkgconfig)
 #INSTALL(DIRECTORY doc DESTINATION lib/idmclib) ##currently empty
 INSTALL(DIRECTORY include/idmclib DESTINATION include)
-
 
