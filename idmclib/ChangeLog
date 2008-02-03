@@ -1,27 +1,32 @@
-0.8.2
+0.9.0
+- added pkg-config support
+- added C++ compatibility directives to include files
+- improved documentation
+
+0.8.2 - 10/12/2007
 - added API documentation in texinfo (html,pdf,...) format
 - upgraded java bindings to reporting new syntax error messages
 - robustified idmc_model_free functions (now accepts even NULL pointers)
 - added detailed syntax error message reporting to the user
 
-0.8.1
+0.8.1 - 07/12/2007
 - fixed serious bug in Numerical Jacobian Evaluation routine
 - added more testing code
 - robustified error message reporting
 - misc code cleaning
 
-0.8.0
+0.8.0 - 16/11/2007
 - removed all BLAS/LAPACK fortran code. Now depending exclusively on gsl and lua
 - updated dependency from gsl version 1.9 (eigenvalues for nonsymm. matrices)
 
-0.7.0
+0.7.0 - 06/07/2007
 - added version info functions to java interface
 
-0.6.1
+0.6.1 - 30/06/2007
 - improved version-info definitions
 - fixed bug in basin_slow module
 
-0.6.0
+0.6.0 - 14/06/2007
 - added basin_slow module
 - added version info functions
 - moved R bindings to separate, indipendent project
