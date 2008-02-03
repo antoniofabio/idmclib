@@ -14,7 +14,8 @@ to the officially distributed library, as well as take part or all of the source
 and freely modify them for his needs.
 
 @section History
-The first version of DMC (an MS DOS software) was released in 1993 (?)...
+The first version of DMC was released in 1987, and was an MS DOS software distributed
+on a 5.5in floppy disk.
 
 In 2004 M. Lines and A. Medio, with the financial support of the Italian
 Ministry of Universities, the Universities of Udine and Ca'Foscari of
@@ -38,6 +39,7 @@ who can contribute to the project.
 
 For these reasons in 2007, financially supported by the University of Udine (Italy),
 a cleanup of iDMC was started. All the C sources were extracted and packed in a self-sufficient,
-well documented C library.
+well documented C library: the idmclib library.
 Currently, iDMC is a pure Java software, while the idmclib library is a plain C library
 with bindings to other programming languages, such as Java, R and Python.
+
