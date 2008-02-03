@@ -1,0 +1,16 @@
+*.aux
+*.cp
+*.cps
+*.dvi
+*.fn
+*.fns
+*.html
+*.ky
+*.log
+*.pdf
+*.pg
+*.tmp
+*.toc
+*.tp
+*.vr
+version.texinfo
