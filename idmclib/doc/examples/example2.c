@@ -18,15 +18,14 @@ char model_txt[] =
 int main(int argc, char* argv[]) {
 	idmc_model *m;
 	idmc_traj_trajectory *t;
-	double start, par;
-	int steps;
+	double start = 1.0;
+	double par = 0.5;
+	int steps = 4;
+	int i;
 	
 	idmc_model_alloc(model_txt, strlen(model_txt), &m);
-	printf("Insert starting value:\n");	scanf("%lg", &start);
-	printf("Insert parameter value:\n");	scanf("%lg", &par);
-	printf("Insert number of steps:\n");	scanf("%d", &steps);
 	idmc_traj_trajectory_alloc(m, &par, &start, &t);
-	for(int i=1; i<=steps; i++){
+	for(i=1; i<=steps; i++){
 		idmc_traj_trajectory_step(t);
 		printf("step %d: %f\n", i, t->var[0]);
 	}
