@@ -2,15 +2,17 @@
 #include <string.h>
 #include <idmclib/model.h>
 
-char model_txt[] = "name=\"example1\"\n"
-"description=\"a sample model\"n"
-"type=\"D\"\n"
-"parameters=\"a\"\n"
-"variables=\"x\"\n"
+char model_txt[] =
+"name = \"example1\"\n"
+"description = \"a sample model\"\n"
+"type = \"D\"\n"
+"parameters = \"a\"\n"
+"variables = \"x\"\n"
 "\n"
 "function f(a, x)\n"
 "	x = a*runif()\n"
-"	return x\n";
+"	return x\n"
+"end\n";
 
 int main(int argc, char* argv) {
 	idmc_model *m;

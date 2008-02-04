@@ -1,11 +1,28 @@
 
-@chapter Getting started
+@chapter Tutorial 
 
-@section The first idmclib program
-Save the above lines in a file named 'example1.c' and issue at the shell prompt:
+@section Getting started
+Lets write our first idmclib program: 
 
-gcc example1.c -o example1 `pkg-config --cflags --libs`
+@example
+@verbatiminclude examples/example1.c
+@end example
 
-Now you can execute this example:
+Save the above lines in a file named 'example1.c' and type at the shell prompt:
+
+@example
+gcc example1.c -o example1 `pkg-config idmclib --cflags --libs`
+@end example
+
+Now you can execute the program:
+@example
 ./example1
+model correctly loaded
+@end example
 
+That's all!
+
+@section Managing syntax errors
+
+@section Managing runtime errors
+ 
