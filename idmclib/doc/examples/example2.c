@@ -11,39 +11,21 @@ char model_txt[] =
 "parameters=\"p\"\n"
 "\n"
 "function f(p, x)\n"
-"	x = p*x\n"
+"	x = p * x\n"
 "	return x\n"
 "end";
-
-void error(char *msg) {
-	printf("error: %s\n", msg);
-}
 
 int main(int argc, char* argv[]) {
 	idmc_model *m;
 	idmc_traj_trajectory *t;
 	double start, par;
-	int s, steps;
+	int steps;
 	
-	s = idmc_model_alloc(model_txt, strlen(model_txt), &m);
-	if(s != IDMC_OK) {
-		error("cannot load model");
-		idmc_model_free(m);
-		return 1;
-	}
-	printf("Insert starting value:\n");
-	scanf("%lg", &start);
-	printf("Insert parameter value:\n");
-	scanf("%lg", &par);
-	printf("Insert number of steps:\n");
-	scanf("%d", &steps);
-	s = idmc_traj_trajectory_alloc(m, &par, &start, &t);
-	if(s != IDMC_OK) {
-		error("cannot build trajectory\n");
-		idmc_traj_trajectory_free(t);
-		idmc_model_free(m);
-		return 1;
-	}
+	idmc_model_alloc(model_txt, strlen(model_txt), &m);
+	printf("Insert starting value:\n");	scanf("%lg", &start);
+	printf("Insert parameter value:\n");	scanf("%lg", &par);
+	printf("Insert number of steps:\n");	scanf("%d", &steps);
+	idmc_traj_trajectory_alloc(m, &par, &start, &t);
 	for(int i=1; i<=steps; i++){
 		idmc_traj_trajectory_step(t);
 		printf("step %d: %f\n", i, t->var[0]);
