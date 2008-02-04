@@ -1,4 +1,5 @@
 0.9.0
+- robustified IDMC_EPS_VALUE definition
 - added pkg-config support
 - added C++ compatibility directives to include files
 - improved documentation
