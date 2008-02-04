@@ -22,7 +22,24 @@ model correctly loaded
 
 That's all!
 
-@section Computing Lyapunov spectrum of discrete models
+@section Doing numerical analysis
+Once a model is loaded, various analysis can be done on it.
+As a full reference, consult the API documentation. Here we will present some simple
+cases.
+
+@subsection Computing trajectories
+@example
+@verbatiminclude examples/example2.c
+@end example
+
+Compile with:
+@example
+gcc example2.c -o example2 --std=gnu99 `pkg-config idmclib --cflags --libs`
+@end example
+
+@subsection Finding periodic cycles
+
+@subsection Computing Lyapunov exponents
 
 @section Managing syntax errors
 
