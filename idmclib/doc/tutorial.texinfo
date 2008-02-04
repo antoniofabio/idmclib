@@ -34,7 +34,16 @@ cases.
 
 Compile with:
 @example
-gcc example2.c -o example2 --std=gnu99 `pkg-config idmclib --cflags --libs`
+gcc example2.c -o example2 `pkg-config idmclib --cflags --libs`
+@end example
+
+and run:
+@example
+./example2
+step 1: 0.500000
+step 2: 0.250000
+step 3: 0.125000
+step 4: 0.062500
 @end example
 
 @subsection Finding periodic cycles

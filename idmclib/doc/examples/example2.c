@@ -16,11 +16,11 @@ char model_txt[] =
 "end";
 
 int main(int argc, char* argv[]) {
-	idmc_model *m;
-	idmc_traj_trajectory *t;
-	double start = 1.0;
-	double par = 0.5;
-	int steps = 4;
+	idmc_model *m;			/*model object*/
+	idmc_traj_trajectory *t;	/*trajectory object*/
+	double start = 1.0;		/*starting point*/
+	double par = 0.5;		/*parameter value*/
+	int steps = 4;			/*number of steps*/
 	int i;
 	
 	idmc_model_alloc(model_txt, strlen(model_txt), &m);
