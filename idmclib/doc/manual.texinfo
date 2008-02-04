@@ -42,6 +42,8 @@ License''.
 
 @include intro.texinfo
 
+@include tutorial.texinfo
+
 @include specifyingModels.texinfo
 
 @include CAPI.texinfo
