@@ -22,6 +22,8 @@ model correctly loaded
 
 That's all!
 
+@section Computing Lyapunov spectrum of discrete models
+
 @section Managing syntax errors
 
 @section Managing runtime errors
