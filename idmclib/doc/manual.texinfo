@@ -11,7 +11,7 @@
 This is the manual of the @uref{http://idmclib.googlecode.com, idmclib} C library,
 version @version
 
-Copyright @copyright{} 2007 Marji Lines, Alfredo Medio
+Copyright @copyright{} 2007-2008 Marji Lines, Alfredo Medio
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2 or
