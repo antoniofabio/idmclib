@@ -22,8 +22,11 @@ Last modified: $Date$
 extern "C" {
 #endif
 
+#include <math.h>
+#include <float.h>
+
 /* eps value for numerical derivative computation */
-#define IDMC_EPS_VALUE 2e-8
+#define IDMC_EPS_VALUE sqrt(DBL_EPSILON)
 
 /* normal operation */
 #define IDMC_OK 0
