@@ -127,7 +127,7 @@ This module functions and data types are declared in the @code{idmclib/traj.h} h
 
 The @code{traj} module contains functions for trajectories computation.
 
-@deftp {Data Type} idmc_trajectory
+@deftp {Data Type} idmc_traj_trajectory
 A discrete trajectory object, with the following slots:
 
 @table @code
