@@ -1,0 +1,11 @@
+
+@chapter Getting started
+
+@section The first idmclib program
+Save the above lines in a file named 'example1.c' and issue at the shell prompt:
+
+gcc example1.c -o example1 `pkg-config --cflags --libs`
+
+Now you can execute this example:
+./example1
+
