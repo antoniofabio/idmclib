@@ -27,3 +27,5 @@ ADD_CUSTOM_TARGET(pdf-doc ALL echo
   DEPENDS ${idmclib_BINARY_DIR}/doc/manual.pdf)
 INSTALL(FILES ${idmclib_BINARY_DIR}/doc/manual.pdf DESTINATION lib/idmclib/doc)
 ENDIF(NOT TEXI2PDF)
+
+INSTALL(DIRECTORY ${idmclib_SOURCE_DIR}/doc/examples DESTINATION lib/idmclib/doc)
