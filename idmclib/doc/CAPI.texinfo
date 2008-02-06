@@ -1,5 +1,5 @@
-@chapter C API
-
+@chapter C API 
+@anchor{CAPI}
 The library is ideally divided in modules:
 @table @code
 @item idmc_model
