@@ -1,5 +1,12 @@
+@chapter Tutorial
 
-@chapter Tutorial 
+In this chapter, the usage of the idmclib library is illustrated.
+A Linux environment is assumed, with a gcc compiler and the pkg-config utility.
+However, any *nix system with an ANSI standard compliant C compiler should work equally well.
+
+Note that the idmclib library should be already installed.
+
+For Windows users, the MinGW compiler with the MSYS environment can be used.
 
 @section Getting started
 Lets write our first idmclib program: 
@@ -8,7 +15,7 @@ Lets write our first idmclib program:
 @verbatiminclude examples/example1.c
 @end example
 
-Save the above lines in a file named 'example1.c' and type at the shell prompt:
+Save the above lines in a file named `example1.c' and type at the shell prompt:
 
 @example
 gcc example1.c -o example1 `pkg-config idmclib --cflags --libs`
@@ -24,7 +31,7 @@ That's all!
 
 @section Doing numerical analysis
 Once a model is loaded, various analysis can be done on it.
-As a full reference, consult the API documentation. Here we will present some simple
+As a full reference, consult the API documentation (@pxref{CAPI, C API}). Here we will present some simple
 cases.
 
 @subsection Computing trajectories
@@ -46,11 +53,26 @@ step 3: 0.125000
 step 4: 0.062500
 @end example
 
-@subsection Finding periodic cycles
+%@subsection Finding periodic cycles
 
-@subsection Computing Lyapunov exponents
+%@subsection Computing Lyapunov exponents
 
 @section Managing syntax errors
 
+
 @section Managing runtime errors
- 
+@example
+@verbatiminclude ex_error.c
+@end example
+
+Save in `ex_error.c' and compile as usual:
+@example
+gcc ex_error.c -o ex_error `pkg-config idmclib --cflags --libs`
+@end example
+
+Now run the executable:
+@example
+./ex_error
+runtime error: 7: attempt to perform arithmetic on a string value
+@end example
+
