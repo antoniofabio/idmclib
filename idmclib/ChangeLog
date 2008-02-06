@@ -1,9 +1,10 @@
 0.9.0
+- added tutorial chapter to documentation
+- added intro section to documentation
+- fixes and additions to documentation
 - robustified IDMC_EPS_VALUE definition
 - added pkg-config support
 - added C++ compatibility directives to include files
-- added intro section to documentation
-- fixes and additions to documentation
 
 0.8.2 - 10/12/2007
 - added API documentation in texinfo (html,pdf,...) format
