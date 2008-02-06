@@ -276,6 +276,23 @@ This module functions and data types are declared in the @code{idmclib/basin.h} 
 The @code{basin} module contains functions and data types for computing basins of attraction
 of discrete-time, bivariate dynamical systems.
 
+@deftp {Data Type} idmc_basin
+An @code{idmc_basin} object, with the following slots:
+
+@table @code
+@item idmc_model* model
+	model object
+@item double* parameters
+	model parameters
+@item idmc_raster* raster
+	raster data
+@item int attractorLimit
+	no. iterations for transient
+@item int attractorIterations
+	no. iterations for describing an attractor
+@end table
+@end deftp
+
 @deftypefun int idmc_basin_alloc (idmc_model* @var{m}, double* @var{parameters}, @
         double @var{xmin}, double @var{xmax}, int @var{xres}, @
         double @var{ymin}, double @var{ymax}, int @var{yres}, @
@@ -322,6 +339,27 @@ This module functions and data types are declared in the @code{idmclib/basin_slo
 The @code{basin_slow} module contains functions and data types for computing basins of attraction
 of discrete-time, bivariate dynamical systems with a slower (but sometimes more precise)
 algorithm w.r.t. that of the @code{basin} module.
+
+@deftp {Data Type} idmc_basin_slow
+An @code{idmc_basin_slow} object, with the following slots:
+
+@table @code
+@item idmc_model* model
+	model object
+@item double* parameters
+	model parameters
+@item idmc_raster* raster
+	raster data
+@item int attractorLimit
+	no. iterations for transient
+@item int attractorIterations
+	no. iterations for describing an attractor
+@item int ntries
+	no. tries for finding attractors
+@item int nAttractors
+	how many attractors were found
+@end table
+@end deftp
 
 @deftypefun int idmc_basin_slow_alloc (idmc_model* @var{m}, double* @var{parameters}, @
 	double @var{xmin}, double @var{xmax}, int @var{xres}, @
