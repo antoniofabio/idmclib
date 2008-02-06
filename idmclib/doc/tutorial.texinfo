@@ -53,16 +53,16 @@ step 3: 0.125000
 step 4: 0.062500
 @end example
 
-%@subsection Finding periodic cycles
+@subsection Finding periodic cycles
 
-%@subsection Computing Lyapunov exponents
+@subsection Computing Lyapunov exponents
 
 @section Managing syntax errors
 
 
 @section Managing runtime errors
 @example
-@verbatiminclude ex_error.c
+@verbatiminclude examples/ex_error.c
 @end example
 
 Save in `ex_error.c' and compile as usual:
