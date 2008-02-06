@@ -53,12 +53,11 @@ step 3: 0.125000
 step 4: 0.062500
 @end example
 
-@subsection Finding periodic cycles
+@c @subsection Finding periodic cycles
 
-@subsection Computing Lyapunov exponents
+@c @subsection Computing Lyapunov exponents
 
-@section Managing syntax errors
-
+@c @section Managing syntax errors
 
 @section Managing runtime errors
 @example
