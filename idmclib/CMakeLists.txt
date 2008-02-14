@@ -34,7 +34,7 @@ FIND_LIBRARY(GSLCBLAS_LIBRARY gslcblas
 FIND_LIBRARY(M_LIBRARY m
   PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 
-CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/idmclib.pc.cmake ${PROJECT_BINARY_DIR}/idmclib.pc)
+CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/idmclib.pc.cmake ${PROJECT_BINARY_DIR}/idmclib.pc @ONLY)
 
 EXECUTE_PROCESS(
    COMMAND ${CMAKE_COMMAND} -E copy_directory
