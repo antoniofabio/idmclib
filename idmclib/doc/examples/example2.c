@@ -3,6 +3,7 @@
 #include <idmclib/model.h>
 #include <idmclib/traj.h>
 
+/*model text*/
 char model_txt[] = 
 "name=\"a\"\n"
 "description=\"\"\n"
@@ -22,13 +23,17 @@ int main(int argc, char* argv[]) {
 	double par = 0.5;		/*parameter value*/
 	int steps = 4;			/*number of steps*/
 	int i;
-	
+
+	/*load model*/
 	idmc_model_alloc(model_txt, strlen(model_txt), &m);
+	/*load a new trajectory object*/
 	idmc_traj_trajectory_alloc(m, &par, &start, &t);
 	for(i=1; i<=steps; i++){
-		idmc_traj_trajectory_step(t);
+		idmc_traj_trajectory_step(t); /*compute 1 trajectory step*/
+		/*current point is stored in array t->var:*/
 		printf("step %d: %f\n", i, t->var[0]);
 	}
+	/*free resources*/
 	idmc_traj_trajectory_free(t);
 	idmc_model_free(m);
 	return 0;

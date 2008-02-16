@@ -4,12 +4,12 @@ In this chapter, the usage of the idmclib library is illustrated.
 A Linux environment is assumed, with a gcc compiler and the pkg-config utility.
 However, any *nix system with an ANSI standard compliant C compiler should work equally well.
 
-Note that the idmclib library should be already installed.
-
 For Windows users, the MinGW compiler with the MSYS environment can be used.
 
+Note that the idmclib library should be already installed.
+
 @section Getting started
-Lets write our first idmclib program: 
+Let's write our first idmclib program: 
 
 @example
 @verbatiminclude examples/example1.c
@@ -35,11 +35,21 @@ As a full reference, consult the API documentation (@pxref{CAPI, C API}). Here w
 cases.
 
 @subsection Computing trajectories
+In this example we will compute a trajectory for the map
+@tex
+$ x_{t+1} = p \cdot x_t$
+@end tex
+@html
+x(t+1) = p * x(t)
+@end html
+.
+
+Consider the following listing:
 @example
 @verbatiminclude examples/example2.c
 @end example
 
-Compile with:
+Save it in a file called `example2.c'. Compile with:
 @example
 gcc example2.c -o example2 `pkg-config idmclib --cflags --libs`
 @end example
@@ -75,3 +85,4 @@ Now run the executable:
 runtime error: 7: attempt to perform arithmetic on a string value
 @end example
 
+Note that a reference to the line number which caused the error is reported.
