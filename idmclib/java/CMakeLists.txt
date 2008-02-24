@@ -5,7 +5,7 @@ link_directories (
 ${idmclib_BINARY_DIR}/src
 )
 
-FILE(MAKE_DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org/tsho/jidmclib)
+FILE(MAKE_DIRECTORY ${idmclib_BINARY_DIR}/java/org/tsho/jidmclib)
 SET(CMAKE_SWIG_OUTDIR org/tsho/jidmclib)
 SET(CMAKE_SWIG_FLAGS -package org.tsho.jidmclib)
 

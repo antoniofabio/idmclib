@@ -45,14 +45,14 @@ ENABLE_TESTING()
 
 add_subdirectory (src)
 IF(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
-add_subdirectory (jidmc)
+add_subdirectory (java)
 ELSE(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
 MESSAGE(STATUS "Java include paths and/or swig executable not found: not building Java bindings. 
 If you want to build Java bindings, try manually setting JAVA_INCLUDE_PATH, JAVA_INCLUDE_PATH2 
 and/or SWIG_DIR, SWIG_EXECUTABLE variables")
 ENDIF(JAVA_INCLUDE_PATH AND JAVA_INCLUDE_PATH2 AND SWIG_EXECUTABLE)
 add_subdirectory (doc)
-#add_subdirectory (pyidmc)
+#add_subdirectory (python)
 add_subdirectory (tests)
 
 INSTALL(FILES AUTHORS BUGS ChangeLog license README DESTINATION lib/idmclib)
