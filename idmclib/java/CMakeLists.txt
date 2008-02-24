@@ -1,16 +1,14 @@
 INCLUDE_DIRECTORIES(${JAVA_INCLUDE_PATH})
 INCLUDE_DIRECTORIES(${JAVA_INCLUDE_PATH2})
 include_directories (${idmclib_SOURCE_DIR}/include)
-link_directories (
-${idmclib_BINARY_DIR}/src
-)
+link_directories (${idmclib_BINARY_DIR}/src)
 
 FILE(MAKE_DIRECTORY ${idmclib_BINARY_DIR}/java/org/tsho/jidmclib)
 SET(CMAKE_SWIG_OUTDIR org/tsho/jidmclib)
 SET(CMAKE_SWIG_FLAGS -package org.tsho.jidmclib)
 
 SWIG_ADD_MODULE(jidmclib java idmc.i)
-SWIG_LINK_LIBRARIES( jidmclib 
+SWIG_LINK_LIBRARIES(jidmclib
 	idmclib
 	${LUA_LIBRARY} ${LUALIB_LIBRARY} 
 	${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY})
@@ -20,9 +18,7 @@ SET_TARGET_PROPERTIES(jidmclib PROPERTIES LINK_FLAGS -Wl,--kill-at)
 ENDIF(WIN32 AND NOT UNIX)
 
 INSTALL(TARGETS jidmclib DESTINATION lib/jidmclib)
-INSTALL(DIRECTORY ${idmclib_BINARY_DIR}/jidmc/org DESTINATION lib/jidmclib
-#PATTERN ".svn" EXCLUDE
-)
+INSTALL(DIRECTORY ${idmclib_BINARY_DIR}/java/org DESTINATION lib/jidmclib)
 FILE(GLOB files "${CMAKE_CURRENT_BIN_DIR}/*.c")
 INSTALL(FILES ${files} DESTINATION lib/jidmclib)
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.i")

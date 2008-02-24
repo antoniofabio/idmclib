@@ -4,8 +4,9 @@ link_directories (${idmclib_BINARY_DIR}/src)
 SWIG_ADD_MODULE(pyidmclib python idmc.i)
 SWIG_LINK_LIBRARIES(pyidmclib
 	idmclib ${LUA_LIBRARY} ${LUALIB_LIBRARY}
-	${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY})
-SET_TARGET_PROPERTIES(pyidmclib PROPERTIES COMPILE_FLAGS ${PYTHON_CFLAGS})
+	${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY}
+	`python-config --libs`)
+#SET_TARGET_PROPERTIES(pyidmclib PROPERTIES COMPILE_FLAGS "`python-config --cflags`")
 
 INSTALL(TARGETS pyidmclib DESTINATION lib/pyidmclib)
 INSTALL(DIRECTORY ${idmclib_BINARY_DIR}/pyidmclib DESTINATION lib/pyidmclib)

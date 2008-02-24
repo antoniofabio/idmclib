@@ -1,8 +1,6 @@
- /* example.i */
  %module idmc
  %include "typemaps.i"
  %{
-/* Put header files here or function declarations like below */
 #include <stdio.h>
 #include <idmclib/model.h>
 #include <idmclib/traj.h>
