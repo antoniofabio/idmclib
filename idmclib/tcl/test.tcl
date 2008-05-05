@@ -95,3 +95,26 @@ idmc_cycles_powNumJac $m 2 $par $var $out_jac $util
 doubleArray_getitem $out_jac 0
 idmc_cycles_eigval $out_jac 1 $out_eigvals
 doubleArray_getitem $out_eigvals 0
+
+#basin
+set m [model_alloc [myfread test2.lua]]
+set par [new_doubleArray 1]
+set bs [basin_alloc $m $par -1.5 1.5 100 -1.5 1.5 100 1000 100]
+set ::i 0
+while {![idmc_basin_finished $bs]} {
+	idmc_basin_step $bs
+	incr ::i
+}
+puts $::i
+
+#basin_slow
+set m [model_alloc [myfread test2.lua]]
+set par [new_doubleArray 1]
+set bs [basin_slow_alloc $m $par -2.0 2.0 100 -2.0 2.0 100 1000 1000 20]
+
+set ::i 0
+while {![idmc_basin_slow_finished $bs]} {
+	idmc_basin_slow_step $bs
+	incr ::i
+}
+puts $::i
