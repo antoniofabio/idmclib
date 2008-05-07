@@ -1,2 +1,3 @@
 tclidmclib.so
 idmc_wrap.c
+*.lua
