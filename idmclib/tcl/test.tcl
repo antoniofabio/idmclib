@@ -1,8 +1,5 @@
 #!/usr/bin/tclsh
-switch $::tcl_platform(platform) {
-    unix {load ./tclidmclib.so}
-    windows {load ./tclidmclib.dll}
-}
+source "init.tcl"
 
 idmc_version_major
 idmc_version_minor
