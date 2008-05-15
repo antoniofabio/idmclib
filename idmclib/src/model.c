@@ -64,6 +64,7 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 		model = NULL;
 		return IDMC_EMEM;
 	}
+	model->errorMessage[0] = 0;
 
 	L = lua_open();
 	model->L = L;
