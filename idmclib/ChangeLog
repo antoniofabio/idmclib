@@ -1,4 +1,7 @@
-0.9.0
+0.10.0
+- model->errorMessage buffer now cleared before actual model loading
+
+0.9.0 - 16/02/2008
 - added tutorial chapter to documentation
 - added intro section to documentation
 - fixes and additions to documentation
