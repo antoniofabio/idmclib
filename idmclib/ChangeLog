@@ -2,6 +2,7 @@
 - added trajectory cmd line script
 - added tcl bindings
 - model->errorMessage buffer now cleared before actual model loading
+- fixed pkg-config support file
 
 0.9.0 - 16/02/2008
 - added tutorial chapter to documentation
