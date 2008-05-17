@@ -1,4 +1,6 @@
-SET(SOURCES 
+SET(SOURCES
+attractor.c
+attractors_list.c
 basin.c
 basin_common.c
 basin_slow.c

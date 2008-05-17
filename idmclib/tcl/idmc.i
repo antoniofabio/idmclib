@@ -20,6 +20,7 @@
 #include <idmclib/basin.h>
 #include <idmclib/basin_slow.h>
 #include <idmclib/version.h>
+#include <idmclib/attractor.h>
 
 typedef idmc_model model;
 typedef idmc_raster Raster;
@@ -54,3 +55,4 @@ typedef idmc_traj_ctrajectory CTrajectory;
 %include "idmc_cycles.i"
 %include "idmc_basin.i"
 %include "idmc_basin_slow.i"
+%include "attractors.i"
