@@ -22,12 +22,12 @@ proc array2list {xy dim} {
 proc mktraj {pts_list} {
 	set n [llength $pts_list]
 	set dim [llength [lindex $pts_list 0]]
-	set attr [attractor_new $dim]
-	set hd [attractor_point_new [list2array [lindex $pts_list 0]] $dim]
-	attractor_hd_set $attr $hd
+	set attr [idmc_attractor_new $dim]
+	set hd [idmc_attractor_point_new [list2array [lindex $pts_list 0]] $dim]
+	idmc_attractor_hd_set $attr $hd
 	for {set i 1} {$i < $n} {incr i} {
-		set pt [attractor_point_new [list2array [lindex $pts_list $i]] $dim]
-		set hd [attractor_point_add $hd $pt]
+		set pt [idmc_attractor_point_new [list2array [lindex $pts_list $i]] $dim]
+		set hd [idmc_attractor_point_add $hd $pt]
 	}
 	return $attr
 }
@@ -37,7 +37,7 @@ proc traj2list {traj} {
 	set ans [list]
 	set hd [attr_lst_hd_get $traj]
 	set dim [attr_lst_dim_get $traj]
-	set len [attractor_length $traj]
+	set len [idmc_attractor_length $traj]
 	for {set i 0} {$i < $len} {incr i} {
 		set pt [list]
 		set tmp [attractor_pt_x_get $hd]

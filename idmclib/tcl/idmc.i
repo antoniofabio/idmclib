@@ -55,4 +55,4 @@ typedef idmc_traj_ctrajectory CTrajectory;
 %include "idmc_cycles.i"
 %include "idmc_basin.i"
 %include "idmc_basin_slow.i"
-%include "attractors.i"
+%include "idmc_attractor.i"

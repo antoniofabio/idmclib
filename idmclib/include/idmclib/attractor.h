@@ -31,38 +31,38 @@ struct attractor_pt {
 	double *x;
 	struct attractor_pt* next;
 };
-typedef struct attractor_pt attractor_point;
+typedef struct attractor_pt idmc_attractor_point;
 
 struct attr_lst {
-	attractor_point *hd; /*head of points list*/
+	idmc_attractor_point *hd; /*head of points list*/
 	int dim; /*points dimension*/
 	struct attr_lst* next;
 	struct attr_lst* previous;
 };
-typedef struct attr_lst attractor;
+typedef struct attr_lst idmc_attractor;
 
-attractor_point *attractor_point_new(double* x, int n);
-attractor_point* attractor_point_clone(attractor_point* head, int dim);
-void attractor_point_free(attractor_point* p);
-attractor_point* attractor_point_add(attractor_point* last, attractor_point* p);
-attractor_point* attractor_point_last(attractor_point* head);
+idmc_attractor_point *idmc_attractor_point_new(double* x, int n);
+idmc_attractor_point* idmc_attractor_point_clone(idmc_attractor_point* head, int dim);
+void idmc_attractor_point_free(idmc_attractor_point* p);
+idmc_attractor_point* idmc_attractor_point_add(idmc_attractor_point* last, idmc_attractor_point* p);
+idmc_attractor_point* idmc_attractor_point_last(idmc_attractor_point* head);
 
-attractor* attractor_new(int dim);
-void attractor_free(attractor* p);
-int attractor_length(attractor* p);
+idmc_attractor* idmc_attractor_new(int dim);
+void idmc_attractor_free(idmc_attractor* p);
+int idmc_attractor_length(idmc_attractor* p);
 /*returns true if point lies on the attractor*/
-int attractor_check_point(attractor* p, double* x, double eps);
-void attractor_hd_set(attractor* p, attractor_point* head);
+int idmc_attractor_check_point(idmc_attractor* p, double* x, double eps);
+void idmc_attractor_hd_set(idmc_attractor* p, idmc_attractor_point* head);
 
-void attractors_list_free(attractor* head);
-attractor* attractors_list_add(attractor* last, attractor* i);
-int attractors_list_length(attractor* head);
+void idmc_attractor_list_free(idmc_attractor* head);
+idmc_attractor* idmc_attractor_list_add(idmc_attractor* last, idmc_attractor* i);
+int idmc_attractor_list_length(idmc_attractor* head);
 /*return the index of the first attractor in the list containing point 'x'*/
-int attractors_list_check_point(attractor* head, double* x, double eps);
-attractor* attractors_list_get(attractor* head, int id);
-void attractors_list_drop(attractor* p);
+int idmc_attractor_list_check_point(idmc_attractor* head, double* x, double eps);
+idmc_attractor* idmc_attractor_list_get(idmc_attractor* head, int id);
+void idmc_attractor_list_drop(idmc_attractor* p);
 /*merge 2 attractors into 1 attractor*/
-void attractors_list_merge(attractor* head, int a, int b);
+void idmc_attractor_list_merge(idmc_attractor* head, int a, int b);
 
 #ifdef __cplusplus
 }
