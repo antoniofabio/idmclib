@@ -24,7 +24,7 @@ ADD_TEST(raster ${idmclib_BINARY_DIR}/tests/test_raster)
 ADD_TEST(lexp ${idmclib_BINARY_DIR}/tests/test_lexp)
 ADD_TEST(cycles ${idmclib_BINARY_DIR}/tests/test_cycles)
 IF(TCL_INCLUDE_PATH)
-ADD_TEST(attractors_lists ${idmclib_BINARY_DIR}/tests/test_attractors_list.tcl)
+ADD_TEST(attractor ${idmclib_BINARY_DIR}/tests/test_attractor.tcl)
 ENDIF(TCL_INCLUDE_PATH)
 
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.lua")
