@@ -1,5 +1,5 @@
 0.10.0
-- added attractors lists handling routines, with tcl test cases
+- added attractor module with tcl test cases
 - added trajectory cmd line script
 - added tcl bindings
 - model->errorMessage buffer now cleared before actual model loading
