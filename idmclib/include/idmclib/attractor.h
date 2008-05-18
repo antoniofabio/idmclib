@@ -60,7 +60,9 @@ int idmc_attractor_list_length(idmc_attractor* head);
 /*return the index of the first attractor in the list containing point 'x'*/
 int idmc_attractor_list_check_point(idmc_attractor* head, double* x, double eps);
 idmc_attractor* idmc_attractor_list_get(idmc_attractor* head, int id);
+idmc_attractor* idmc_attractor_list_last(idmc_attractor* head);
 void idmc_attractor_list_drop(idmc_attractor* p);
+void idmc_attractor_list_append(idmc_attractor* head, idmc_attractor* i);
 /*merge 2 attractors into 1 attractor*/
 void idmc_attractor_list_merge(idmc_attractor* head, int a, int b);
 

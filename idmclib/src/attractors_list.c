@@ -63,6 +63,18 @@ idmc_attractor* idmc_attractor_list_get(idmc_attractor* head, int id) {
 	return ans;
 }
 
+idmc_attractor* idmc_attractor_list_last(idmc_attractor* head) {
+	while(head->next)
+		head = head->next;
+	return head;
+}
+
+void idmc_attractor_list_append(idmc_attractor* head, idmc_attractor* i) {
+	idmc_attractor* last = idmc_attractor_list_last(head);
+	last->next = i;
+	i->previous = last;
+}
+
 void idmc_attractor_list_drop(idmc_attractor* p) {
 	if(p->previous)
 		(p->previous)->next = p->next;
