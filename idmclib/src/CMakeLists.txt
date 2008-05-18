@@ -4,6 +4,7 @@ attractors_list.c
 basin.c
 basin_common.c
 basin_slow.c
+basin_multi.c
 gsl_rng_lualib.c
 lexp.c
 model.c

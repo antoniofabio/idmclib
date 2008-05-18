@@ -19,6 +19,7 @@
 #include <idmclib/raster.h>
 #include <idmclib/basin.h>
 #include <idmclib/basin_slow.h>
+#include <idmclib/basin_multi.h>
 #include <idmclib/version.h>
 #include <idmclib/attractor.h>
 
@@ -55,4 +56,6 @@ typedef idmc_traj_ctrajectory CTrajectory;
 %include "idmc_cycles.i"
 %include "idmc_basin.i"
 %include "idmc_basin_slow.i"
+%include "idmc_basin_multi.i"
 %include "idmc_attractor.i"
+

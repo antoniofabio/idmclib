@@ -115,3 +115,12 @@ while {![idmc_basin_slow_finished $bs]} {
 	incr ::i
 }
 puts $::i
+
+#basin_multi
+set m [model_alloc [myfread test2.lua]]
+set par [new_doubleArray 1]
+set startValues [new_doubleArray 2]
+
+set bs [basin_multi_alloc $m $par -2.0 2.0 100 -2.0 2.0 100\
+	0.001 1000 1000 20 0 1 $startValues]
+idmc_basin_multi_free $bs
