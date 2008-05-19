@@ -1,12 +1,8 @@
-source "init.tcl"
-source "../tests/attractor_init.tcl"
+#!/bin/sh
+#\
+exec tclsh "$0" ${1+"$@"}
 
-proc myfread {fname} {
-	set fin [open $fname r]
-	set ans [read $fin]
-	close $fin
-	return $ans
-}
+source "./init.tcl"
 
 set argv [list]
 #model file name

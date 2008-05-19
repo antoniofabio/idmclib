@@ -1,5 +1,3 @@
-load ../tcl/tclidmclib.so
-
 #convert a list (of doubles) into a C doubleArray
 proc list2array {xy} {
 	set dim [llength $xy]
