@@ -22,7 +22,7 @@ if {[lindex $argv 0] == "test"} {
 	#attractor max length
 	lappend argv 1000
 	#number of tries
-	lappend argv 1
+	lappend argv 10
 	#x variable
 	lappend argv 0
 	#y variable
@@ -63,32 +63,19 @@ set bs [basin_multi_alloc $m $parameters $xmin $xmax $xres $ymin $ymax $yres\
 	$xvar $yvar $startValues]
 idmc_model_free $m
 
-if {$test} {
+for {set i 0} {$i < $ntries} {incr i} {
 	idmc_basin_multi_find_next_attractor $bs
-	set al [idmc_basin_multi_attr_head_get $bs]
-	if {$al == "NULL"} {error "unexpected attractors list null pointer"}
-	set attr1 [traj2list $al]
-	if {[idmc_attractor_list_length $al] != 1} {error "expecting a list of length 1"}
-	if {[llength $attr1] != 4} {error "expecting an attractor of length 4"}
-	
-	idmc_basin_multi_find_next_attractor $bs
-	if {$al != [idmc_basin_multi_attr_head_get $bs]} {error "unexpected list head pointer value"}
-	
-	idmc_basin_multi_find_next_attractor $bs
-	if {$al != [idmc_basin_multi_attr_head_get $bs]} {error "unexpected list head pointer value"}
-	set attr2 [idmc_attractor_list_get $al 1]
-	set attr2 [traj2list $attr2]
-	llength $attr2
-} else {
-	for {set i 0} {$i < $ntries} {incr i} {
-		idmc_basin_multi_find_next_attractor $bs
-	}
-	set ans [list]
-	set al [idmc_basin_multi_attr_head_get $bs]
-	for {set i 0} {$i < [idmc_attractor_list_length $al]} {incr i} {
-		lappend ans [join [traj2list $al] "\n"]
-	}
-	puts [join $ans "\n\n"]
 }
+set ans [list]
+set al [idmc_basin_multi_attr_head_get $bs]
+for {set i 0} {$i < [idmc_attractor_list_length $al]} {incr i} {
+	lappend ans [join [traj2list [idmc_attractor_list_get $al $i]] "\n"]
+}
+
+if {$test} {
+	puts "Attractors found: [idmc_attractor_list_length $al]"
+}
+
+puts [join $ans "\n\n"]
 
 idmc_basin_multi_free $bs
