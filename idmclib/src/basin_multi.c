@@ -15,8 +15,6 @@ WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
-Last modified: $Date$
-
 MULTIVARIATE (dim > 2) BASINS ALGORITM
 */
 #include <math.h>
@@ -124,7 +122,14 @@ void idmc_basin_multi_free(idmc_basin_multi* p) {
 	free(p);
 }
 
-#define STEP(ans) idmc_model_f(m, b->parameters, (ans), (ans))
+static int is_finite(double *pt, int dim) {
+	for(int i=0; i < dim; i++)
+		if(isnan(pt[i]) || (fabs(pt[i]) == 1.0/0.0))
+			return 0;
+	return 1;
+}
+
+#define STEP(pt) idmc_model_f(m, b->parameters, (pt), (pt))
 
 /*Find next attractor, add it to attractors list*/
 int idmc_basin_multi_find_next_attractor(idmc_basin_multi *b) {
@@ -134,7 +139,8 @@ int idmc_basin_multi_find_next_attractor(idmc_basin_multi *b) {
 	int i, a_id;
 	idmc_attractor* al = b->attr_head;
 	idmc_attractor* ac;
-	double *pt = b->startPoint;
+	double *pt = (double*) malloc(sizeof(double) * VAR_LEN(m));
+	memcpy(pt, b->startPoint, sizeof(double) * VAR_LEN(m));
 	double eps = b->eps;
 	int xvar = b->xvar;
 	int yvar = b->yvar;
@@ -194,6 +200,7 @@ int idmc_basin_multi_find_next_attractor(idmc_basin_multi *b) {
 	}
 
 	b->attr_head = al;
+	free(pt);
 	return IDMC_OK;
 }
 
