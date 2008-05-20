@@ -58,6 +58,7 @@ set startValues [list2array [lindex $argv 10]]
 
 set buffer [myfread $fname]
 set m [model_alloc $buffer]
+idmc_model_setGslRngSeed $m 123
 set bs [basin_multi_alloc $m $parameters $xmin $xmax $xres $ymin $ymax $yres\
 	$eps $attractorLimit $attractorIterations $ntries\
 	$xvar $yvar $startValues]
