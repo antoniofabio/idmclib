@@ -131,6 +131,12 @@ static int is_finite(double *pt, int dim) {
 
 #define STEP(pt) idmc_model_f(m, b->parameters, (pt), (pt))
 
+#define exit_ok \
+	if(1) {\
+	free(pt);\
+	return IDMC_OK;\
+	}
+
 /*Find next attractor, add it to attractors list*/
 int idmc_basin_multi_find_next_attractor(idmc_basin_multi *b) {
 	idmc_model *m = MODEL(b);
@@ -160,12 +166,15 @@ int idmc_basin_multi_find_next_attractor(idmc_basin_multi *b) {
 	/*do transient iterations*/
 	for(i = 0; i < b->attractorLimit; i++) {
 		STEP(pt);
-		/*TODO: check that point is 'finite'*/
+		if(!is_finite(pt, VAR_LEN(m)))
+			exit_ok;
 	}
 
 	/*run iterations in the attracting region*/
 	for(i = 0; i < b->attractorIterations; i++) {
 		STEP(pt);
+		if(!is_finite(pt, VAR_LEN(m)))
+			exit_ok;
 		/*still no attractors: create new, with current point as the only point*/
 		if(!al) {
 			al = ac = idmc_attractor_new(VAR_LEN(m));
@@ -200,8 +209,7 @@ int idmc_basin_multi_find_next_attractor(idmc_basin_multi *b) {
 	}
 
 	b->attr_head = al;
-	free(pt);
-	return IDMC_OK;
+	exit_ok;
 }
 
 /*
