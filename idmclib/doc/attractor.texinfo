@@ -1,0 +1,105 @@
+@section Attractors
+@anchor{attractor}
+This module functions and data types are declared in the @code{idmclib/attractor.h} header file.
+
+The @code{attractor} module contains functions and data types for handling lists of points and lists of themselves.
+
+Note that this module is here mostly for internal use.
+
+@deftp {Data Type} idmc_attractor_point
+
+@table @code
+@item double *x
+point data
+@item idmc_attractor_point *next
+pointer to next point
+@end table
+
+Node in a list of points
+@end deftp
+
+@deftp {Data Type} idmc_attractor
+
+@table @code
+@item idmc_attractor_point *hd
+head of points list
+@item int dim
+points dimension
+@item idmc_attractor_point* next
+@item idmc_attractor_point* previous
+@end table
+
+Structure containing attractor data.
+@end deftp
+
+@deftypefun idmc_attractor_point *idmc_attractor_point_new (double* @var{x}, int @var{n})
+Allocate a new @code{idmc_attractor_point} object.
+@end deftypefun
+
+@deftypefun idmc_attractor_point* idmc_attractor_point_clone (idmc_attractor_point* @var{head}, int @var{dim})
+Clone a point
+@end deftypefun
+
+@deftypefun void idmc_attractor_point_free (idmc_attractor_point* @var{p})
+Deallocate a point
+@end deftypefun
+
+@deftypefun  idmc_attractor_point* idmc_attractor_point_add (idmc_attractor_point* @var{last}, @
+	idmc_attractor_point* @var{p})
+Add a point to a list of points
+@end deftypefun
+
+@deftypefun idmc_attractor_point* idmc_attractor_point_last (idmc_attractor_point* @var{head})
+Get last element in a list of points
+@end deftypefun
+
+@deftypefun idmc_attractor* idmc_attractor_new (int @var{dim})
+Allocate a new (empty) attractor
+@end deftypefun
+
+@deftypefun void idmc_attractor_free (idmc_attractor* @var{p})
+Deallocate an attractor
+@end deftypefun
+
+@deftypefun int idmc_attractor_length (idmc_attractor* @var{p})
+@end deftypefun
+
+@deftypefun int idmc_attractor_check_point (idmc_attractor* @var{p}, double* @var{x}, double @var{eps})
+Returns true if point lies in the attractor
+@end deftypefun
+
+@deftypefun void idmc_attractor_hd_set (idmc_attractor* @var{p}, idmc_attractor_point* @var{head})
+Set the head of points lists for the attractor
+@end deftypefun
+
+@deftypefun void idmc_attractor_list_free (idmc_attractor* @var{head})
+Deallocate a list of attractors
+@end deftypefun
+
+@deftypefun idmc_attractor* idmc_attractor_list_add (idmc_attractor* @var{last}, idmc_attractor* @var{i})
+Add an element to a list of attractors
+@end deftypefun
+
+@deftypefun int idmc_attractor_list_length (idmc_attractor* @var{head})
+@end deftypefun
+
+@deftypefun int idmc_attractor_list_check_point (idmc_attractor* @var{head}, double* @var{x}, double @var{eps})
+Return the index of the first attractor in the list containing point @var{x}
+@end deftypefun
+
+@deftypefun idmc_attractor* idmc_attractor_list_get (idmc_attractor* @var{head}, int @var{id})
+@end deftypefun
+
+@deftypefun idmc_attractor* idmc_attractor_list_last (idmc_attractor* @var{head})
+@end deftypefun
+
+@deftypefun void idmc_attractor_list_drop (idmc_attractor* p)
+Drop this element from its attractors list
+@end deftypefun
+
+@deftypefun void idmc_attractor_list_append (idmc_attractor* @var{head}, idmc_attractor* @var{i})
+@end deftypefun
+
+@deftypefun void idmc_attractor_list_merge (idmc_attractor* @var{head}, int @var{a}, int @var{b})
+Merge 2 attractors into 1 attractor
+@end deftypefun

@@ -270,6 +270,8 @@ linear array index and vice-versa:
 @item idmc_raster_XY2y(p, X, Y)
 @end table
 
+@include attractor.texinfo
+
 @section Basins of attraction
 This module functions and data types are declared in the @code{idmclib/basin.h} header file.
 
