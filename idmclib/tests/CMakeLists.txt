@@ -2,9 +2,15 @@ include_directories (${idmclib_SOURCE_DIR}/include)
 link_directories (
 ${idmclib_BINARY_DIR}/src
 )
-LINK_LIBRARIES( idmclib
-	${LUA_LIBRARY} ${LUALIB_LIBRARY}
-	${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY})
+IF(UNIX AND NOT WIN32)
+	LINK_LIBRARIES( idmclib
+		${LUA_LIBRARY} ${DL_LIBRARY}
+		${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY})
+ELSE(UNIX AND NOT WIN32)
+	LINK_LIBRARIES( idmclib
+		${LUA_LIBRARY}
+		${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY})
+ENDIF(UNIX AND NOT WIN32)
 
 add_executable ( test_model test_model.c  test_common.c)
 add_executable ( test_NumJac test_NumJac.c  test_common.c)

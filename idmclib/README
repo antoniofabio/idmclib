@@ -1,5 +1,5 @@
 Documentation for the idmclib C library
-Last modified: 16/11/2007 by Antonio, Fabio Di Narzo
+Last modified: 23/05/2008 by Antonio, Fabio Di Narzo
 
 1. Compiling
 For compiling idmclib you need a C99 compiler and the CMake (version >=2.4.6) build system.
@@ -15,16 +15,16 @@ to build all. Finally,
 to install.
 
 1.1 Dependencies
-GLS-1.8 and LUA-5.0 (or compatibles) are required for compiling/linking the idmclib library.
+GLS-1.9 and LUA-5.1 (or compatibles) are required for compiling/linking the idmclib library.
 JDK-6 and SWIG-1.3 (or compatibles) are required for building the Java bindings.
 
 1.2 Configuration
 For fine-tuning compiling/linking flags, use CMake facilities.
 Under unixes, the 'ccmake' command lets you set all building variables 
 (such as paths to external libraries/programs) from an ncurses UI.
-	
+
 2. API
-Watch at the test directory for usage examples.
+Look at the doc subfolder for documentation, and at the test directory for further usage examples.
 The library is ideally divided in modules:
 idmc_model	basic model allocation/methods
 idmc_traj	trajectories (for discrete and continuous models) allocation/methods
@@ -45,8 +45,8 @@ Java bindings are provided via SWIG. They're low-level, so maybe you'll need to 
 Watch at the SWIG interface files and to generated java files for the API. A full usage example is the companion iDMC software (2.x.x series).
 
 5. R bindings
-R bindings are provided via a regular R package, RiDMC, with bounded documentation. It is distributed separately
-on the idmclib web site.
+R bindings are provided via a regular R package, RiDMC, with bounded documentation.
+It is distributed separately on the idmclib web site.
 
 APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings)
 - Install JDK-1.6 (if you don't already have it)
@@ -54,7 +54,7 @@ APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings
 - Install MinGW, C and Fortran compilers
 - Install MSYS (with GNU make)
 - Install CMake-2.4.6
-- Download and compile under MinGW/MSYS the LUA-5.0 and GSL-1.8 packages 
+- Download and compile under MinGW/MSYS the LUA-5.1 and GSL-1.9 packages 
   (maybe you can find ready-compiled libraries from the idmclib home page).
 - Copy generated static libraries files (i.e.: liblua.a, liblualib.a, libgsl.a, libgslcblas.a) to the 'c:\mingw\lib' folder
 - Unpack idmclib package somewhere. From the MSYS prompt, type:
@@ -63,4 +63,3 @@ APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings
 	# cmake ..
 	# make
 - In case of troubles, try using the cmake GUI from the windows start menu. That will let you fine tuning paths
-

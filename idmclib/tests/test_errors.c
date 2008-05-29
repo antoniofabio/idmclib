@@ -25,7 +25,8 @@ static char * test_runtime() {
 	strcpy(a->errorMessage, "empty");
 	result = idmc_model_f(a, par, var, var);
 	mu_assert("expected runtime error", result==IDMC_ERUN);
-	mu_assert("expected meaningful runtime error message", strcmp(a->errorMessage, "empty"));
+	mu_assert("expected meaningful runtime error message", !strcmp(a->errorMessage,
+		"non numeric function result"));
 	strcpy(a->errorMessage, "empty");
 	result = idmc_model_g(a, par, var, var);
 	mu_assert("expected runtime error", result==IDMC_ERUN);
@@ -49,7 +50,8 @@ static char * test_syntax() {
 	result = idmc_model_alloc(buffer, buflen, &a);
 	mu_assert("expected syntax error", result==IDMC_ELUASYNTAX);
 	mu_assert("expected a non-null idmc_model pointer", a!=NULL);
-	mu_assert("expected a meaningful error message", !strcmp(a->errorMessage, "8: unexpected symbol near `,'"));
+	mu_assert("expected a meaningful error message", !strcmp(a->errorMessage,
+		"8: unexpected symbol near ','"));
 	free(buffer);
 	idmc_model_free(a);
 	return 0;

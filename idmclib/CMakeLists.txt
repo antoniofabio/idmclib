@@ -27,10 +27,12 @@ INCLUDE(CPack)
 FIND_PATH(LUA_INCLUDEDIR lua.h
   PATHS /usr/include /usr/local/include /usr/include/lua50 c:/mingw/include)
 INCLUDE_DIRECTORIES(${LUA_INCLUDEDIR})
-FIND_LIBRARY(LUA_LIBRARY NAMES lua50 lua
+FIND_LIBRARY(LUA_LIBRARY NAMES lua51 lua
   PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
-FIND_LIBRARY(LUALIB_LIBRARY NAMES lualib50 lualib
-  PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
+IF(UNIX AND NOT WIN32)
+	FIND_LIBRARY(DL_LIBRARY dl
+  	PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
+ENDIF(UNIX AND NOT WIN32)
 FIND_LIBRARY(GSL_LIBRARY gsl
   PATHS  /usr/lib /usr/local/lib c:/mingw/lib)
 FIND_LIBRARY(GSLCBLAS_LIBRARY gslcblas
