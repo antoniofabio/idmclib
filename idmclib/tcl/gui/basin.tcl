@@ -3,7 +3,39 @@
 exec wish "$0" ${1+"$@"}
 source "init.tcl"
 
-set ::fname $argv
+#SET ARGUMENTS
+set ::fname [lindex $argv 0]
+
+#missing on cmd line: set default values
+if {[llength $argv] == 1} {
+	lappend argv \"\"
+	lappend argv "\"0 1 100\""
+	lappend argv "\"0 1 100\""
+	lappend argv [list 1e-4 100 100 10 0 1]
+	lappend argv "\" \""
+	set argv [join $argv " "]
+	puts $argv
+}
+
+array set ::pEntry [list]
+for {set i 0} {$i < [llength [lindex $argv 1]]} {incr i} {set ::pEntry($i) [lindex [lindex $argv 1] $i]}
+set ::xrange(0) [lindex [lindex $argv 2] 0]
+set ::xrange(1) [lindex [lindex $argv 2] 1]
+set ::xrange(2) [lindex [lindex $argv 2] 2]
+set ::yrange(0) [lindex [lindex $argv 3] 0]
+set ::yrange(1) [lindex [lindex $argv 3] 1]
+set ::yrange(2) [lindex [lindex $argv 3] 2]
+set ::eps [lindex $argv 4]
+set ::ntr [lindex $argv 5]
+set ::nit [lindex $argv 6]
+set ::ntries [lindex $argv 7]
+set ::xvar [lindex $argv 8]
+set ::yvar [lindex $argv 9]
+array set ::vEntry [list]
+for {set i 0} {$i < [llength [lindex $argv 1]]} {incr i} {set ::vEntry($i) [lindex [lindex $argv 10] $i]}
+##
+
+set ::fname [lindex $argv 0]
 set fin [open $::fname r]
 set ::buffer [read $fin]
 close $fin
@@ -22,20 +54,6 @@ for {set i 0} {$i < $::nvar} {incr i} {
 }
 
 ##Init input variables
-array set ::pEntry [list]
-for {set i 0} {$i < $::npar} {incr i} {set ::pEntry($i) 0}
-array set ::vEntry [list]
-for {set i 0} {$i < $::nvar} {incr i} {set ::vEntry($i) 0}
-set ::nit 1
-set ::ntr 0
-set ::xvar 0
-set ::yvar 1
-set ::xrange(0) 0
-set ::xrange(1) 1
-set ::xrange(2) 100
-set ::yrange(0) 0
-set ::yrange(1) 1
-set ::yrange(2) 100
 ##
 
 #root: root pane
@@ -200,6 +218,7 @@ proc onDraw {} {
 
 ##execute '../basin.tcl' script, get results
 	set faargs [join $faargs " "]
+	puts $faargs
 	set ::fa [open "|tclsh ./basin_comp.tcl $faargs" r+]
 	set ans [gets $::fa]
 	tk_messageBox -icon info -message "Found [llength $ans] attractors"
