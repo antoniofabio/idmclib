@@ -3,7 +3,8 @@
 exec wish "$0" ${1+"$@"}
 source "init.tcl"
 
-set fin [open $argv r]
+set ::fname $argv
+set fin [open $::fname r]
 set ::buffer [read $fin]
 close $fin
 
@@ -11,6 +12,7 @@ set model [model_alloc $::buffer]
 wm title . "Basins of attraction - [idmc_model_name_get $model]"
 
 set ::nvar [idmc_model_var_len_get $model]
+set ::npar [idmc_model_par_len_get $model]
 set ::varnames [idmc_model_var_get $model]
 set ::vnlist [list]
 array set ::vids [list]
@@ -62,7 +64,6 @@ proc make_input_pane {root m} {
 	}
 
 	grid [ttk::labelframe $fr.parfr -text "parameters"] -padx 5 -pady 5 -column 0 -row 1 -sticky nsew
-	set ::npar [idmc_model_par_len_get $m]
 	set parnames [idmc_model_par_get $m]
 	for {set i 0} {$i < $::npar} {incr i} {
 		grid [ttk::label "$fr.parfr.lb$i" -text [stringArray_getitem  $parnames $i]] \
@@ -171,6 +172,35 @@ grid [ttk::button .frmBttns.bttnDraw -text Draw -command onDraw] -row 0 -column 
 grid columnconfigure .frmBttns 0 -weight 1; grid columnconfigure .frmBttns 1 -weight 1
 grid rowconfigure .frmBttns 0 -weight 1
 
+#call find_attractors, plot results by gnuplot
 proc onDraw {} {
-	puts TODO
+	#pack command line arguments in one list
+	lappend faargs $::fname
+	set tmp [list]
+	for {set i 0} {$i < $::npar} {incr i} {
+		lappend tmp $::pEntry($i)
+	}
+	lappend faargs "\"[join $tmp " "]\""
+	lappend faargs "\"$::xrange(0) $::xrange(1) $::xrange(2)\""
+	lappend faargs "\"$::yrange(0) $::yrange(1) $::yrange(2)\""
+	lappend faargs 0.0001
+	lappend faargs $::ntr
+	lappend faargs $::nit
+	lappend faargs 10
+	lappend faargs $::vids($::xvarDisplay)
+	lappend faargs $::vids($::yvarDisplay)
+	set tmp [list]
+	for {set i 0} {$i < $::nvar} {incr i} {
+		lappend tmp $::vEntry($i)
+	}
+	lappend faargs "\"[join $tmp " "]\""
+##
+
+##execute 'find_attractors' script, get results
+	set faargs [join $faargs " "]
+	puts $faargs
+#	exec tclsh ../find_attractors.tcl $faargs
+
+	exec echo "plot sin(x)/x" > tmp
+	exec gnuplot tmp - &
 }
