@@ -16,7 +16,7 @@ set ::vnlist [list]
 array set ::vids [list]
 for {set i 0} {$i < $::nvar} {incr i} {
 	lappend ::vnlist [stringArray_getitem  $::varnames $i]
-	set ::vids([stringArray_getitem  $::varnames $i]) i
+	set ::vids([stringArray_getitem  $::varnames $i]) $i
 }
 
 ##Init input variables
@@ -104,12 +104,18 @@ proc make_algorithm_pane {root m} {
 	grid [ttk::entry "$fr.nitfr.entryTr" -textvariable ::ntr] \
 		-column 1 -row 1 -sticky e -padx 5 -pady 5
 
-	set ::xvar-display [lindex $::vnlist 0]
+	set ::xvarDisplay [lindex $::vnlist 0]
 	grid [ttk::label "$fr.nitfr.lbxv" -text "x axis"] \
 		-column 0 -row 2 -sticky ew -padx 5 -pady 5
-	grid [ttk::combobox "$fr.nitfr.entryXv" -state readonly -textvariable ::xvar-display] \
+	grid [ttk::combobox "$fr.nitfr.entryXv" -state readonly -textvariable ::xvarDisplay] \
 		-column 1 -row 2 -sticky e -padx 5 -pady 5
 	"$fr.nitfr.entryXv" configure -values $::vnlist
+	bind "$fr.nitfr.entryXv" <<ComboboxSelected>> {
+		if {$::xvarDisplay == $::yvarDisplay} {
+			set ::xvarDisplay [lindex $::vnlist [expr $::vids($::xvarDisplay) + 1]]
+		}
+		if {$::xvarDisplay == "" } {set ::xvarDisplay [lindex $::vnlist 0]}
+	}
 
 	grid [ttk::label "$fr.nitfr.lbxmin" -text "x min"] \
 		-column 0 -row 3 -sticky ew -padx 5 -pady 5
@@ -124,12 +130,18 @@ proc make_algorithm_pane {root m} {
 	grid [ttk::entry "$fr.nitfr.entryXres" -textvariable ::xrange(2)] \
 		-column 1 -row 5 -sticky e -padx 5 -pady 5
 
-	set ::yvar-display [lindex $::vnlist 1]
+	set ::yvarDisplay [lindex $::vnlist 1]
 	grid [ttk::label "$fr.nitfr.lbyv" -text "y axis"] \
 		-column 0 -row 6 -sticky ew -padx 5 -pady 5
-	grid [ttk::combobox "$fr.nitfr.entryYv" -state readonly -textvariable ::yvar-display] \
+	grid [ttk::combobox "$fr.nitfr.entryYv" -state readonly -textvariable ::yvarDisplay] \
 		-column 1 -row 6 -sticky e -padx 5 -pady 5
 	"$fr.nitfr.entryYv" configure -values $::vnlist
+	bind "$fr.nitfr.entryYv" <<ComboboxSelected>> {
+		if {$::xvarDisplay == $::yvarDisplay} {
+			set ::yvarDisplay [lindex $::vnlist [expr $::vids($::yvarDisplay) + 1]]
+		}
+		if {$::yvarDisplay == "" } {set ::yvarDisplay [lindex $::vnlist 0]}
+	}
 
 	grid [ttk::label "$fr.nitfr.lbymin" -text "y min"] \
 		-column 0 -row 7 -sticky ew -padx 5 -pady 5
