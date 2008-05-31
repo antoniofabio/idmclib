@@ -22,8 +22,10 @@ for {set i 0} {$i < $::nvar} {incr i} {
 }
 
 ##Init input variables
-array set ::vEntry [list]
 array set ::pEntry [list]
+for {set i 0} {$i < $::npar} {incr i} {set ::pEntry($i) 0}
+array set ::vEntry [list]
+for {set i 0} {$i < $::nvar} {incr i} {set ::vEntry($i) 0}
 set ::nit 1
 set ::ntr 0
 set ::xvar 0
@@ -196,11 +198,12 @@ proc onDraw {} {
 	lappend faargs "\"[join $tmp " "]\""
 ##
 
-##execute 'find_attractors' script, get results
+##execute '../basin.tcl' script, get results
 	set faargs [join $faargs " "]
-	puts $faargs
-#	exec tclsh ../find_attractors.tcl $faargs
+	set ::fa [open "|tclsh ./basin_comp.tcl $faargs" r+]
+	set ans [gets $::fa]
+	tk_messageBox -icon info -message "Found [llength $ans] attractors"
 
-	exec echo "plot sin(x)/x" > tmp
-	exec gnuplot tmp - &
+#	exec echo "plot sin(x)/x" > tmp
+#	exec gnuplot tmp - &
 }
