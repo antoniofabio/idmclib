@@ -75,6 +75,8 @@ int idmc_basin_multi_alloc(idmc_model *m, double *parameters,
 		return i;
 	}
 	idmc_raster_set(raster, 0);
+	ans->dataLength = xres * yres;
+	ans->currId = 0;
 	ans->raster = raster;
 
 	ans->eps = fabs(eps);
