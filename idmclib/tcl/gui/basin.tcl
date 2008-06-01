@@ -232,6 +232,22 @@ proc onDraw {} {
 	set ans [gets $::fa]
 	tk_messageBox -icon info -message "Found [llength $ans] attractors"
 
-#	exec echo "plot sin(x)/x" > tmp
-#	exec gnuplot tmp - &
+##write data in tmp files
+	set cmdlst [list]
+	for {set i 0} {$i < [llength $ans]} {incr i} {
+		set ca [lindex $ans]
+		set tf [open tmp$i.dat w]
+		for {set j 0} {$j < [llength $ca]} {incr j} {
+			puts $tf [join [lindex $ca $j]]
+		}
+		close $tf
+		lappend cmdlist "\"tmp$i.dat\" using $::xvar : $::yvar"
+	}
+	set cmdf [open tmp.gp w]
+	puts $cmdf "set nokey"
+	puts $cmdf "plot [join $cmdlist {, }]"
+	close $cmdf
+##
+
+	exec gnuplot -persist tmp.gp &
 }
