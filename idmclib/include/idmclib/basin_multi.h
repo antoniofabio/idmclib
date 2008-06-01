@@ -70,16 +70,14 @@ int idmc_basin_multi_alloc(idmc_model *m, double *parameters,
 	idmc_basin_multi** out_basin);
 /*deallocates an idmc_basin object*/
 void idmc_basin_multi_free(idmc_basin_multi* p);
-/*init basin (find attractors)*/
-int idmc_basin_multi_init(idmc_basin_multi* p);
+/*find next model attractor*/
+int idmc_basin_multi_find_next_attractor(idmc_basin_multi *b);
 /*do one algorithm step*/
 int idmc_basin_multi_step(idmc_basin_multi* p);
 /*check if algorithm finished*/
 int idmc_basin_multi_finished(idmc_basin_multi* p);
 
 /*internals*/
-/*find next model attractor*/
-int idmc_basin_multi_find_next_attractor(idmc_basin_multi *b);
 
 #ifdef __cplusplus
 }

@@ -27,13 +27,17 @@ MULTIVARIATE (dim > 2) BASINS ALGORITM
 #include "gsl_rng_lualib.h"
 #include "raster.h"
 #include "model.h"
-#include "basin_multi.h"
+#include "basin_common.h"
 #include "attractor.h"
+#include "basin_multi.h"
 
 #define getAttractorIndex(color) ((color)-2)/2
 #define getAttractorColor(index) (index)*2+2
 #define PAR_LEN(m) (m)->par_len
 #define VAR_LEN(m) (m)->var_len
+#define fillBasinMultiTrack(p, startPoint, iterations, value) \
+	fillRasterTrack(RASTER(p), MODEL(p), (p)->parameters, \
+		startPoint, iterations, value, p->work)
 
 int idmc_basin_multi_alloc(idmc_model *m, double *parameters,
 	double xmin, double xmax, int xres,
@@ -228,10 +232,39 @@ int idmc_basin_multi_init(idmc_basin_multi* p) {
 #define startPoint (p->startPoint)
 #define currentPoint (p->currentPoint)
 #define state (p->state)
+#define checkPoint(x) idmc_attractor_list_check_point(p->attr_head, (x), p->eps)
+#define isPointFinite(x) is_finite((x), nvar)
 int idmc_basin_multi_step(idmc_basin_multi* p) {
-	/*TODO*/
+	if( idmc_basin_multi_finished(p) ) /*algorithm ended*/
+		return IDMC_OK;
+	idmc_model *m = MODEL(p);
+	idmc_basin_multi* b=p; /*just an alias*/
+	int i;
+	int nvar = m->var_len;
+
+	getCurrPoint(p, startPoint); /*get start point coordinates*/
+	memcpy(currentPoint, startPoint, nvar * sizeof(double) ); /*copy start point to current point*/
+	
+	for (i = 1; i<attractorLimit+attractorIterations; i++) {
+		if (!isPointFinite(currentPoint)) {
+			fillBasinMultiTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+			break;
+		}
+		state = checkPoint(currentPoint);
+
+		/* attractor encountered */
+		if (state >= 0) {
+			fillBasinMultiTrack(p, startPoint, i - 1, (state*2)+1);
+			break;
+		}
+		STEP(currentPoint);
+	}
+	if(i==(attractorLimit+attractorIterations))
+		fillBasinMultiTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
 	return IDMC_OK;
 }
+#undef isPointFinite
+#undef checkPoint
 #undef attractorLimit
 #undef attractorIterations
 #undef startPoint
