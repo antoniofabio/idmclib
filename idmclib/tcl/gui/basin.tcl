@@ -40,7 +40,7 @@ set fin [open $::fname r]
 set ::buffer [read $fin]
 close $fin
 
-set model [model_alloc $::buffer]
+set ::model [set model [model_alloc $::buffer]]
 wm title . "Basins of attraction - [idmc_model_name_get $model]"
 
 set ::nvar [idmc_model_var_len_get $model]
@@ -230,21 +230,27 @@ proc onDraw {} {
 	puts $faargs
 	set ::fa [open "|tclsh ./basin_comp.tcl $faargs" r+]
 	set ans [gets $::fa]
-	tk_messageBox -icon info -message "Found [llength $ans] attractors"
+#	tk_messageBox -icon info -message "Found [llength $ans] attractors"
 
 ##write data in tmp files
 	set cmdlst [list]
 	for {set i 0} {$i < [llength $ans]} {incr i} {
-		set ca [lindex $ans]
+		set ca [lindex $ans $i]
 		set tf [open tmp$i.dat w]
 		for {set j 0} {$j < [llength $ca]} {incr j} {
 			puts $tf [join [lindex $ca $j]]
 		}
 		close $tf
-		lappend cmdlist "\"tmp$i.dat\" using $::xvar : $::yvar"
+		lappend cmdlist "\"tmp$i.dat\" using [expr $::xvar + 1] : [expr $::yvar + 1]"
 	}
 	set cmdf [open tmp.gp w]
 	puts $cmdf "set nokey"
+	puts $cmdf "set autoscale"
+	puts $cmdf "set xlabel \"[lindex $::vnlist $::xvar]\""
+	puts $cmdf "set ylabel \"[lindex $::vnlist $::yvar]\""
+	puts $cmdf "set title \"[idmc_model_name_get $::model]\""
+	puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
+	puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
 	puts $cmdf "plot [join $cmdlist {, }]"
 	close $cmdf
 ##
