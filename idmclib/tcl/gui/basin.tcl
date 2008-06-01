@@ -58,7 +58,7 @@ for {set i 0} {$i < $::nvar} {incr i} {
 
 #root: root pane
 #m: loaded model object
-proc make_input_pane {root m} {
+proc make_left_pane {root m} {
 	set tmp root
 	set r [ttk::frame $root$tmp]
 	grid $r -row 0 -column 0 -sticky nsew
@@ -100,7 +100,7 @@ proc make_input_pane {root m} {
 	$c configure -width [expr [lindex $tmp 2] - [lindex $tmp 0] ]
 }
 
-proc make_algorithm_pane {root m} {
+proc make_right_pane {root m} {
 	set tmp root-right
 	set r [ttk::frame $root$tmp]
 	grid $r -row 0 -column 1 -sticky nsew
@@ -115,67 +115,76 @@ proc make_algorithm_pane {root m} {
 
 	ttk::frame $fr
 
-	grid [ttk::labelframe "$fr.nitfr" -text "algorithm"] -padx 5 -pady 5 -column 0 -row 2 -sticky nsew
-	grid [ttk::label "$fr.nitfr.lbNit" -text "iterations"] \
-		-column 0 -row 0 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.nitfr.entryNit" -textvariable ::nit] \
-		-column 1 -row 0 -sticky e -padx 5 -pady 5
-	grid [ttk::label "$fr.nitfr.lbTr" -text "transient"] \
-		-column 0 -row 1 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.nitfr.entryTr" -textvariable ::ntr] \
-		-column 1 -row 1 -sticky e -padx 5 -pady 5
-
+	grid [ttk::labelframe "$fr.axfr" -text "axes"] -padx 5 -pady 5 -column 0 -row 2 -sticky nsew
 	set ::xvarDisplay [lindex $::vnlist 0]
-	grid [ttk::label "$fr.nitfr.lbxv" -text "x axis"] \
+	grid [ttk::label "$fr.axfr.lbxv" -text "x axis"] \
 		-column 0 -row 2 -sticky ew -padx 5 -pady 5
-	grid [ttk::combobox "$fr.nitfr.entryXv" -state readonly -textvariable ::xvarDisplay] \
+	grid [ttk::combobox "$fr.axfr.entryXv" -state readonly -textvariable ::xvarDisplay] \
 		-column 1 -row 2 -sticky e -padx 5 -pady 5
-	"$fr.nitfr.entryXv" configure -values $::vnlist
-	bind "$fr.nitfr.entryXv" <<ComboboxSelected>> {
+	"$fr.axfr.entryXv" configure -values $::vnlist
+	bind "$fr.axfr.entryXv" <<ComboboxSelected>> {
 		if {$::xvarDisplay == $::yvarDisplay} {
 			set ::xvarDisplay [lindex $::vnlist [expr $::vids($::xvarDisplay) + 1]]
 		}
 		if {$::xvarDisplay == "" } {set ::xvarDisplay [lindex $::vnlist 0]}
 	}
 
-	grid [ttk::label "$fr.nitfr.lbxmin" -text "x min"] \
+	grid [ttk::label "$fr.axfr.lbxmin" -text "x min"] \
 		-column 0 -row 3 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.nitfr.entryXmin" -textvariable ::xrange(0)] \
+	grid [ttk::entry "$fr.axfr.entryXmin" -textvariable ::xrange(0)] \
 		-column 1 -row 3 -sticky e -padx 5 -pady 5
-	grid [ttk::label "$fr.nitfr.lbxmax" -text "x max"] \
+	grid [ttk::label "$fr.axfr.lbxmax" -text "x max"] \
 		-column 0 -row 4 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.nitfr.entryXmax" -textvariable ::xrange(1)] \
+	grid [ttk::entry "$fr.axfr.entryXmax" -textvariable ::xrange(1)] \
 		-column 1 -row 4 -sticky e -padx 5 -pady 5
-	grid [ttk::label "$fr.nitfr.lbxres" -text "x resolution"] \
+	grid [ttk::label "$fr.axfr.lbxres" -text "x resolution"] \
 		-column 0 -row 5 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.nitfr.entryXres" -textvariable ::xrange(2)] \
+	grid [ttk::entry "$fr.axfr.entryXres" -textvariable ::xrange(2)] \
 		-column 1 -row 5 -sticky e -padx 5 -pady 5
 
 	set ::yvarDisplay [lindex $::vnlist 1]
-	grid [ttk::label "$fr.nitfr.lbyv" -text "y axis"] \
+	grid [ttk::label "$fr.axfr.lbyv" -text "y axis"] \
 		-column 0 -row 6 -sticky ew -padx 5 -pady 5
-	grid [ttk::combobox "$fr.nitfr.entryYv" -state readonly -textvariable ::yvarDisplay] \
+	grid [ttk::combobox "$fr.axfr.entryYv" -state readonly -textvariable ::yvarDisplay] \
 		-column 1 -row 6 -sticky e -padx 5 -pady 5
-	"$fr.nitfr.entryYv" configure -values $::vnlist
-	bind "$fr.nitfr.entryYv" <<ComboboxSelected>> {
+	"$fr.axfr.entryYv" configure -values $::vnlist
+	bind "$fr.axfr.entryYv" <<ComboboxSelected>> {
 		if {$::xvarDisplay == $::yvarDisplay} {
 			set ::yvarDisplay [lindex $::vnlist [expr $::vids($::yvarDisplay) + 1]]
 		}
 		if {$::yvarDisplay == "" } {set ::yvarDisplay [lindex $::vnlist 0]}
 	}
 
-	grid [ttk::label "$fr.nitfr.lbymin" -text "y min"] \
+	grid [ttk::label "$fr.axfr.lbymin" -text "y min"] \
 		-column 0 -row 7 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.nitfr.entryYmin" -textvariable ::yrange(0)] \
+	grid [ttk::entry "$fr.axfr.entryYmin" -textvariable ::yrange(0)] \
 		-column 1 -row 7 -sticky e -padx 5 -pady 5
-	grid [ttk::label "$fr.nitfr.lbymax" -text "y max"] \
+	grid [ttk::label "$fr.axfr.lbymax" -text "y max"] \
 		-column 0 -row 8 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.nitfr.entryYmax" -textvariable ::yrange(1)] \
+	grid [ttk::entry "$fr.axfr.entryYmax" -textvariable ::yrange(1)] \
 		-column 1 -row 8 -sticky e -padx 5 -pady 5
-	grid [ttk::label "$fr.nitfr.lbyres" -text "y resolution"] \
+	grid [ttk::label "$fr.axfr.lbyres" -text "y resolution"] \
 		-column 0 -row 9 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.nitfr.entryYres" -textvariable ::yrange(2)] \
+	grid [ttk::entry "$fr.axfr.entryYres" -textvariable ::yrange(2)] \
 		-column 1 -row 9 -sticky e -padx 5 -pady 5
+
+	grid [ttk::labelframe "$fr.algfr" -text "algorithm"] -padx 5 -pady 5 -column 0 -row 3 -sticky nsew
+	grid [ttk::label "$fr.algfr.lbNit" -text "iterations"] \
+		-column 0 -row 0 -sticky ew -padx 5 -pady 5
+	grid [ttk::entry "$fr.algfr.entryNit" -textvariable ::nit] \
+		-column 1 -row 0 -sticky e -padx 5 -pady 5
+	grid [ttk::label "$fr.algfr.lbTr" -text "transient"] \
+		-column 0 -row 1 -sticky ew -padx 5 -pady 5
+	grid [ttk::entry "$fr.algfr.entryTr" -textvariable ::ntr] \
+		-column 1 -row 1 -sticky e -padx 5 -pady 5
+	grid [ttk::label "$fr.algfr.lbNtries" -text "num. tries"] \
+		-column 0 -row 2 -sticky ew -padx 5 -pady 5
+	grid [ttk::entry "$fr.algfr.entryNtries" -textvariable ::ntries] \
+		-column 1 -row 2 -sticky e -padx 5 -pady 5
+	grid [ttk::label "$fr.algfr.lbEps" -text "epsilon"] \
+		-column 0 -row 3 -sticky ew -padx 5 -pady 5
+	grid [ttk::entry "$fr.algfr.entryEps" -textvariable ::eps] \
+		-column 1 -row 3 -sticky e -padx 5 -pady 5
 
 	$c create window 10 10 -window $fr -anchor nw
 
@@ -185,8 +194,8 @@ proc make_algorithm_pane {root m} {
 	$c configure -width [expr [lindex $tmp 2] - [lindex $tmp 0] ]
 }
 
-make_input_pane . $model
-make_algorithm_pane . $model
+make_left_pane . $model
+make_right_pane . $model
 grid [ttk::frame .frmBttns] -row 1 -column 0 -columnspan 2 -sticky sew
 grid [ttk::button .frmBttns.bttnDraw -text Draw -command onDraw] -row 0 -column 0 -padx 5 -pady 5 -sticky e
 grid columnconfigure .frmBttns 0 -weight 1; grid columnconfigure .frmBttns 1 -weight 1
@@ -203,10 +212,10 @@ proc onDraw {} {
 	lappend faargs "\"[join $tmp " "]\""
 	lappend faargs "\"$::xrange(0) $::xrange(1) $::xrange(2)\""
 	lappend faargs "\"$::yrange(0) $::yrange(1) $::yrange(2)\""
-	lappend faargs 0.0001
+	lappend faargs $::eps
 	lappend faargs $::ntr
 	lappend faargs $::nit
-	lappend faargs 10
+	lappend faargs $::ntries
 	lappend faargs $::vids($::xvarDisplay)
 	lappend faargs $::vids($::yvarDisplay)
 	set tmp [list]
