@@ -103,6 +103,11 @@ int idmc_basin_multi_alloc(idmc_model *m, double *parameters,
 		idmc_basin_multi_free(ans);
 		return IDMC_EMEM;
 	}
+	ans->work = (double*) malloc(VAR_LEN(m)*sizeof(double));
+	if(ans->work==NULL) {
+		idmc_basin_multi_free(ans);
+		return IDMC_EMEM;
+	}
 
 	ans->attr_head = NULL;
 
@@ -121,6 +126,8 @@ void idmc_basin_multi_free(idmc_basin_multi* p) {
 		free(p->startValues);
 	if(p->currentPoint!=NULL)
 		free(p->currentPoint);
+	if(p->work!=NULL)
+		free(p->work);
 	if(p->startPoint!=NULL)
 		free(p->startPoint);
 	if(p->attr_head!=NULL)
@@ -218,15 +225,6 @@ int idmc_basin_multi_find_next_attractor(idmc_basin_multi *b) {
 	exit_ok;
 }
 
-/*
-Init basin_multi object: find attractors
-*/
-int idmc_basin_multi_init(idmc_basin_multi* p) {
-	/*TODO*/
-	p->initialized = 1;
-	return IDMC_OK;
-}
-
 /* Iterates one cell in the basin grid */
 /*some utility definitions:*/
 #define attractorLimit (p->attractorLimit)
@@ -256,7 +254,7 @@ int idmc_basin_multi_step(idmc_basin_multi* p) {
 
 		/* attractor encountered */
 		if (state >= 0) {
-			fillBasinMultiTrack(p, startPoint, i - 1, (state*2)+1);
+			fillBasinMultiTrack(p, startPoint, i, (state*2)+2);
 			break;
 		}
 		STEP(currentPoint);

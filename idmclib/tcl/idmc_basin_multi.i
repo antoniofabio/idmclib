@@ -12,6 +12,8 @@ typedef struct {
 	int ntries; /*no. tries for finding attractors*/
 	int nAttractors; /*how many attractors were found*/
 	idmc_attractor* attr_head; /*pointer to the head of found attractors list*/
+
+	int currId;
 } idmc_basin_multi;
 
 %inline{
