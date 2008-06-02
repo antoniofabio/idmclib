@@ -241,6 +241,7 @@ int idmc_basin_multi_step(idmc_basin_multi* p) {
 	idmc_basin_multi* b=p; /*just an alias*/
 	int i;
 	int nvar = m->var_len;
+	int ntot = idmc_attractor_list_length(p->attr_head);
 
 	getCurrPoint(p, startPoint); /*get start point coordinates*/
 	memcpy(currentPoint, startPoint, nvar * sizeof(double) ); /*copy start point to current point*/
@@ -253,7 +254,7 @@ int idmc_basin_multi_step(idmc_basin_multi* p) {
 		state = checkPoint(currentPoint);
 
 		/* attractor encountered */
-		if (state >= 0) {
+		if (state < ntot) {
 			fillBasinMultiTrack(p, startPoint, i, (state*2)+2);
 			break;
 		}
