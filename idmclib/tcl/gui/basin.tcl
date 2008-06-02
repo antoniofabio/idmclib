@@ -262,25 +262,34 @@ proc onDraw {} {
 ##
 
 #Whait for attractors computation to be complete
-	##TODO: Dialog with progress bar, asyncronous read
-	while {![eof $::fa]} {puts [gets $::fa]}
-	set tf [open tmpimg.dat r]
-	while {![eof $tf]} {gets $tf}
-	close $tf
+	doOneStep
 ##
+}
 
-#Write image cmd data in tmp file
-	set cmdf [open tmp.gp w]
-	puts $cmdf "set nokey"
-	puts $cmdf "set xlabel \"[lindex $::vnlist $::xvar]\""
-	puts $cmdf "set ylabel \"[lindex $::vnlist $::yvar]\""
-	puts $cmdf "set title \"[idmc_model_name_get $::model]\""
-	puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
-	puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
-	puts $cmdf "plot \"tmpimg.dat\" with image"
-	close $cmdf
-##
-#Plot image
-	exec gnuplot -persist tmp.gp &
-##
+proc doOneStep {} {
+	if { ![eof $::fa] } {
+			##TODO: Dialog with progress bar
+			puts [gets $::fa]
+			after idle [list after 0 doOneStep]
+	} else {
+		#FIXME: convert code numbers into r,g,b triplets
+		set tf [open tmpimg.dat r]
+		while {![eof $tf]} {gets $tf}
+		close $tf
+	#Write image cmd data in tmp file
+		set cmdf [open tmp.gp w]
+		puts $cmdf "set nokey"
+		puts $cmdf "set xlabel \"[lindex $::vnlist $::xvar]\""
+		puts $cmdf "set ylabel \"[lindex $::vnlist $::yvar]\""
+		puts $cmdf "set title \"[idmc_model_name_get $::model]\""
+		puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
+		puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
+		puts $cmdf "plot \"tmpimg.dat\" with image"
+		close $cmdf
+	##
+	#Plot image
+		exec gnuplot -persist tmp.gp &
+	##
+	}
+	return
 }
