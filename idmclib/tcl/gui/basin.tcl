@@ -277,14 +277,10 @@ proc onDraw {} {
 	puts $cmdf "set title \"[idmc_model_name_get $::model]\""
 	puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
 	puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
-	puts $cmdf "set term png"
-	puts $cmdf "set output \"tmp.png\""
 	puts $cmdf "plot \"tmpimg.dat\" with image"
 	close $cmdf
 ##
 #Plot image
-	exec gnuplot tmp.gp &
-	#open "|gnuplot tmp.gp" r+
+	exec gnuplot -persist tmp.gp &
 ##
-	tk_messageBox -icon info -message "Done!"
 }
