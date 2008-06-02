@@ -1,11 +1,4 @@
 typedef struct {
-	void *g_data; /*currently unused*/
-	int *data; /*main data block*/
-	double xmin; double xrange; double xeps; int xres;/*x axis settings*/
-	double ymin; double yrange; double yeps; int yres; /*y axis settings*/
-} idmc_raster;
-
-typedef struct {
 	idmc_model* model; /*model object*/
 	double *parameters; /*model parameters*/
 	idmc_raster* raster; /*raster data*/

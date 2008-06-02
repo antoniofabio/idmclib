@@ -54,8 +54,8 @@ typedef idmc_traj_ctrajectory CTrajectory;
 %include "idmc_lexp.i"
 %include "idmc_version.i"
 %include "idmc_cycles.i"
+%include "idmc_raster.i"
 %include "idmc_basin.i"
 %include "idmc_basin_slow.i"
-%include "idmc_basin_multi.i"
 %include "idmc_attractor.i"
-
+%include "idmc_basin_multi.i"
