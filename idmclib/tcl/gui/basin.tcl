@@ -270,8 +270,8 @@ proc onDraw {} {
 #Write attractors cmd data in tmp file
 	set cmdf [open tmp.gp w]
 	puts $cmdf "set nokey"
-	puts $cmdf "set xlabel \"[lindex $::vnlist $::xvar]\""
-	puts $cmdf "set ylabel \"[lindex $::vnlist $::yvar]\""
+	puts $cmdf "set xlabel \"$::xvarDisplay\""
+	puts $cmdf "set ylabel \"$::yvarDisplay\""
 	puts $cmdf "set title \"[idmc_model_name_get $::model]\""
 	puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
 	puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
@@ -306,8 +306,8 @@ proc doOneStep {} {
 		#Write image cmd data in tmp file
 		set cmdf [open tmp.gp w]
 		puts $cmdf "set nokey"
-		puts $cmdf "set xlabel \"[lindex $::vnlist $::xvar]\""
-		puts $cmdf "set ylabel \"[lindex $::vnlist $::yvar]\""
+		puts $cmdf "set xlabel \"$::xvarDisplay\""
+		puts $cmdf "set ylabel \"$::yvarDisplay\""
 		puts $cmdf "set title \"[idmc_model_name_get $::model]\""
 		puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
 		puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
