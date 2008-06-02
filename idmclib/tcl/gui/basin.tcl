@@ -39,6 +39,7 @@ set ::fname [lindex $argv 0]
 set fin [open $::fname r]
 set ::buffer [read $fin]
 close $fin
+set ::stop 0
 
 set ::model [set model [model_alloc $::buffer]]
 wm title . "Basins of attraction - [idmc_model_name_get $model]"
@@ -198,9 +199,28 @@ make_left_pane . $model
 make_right_pane . $model
 grid [ttk::frame .frmBttns] -row 1 -column 0 -columnspan 2 -sticky sew
 grid [ttk::button .frmBttns.bttnDraw -text Draw -command onDraw] -row 0 -column 0 -padx 5 -pady 5 -sticky w
-grid [ttk::progressbar .frmBttns.progress -orient horizontal -length 150 -mode determinate] -row 0 -column 1 -padx 5 -pady 5 -sticky e
+grid [ttk::button .frmBttns.bttnStop -text Stop -command onStop] -row 0 -column 1 -padx 5 -pady 5 -sticky s
+grid [ttk::progressbar .frmBttns.progress -orient horizontal -length 150 -mode determinate] -row 0 -column 2 -padx 5 -pady 5 -sticky e
 grid columnconfigure .frmBttns 0 -weight 1; grid columnconfigure .frmBttns 1 -weight 1
 grid rowconfigure .frmBttns 0 -weight 1
+
+proc onStop {} {
+	set ::stop 1
+}
+
+proc status_ready2start {} {
+	set ::stop 0
+	.frmBttns.progress configure -value 0
+	.frmBttns.bttnDraw configure -state enabled
+	.frmBttns.bttnStop configure -state disabled
+}
+
+proc status_running {} {
+	.frmBttns.bttnDraw configure -state disabled
+	.frmBttns.bttnStop configure -state enabled
+}
+
+status_ready2start
 
 #call find_attractors, plot results by gnuplot
 proc onDraw {} {
@@ -227,7 +247,7 @@ proc onDraw {} {
 	lappend faargs "\"[join $tmp " "]\""
 	##
 
-##execute '../basin.tcl' script, get results
+##execute './basin_multi.tcl' script, get results
 	set faargs [join $faargs " "]
 	puts $faargs
 	set ::fa [open "|tclsh ./basin_multi.tcl $faargs" r+]
@@ -263,12 +283,17 @@ proc onDraw {} {
 ##
 
 #Whait for attractors computation to be complete
-	.frmBttns.bttnDraw configure -state disabled
+	status_running
 	doOneStep
 ##
 }
 
 proc doOneStep {} {
+	if {$::stop} {
+		#close $::fa
+		status_ready2start
+		return
+	}
 	set line [gets $::fa]
 	if { ![eof $::fa] } {
 			.frmBttns.progress configure -value [expr 100.0 * $line / ($::xrange(2) * $::yrange(2))]
@@ -292,8 +317,7 @@ proc doOneStep {} {
 		#Plot image
 		exec gnuplot -persist tmp.gp &
 		##
-		.frmBttns.progress configure -value 0
-		.frmBttns.bttnDraw configure -state enabled
+		status_ready2start
 	}
 	return
 }
