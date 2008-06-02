@@ -66,15 +66,15 @@ while {![idmc_basin_multi_finished $bs]} {
 ##
 
 proc id2color {num} {
-	return "[expr ($num / 10)] [expr ($num / 10)] [expr ($num / 10)]"
+	return "[expr (double($num) / 10)] [expr (double($num) / 10)] [expr (double($num) / 10)]"
 }
 
 #PRINT OUT IMAGE DATA
 set r [idmc_basin_multi_raster_get $bs]
 for {set i 0} {$i < $xres} {incr i} {
 	for {set j 0} {$j < $yres} {incr j} {
-		set x [expr $xmin + ($i/$xres) * ($xmax - $xmin)]
-		set y [expr $ymin + ($j/$yres) * ($ymax - $ymin)]
+		set x [expr $xmin + (double($i)/$xres) * ($xmax - $xmin)]
+		set y [expr $ymin + (double($j)/$yres) * ($ymax - $ymin)]
 		set num [idmc_raster_getxy $r $x $y]
 		set color [id2color $num]
 		puts "$x $y $color"
