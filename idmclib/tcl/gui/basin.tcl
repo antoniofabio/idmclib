@@ -58,10 +58,10 @@ for {set i 0} {$i < $::nvar} {incr i} {
 
 #root: root pane
 #m: loaded model object
-proc make_left_pane {root m} {
+proc make_right_pane {root m} {
 	set tmp root
 	set r [ttk::frame $root$tmp]
-	grid $r -row 0 -column 0 -sticky nsew
+	grid $r -row 0 -column 1 -sticky nsew
 	grid columnconfigure $root 1 -weight 1; grid rowconfigure $root 0 -weight 1
 	set sv "$r.sv"
 	set c "$r.c"
@@ -100,10 +100,10 @@ proc make_left_pane {root m} {
 	$c configure -width [expr [lindex $tmp 2] - [lindex $tmp 0] ]
 }
 
-proc make_right_pane {root m} {
+proc make_left_pane {root m} {
 	set tmp root-right
 	set r [ttk::frame $root$tmp]
-	grid $r -row 0 -column 1 -sticky nsew
+	grid $r -row 0 -column 0 -sticky nsew
 	set sv "$r.sv"
 	set c "$r.c"
 	set fr "$r.fr"
@@ -115,7 +115,25 @@ proc make_right_pane {root m} {
 
 	ttk::frame $fr
 
-	grid [ttk::labelframe "$fr.axfr" -text "axes"] -padx 5 -pady 5 -column 0 -row 2 -sticky nsew
+	grid [ttk::labelframe "$fr.algfr" -text "algorithm"] -padx 5 -pady 5 -column 0 -row 0 -sticky nsew
+	grid [ttk::label "$fr.algfr.lbNit" -text "iterations"] \
+		-column 0 -row 0 -sticky ew -padx 5 -pady 5
+	grid [ttk::entry "$fr.algfr.entryNit" -textvariable ::nit] \
+		-column 1 -row 0 -sticky e -padx 5 -pady 5
+	grid [ttk::label "$fr.algfr.lbTr" -text "transient"] \
+		-column 0 -row 1 -sticky ew -padx 5 -pady 5
+	grid [ttk::entry "$fr.algfr.entryTr" -textvariable ::ntr] \
+		-column 1 -row 1 -sticky e -padx 5 -pady 5
+	grid [ttk::label "$fr.algfr.lbNtries" -text "num. tries"] \
+		-column 0 -row 2 -sticky ew -padx 5 -pady 5
+	grid [ttk::entry "$fr.algfr.entryNtries" -textvariable ::ntries] \
+		-column 1 -row 2 -sticky e -padx 5 -pady 5
+	grid [ttk::label "$fr.algfr.lbEps" -text "epsilon"] \
+		-column 0 -row 3 -sticky ew -padx 5 -pady 5
+	grid [ttk::entry "$fr.algfr.entryEps" -textvariable ::eps] \
+		-column 1 -row 3 -sticky e -padx 5 -pady 5
+
+	grid [ttk::labelframe "$fr.axfr" -text "axes"] -padx 5 -pady 5 -column 0 -row 1 -sticky nsew
 	set ::xvarDisplay [lindex $::vnlist 0]
 	grid [ttk::label "$fr.axfr.lbxv" -text "x axis"] \
 		-column 0 -row 2 -sticky ew -padx 5 -pady 5
@@ -167,24 +185,6 @@ proc make_right_pane {root m} {
 		-column 0 -row 9 -sticky ew -padx 5 -pady 5
 	grid [ttk::entry "$fr.axfr.entryYres" -textvariable ::yrange(2)] \
 		-column 1 -row 9 -sticky e -padx 5 -pady 5
-
-	grid [ttk::labelframe "$fr.algfr" -text "algorithm"] -padx 5 -pady 5 -column 0 -row 3 -sticky nsew
-	grid [ttk::label "$fr.algfr.lbNit" -text "iterations"] \
-		-column 0 -row 0 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.algfr.entryNit" -textvariable ::nit] \
-		-column 1 -row 0 -sticky e -padx 5 -pady 5
-	grid [ttk::label "$fr.algfr.lbTr" -text "transient"] \
-		-column 0 -row 1 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.algfr.entryTr" -textvariable ::ntr] \
-		-column 1 -row 1 -sticky e -padx 5 -pady 5
-	grid [ttk::label "$fr.algfr.lbNtries" -text "num. tries"] \
-		-column 0 -row 2 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.algfr.entryNtries" -textvariable ::ntries] \
-		-column 1 -row 2 -sticky e -padx 5 -pady 5
-	grid [ttk::label "$fr.algfr.lbEps" -text "epsilon"] \
-		-column 0 -row 3 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.algfr.entryEps" -textvariable ::eps] \
-		-column 1 -row 3 -sticky e -padx 5 -pady 5
 
 	$c create window 10 10 -window $fr -anchor nw
 
