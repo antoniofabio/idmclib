@@ -197,7 +197,8 @@ proc make_right_pane {root m} {
 make_left_pane . $model
 make_right_pane . $model
 grid [ttk::frame .frmBttns] -row 1 -column 0 -columnspan 2 -sticky sew
-grid [ttk::button .frmBttns.bttnDraw -text Draw -command onDraw] -row 0 -column 0 -padx 5 -pady 5 -sticky e
+grid [ttk::button .frmBttns.bttnDraw -text Draw -command onDraw] -row 0 -column 0 -padx 5 -pady 5 -sticky w
+grid [ttk::progressbar .frmBttns.progress -orient horizontal -length 150 -mode determinate] -row 0 -column 1 -padx 5 -pady 5 -sticky e
 grid columnconfigure .frmBttns 0 -weight 1; grid columnconfigure .frmBttns 1 -weight 1
 grid rowconfigure .frmBttns 0 -weight 1
 
@@ -262,21 +263,22 @@ proc onDraw {} {
 ##
 
 #Whait for attractors computation to be complete
+	.frmBttns.bttnDraw configure -state disabled
 	doOneStep
 ##
 }
 
 proc doOneStep {} {
+	set line [gets $::fa]
 	if { ![eof $::fa] } {
-			##TODO: Dialog with progress bar
-			puts [gets $::fa]
+			.frmBttns.progress configure -value [expr 100.0 * $line / ($::xrange(2) * $::yrange(2))]
 			after idle [list after 0 doOneStep]
 	} else {
 		#FIXME: convert code numbers into r,g,b triplets
 		set tf [open tmpimg.dat r]
 		while {![eof $tf]} {gets $tf}
 		close $tf
-	#Write image cmd data in tmp file
+		#Write image cmd data in tmp file
 		set cmdf [open tmp.gp w]
 		puts $cmdf "set nokey"
 		puts $cmdf "set xlabel \"[lindex $::vnlist $::xvar]\""
@@ -286,10 +288,12 @@ proc doOneStep {} {
 		puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
 		puts $cmdf "plot \"tmpimg.dat\" with image"
 		close $cmdf
-	##
-	#Plot image
+		##
+		#Plot image
 		exec gnuplot -persist tmp.gp &
-	##
+		##
+		.frmBttns.progress configure -value 0
+		.frmBttns.bttnDraw configure -state enabled
 	}
 	return
 }
