@@ -266,7 +266,8 @@ proc onStart {} {
 	lappend faargs "\"[join $tmp " "]\""
 	##
 
-##execute './basin_multi.tcl' script, get results
+##execute './basin_multi.tcl' script, get attractors
+##FIXME: keep GUI alive during this process
 	set faargs [join $faargs " "]
 	puts $faargs
 	set ::fa [open "|tclsh ./basin_multi.tcl $faargs" r+]
@@ -303,11 +304,12 @@ proc onStart {} {
 
 #Whait for attractors computation to be complete
 	status_running
-	doOneStep
+	fileevent $::fa readable doStepB
 ##
 }
 
-proc doOneStep {} {
+##Update basins filling progress indicator
+proc doStepB {} {
 	if {$::stop} {
 		#close $::fa
 		status_ready2start
@@ -316,27 +318,38 @@ proc doOneStep {} {
 	set line [gets $::fa]
 	if { ![eof $::fa] } {
 			.frmBttns.progress configure -value [expr 100.0 * $line / ($::xrange(2) * $::yrange(2))]
-			after idle [list after 0 doOneStep]
 	} else {
-		#FIXME: convert code numbers into r,g,b triplets
-		set tf [open tmpimg.dat r]
-		while {![eof $tf]} {gets $tf}
-		close $tf
-		#Write image cmd data in tmp file
-		set cmdf [open tmp.gp w]
-		puts $cmdf "set nokey"
-		puts $cmdf "set xlabel \"$::xvarDisplay\""
-		puts $cmdf "set ylabel \"$::yvarDisplay\""
-		puts $cmdf "set title \"[idmc_model_name_get $::model]\""
-		puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
-		puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
-		puts $cmdf "plot \"tmpimg.dat\" with image"
-		close $cmdf
-		##
-		#Plot image
-		exec gnuplot -persist tmp.gp &
-		##
-		status_ready2start
+		close $::fa
+		doStepC
 	}
+	return
+}
+
+##Read back basins data and plot it
+##FIXME: keep GUI responsive during the process
+proc doStepC {} {
+	if {$::stop} {
+		status_ready2start
+		return
+	}
+	#FIXME: convert code numbers into r,g,b triplets
+	set tf [open tmpimg.dat r]
+	while {![eof $tf]} {gets $tf}
+	close $tf
+	#Write image cmd data in tmp file
+	set cmdf [open tmp.gp w]
+	puts $cmdf "set nokey"
+	puts $cmdf "set xlabel \"$::xvarDisplay\""
+	puts $cmdf "set ylabel \"$::yvarDisplay\""
+	puts $cmdf "set title \"[idmc_model_name_get $::model]\""
+	puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
+	puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
+	puts $cmdf "plot \"tmpimg.dat\" with image"
+	close $cmdf
+	##
+	#Plot image
+	exec gnuplot -persist tmp.gp &
+	##
+	status_ready2start
 	return
 }
