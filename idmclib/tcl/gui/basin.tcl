@@ -39,7 +39,6 @@ set ::fname [lindex $argv 0]
 set fin [open $::fname r]
 set ::buffer [read $fin]
 close $fin
-set ::stop 0
 
 set ::model [set model [model_alloc $::buffer]]
 wm title . "Basins of attraction - [idmc_model_name_get $model]"
@@ -54,8 +53,8 @@ for {set i 0} {$i < $::nvar} {incr i} {
 	set ::vids([stringArray_getitem  $::varnames $i]) $i
 }
 
-##Init input variables
-##
+set ::inputCtrls [list]
+set ::comboCtrls [list]
 
 #root: root pane
 #m: loaded model object
@@ -80,7 +79,8 @@ proc make_right_pane {root m} {
 	for {set i 0} {$i < $::nvar} {incr i} {
 		grid [ttk::label "$fr.varfr.lb$i" -text [lindex $::vnlist $i]] \
 			-column 0 -row $i -sticky ew -padx 5 -pady 5
-		grid [ttk::entry "$fr.varfr.entry$i" -textvariable ::vEntry($i)] \
+		lappend ::inputCtrls [ttk::entry "$fr.varfr.entry$i" -textvariable ::vEntry($i)]
+		grid  [lindex $::inputCtrls end] \
 			-column 1 -row $i -sticky e -padx 5 -pady 5
 	}
 
@@ -89,7 +89,8 @@ proc make_right_pane {root m} {
 	for {set i 0} {$i < $::npar} {incr i} {
 		grid [ttk::label "$fr.parfr.lb$i" -text [stringArray_getitem  $parnames $i]] \
 			-column 0 -row $i -sticky ew -padx 5 -pady 5
-		grid [ttk::entry "$fr.parfr.entry$i" -textvariable ::pEntry($i)] \
+		lappend ::inputCtrls [ttk::entry "$fr.parfr.entry$i" -textvariable ::pEntry($i)]
+		grid [lindex $::inputCtrls end] \
 			-column 1 -row $i -sticky e -padx 5 -pady 5
 	}
 
@@ -119,26 +120,32 @@ proc make_left_pane {root m} {
 	grid [ttk::labelframe "$fr.algfr" -text "algorithm"] -padx 5 -pady 5 -column 0 -row 0 -sticky nsew
 	grid [ttk::label "$fr.algfr.lbNit" -text "iterations"] \
 		-column 0 -row 0 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.algfr.entryNit" -textvariable ::nit] \
+	lappend ::inputCtrls [ttk::entry "$fr.algfr.entryNit" -textvariable ::nit]
+	grid [lindex $::inputCtrls end] \
 		-column 1 -row 0 -sticky e -padx 5 -pady 5
 	grid [ttk::label "$fr.algfr.lbTr" -text "transient"] \
 		-column 0 -row 1 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.algfr.entryTr" -textvariable ::ntr] \
+	lappend ::inputCtrls [ttk::entry "$fr.algfr.entryTr" -textvariable ::ntr]
+	grid [lindex $::inputCtrls end] \
 		-column 1 -row 1 -sticky e -padx 5 -pady 5
 	grid [ttk::label "$fr.algfr.lbNtries" -text "num. tries"] \
 		-column 0 -row 2 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.algfr.entryNtries" -textvariable ::ntries] \
+	lappend ::inputCtrls [ttk::entry "$fr.algfr.entryNtries" -textvariable ::ntries]
+	grid [lindex $::inputCtrls end] \
 		-column 1 -row 2 -sticky e -padx 5 -pady 5
 	grid [ttk::label "$fr.algfr.lbEps" -text "epsilon"] \
 		-column 0 -row 3 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.algfr.entryEps" -textvariable ::eps] \
+	lappend ::inputCtrls [ttk::entry "$fr.algfr.entryEps" -textvariable ::eps]
+	grid [lindex $::inputCtrls end] \
 		-column 1 -row 3 -sticky e -padx 5 -pady 5
 
 	grid [ttk::labelframe "$fr.axfr" -text "axes"] -padx 5 -pady 5 -column 0 -row 1 -sticky nsew
 	set ::xvarDisplay [lindex $::vnlist 0]
 	grid [ttk::label "$fr.axfr.lbxv" -text "x axis"] \
 		-column 0 -row 2 -sticky ew -padx 5 -pady 5
-	grid [ttk::combobox "$fr.axfr.entryXv" -state readonly -textvariable ::xvarDisplay] \
+	lappend ::comboCtrls [ttk::combobox "$fr.axfr.entryXv" \
+		-state readonly -textvariable ::xvarDisplay]
+	grid [lindex $::comboCtrls end] \
 		-column 1 -row 2 -sticky e -padx 5 -pady 5
 	"$fr.axfr.entryXv" configure -values $::vnlist
 	bind "$fr.axfr.entryXv" <<ComboboxSelected>> {
@@ -150,21 +157,26 @@ proc make_left_pane {root m} {
 
 	grid [ttk::label "$fr.axfr.lbxmin" -text "x min"] \
 		-column 0 -row 3 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.axfr.entryXmin" -textvariable ::xrange(0)] \
+	lappend ::inputCtrls [ttk::entry "$fr.axfr.entryXmin" -textvariable ::xrange(0)]
+	grid [lindex $::inputCtrls end] \
 		-column 1 -row 3 -sticky e -padx 5 -pady 5
 	grid [ttk::label "$fr.axfr.lbxmax" -text "x max"] \
 		-column 0 -row 4 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.axfr.entryXmax" -textvariable ::xrange(1)] \
+	lappend ::inputCtrls [ttk::entry "$fr.axfr.entryXmax" -textvariable ::xrange(1)]
+	grid [lindex $::inputCtrls end] \
 		-column 1 -row 4 -sticky e -padx 5 -pady 5
 	grid [ttk::label "$fr.axfr.lbxres" -text "x resolution"] \
 		-column 0 -row 5 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.axfr.entryXres" -textvariable ::xrange(2)] \
+	lappend ::inputCtrls [ttk::entry "$fr.axfr.entryXres" -textvariable ::xrange(2)]
+	grid [lindex $::inputCtrls end] \
 		-column 1 -row 5 -sticky e -padx 5 -pady 5
 
 	set ::yvarDisplay [lindex $::vnlist 1]
 	grid [ttk::label "$fr.axfr.lbyv" -text "y axis"] \
 		-column 0 -row 6 -sticky ew -padx 5 -pady 5
-	grid [ttk::combobox "$fr.axfr.entryYv" -state readonly -textvariable ::yvarDisplay] \
+	lappend ::comboCtrls [ttk::combobox "$fr.axfr.entryYv" \
+		-state readonly -textvariable ::yvarDisplay]
+	grid [lindex $::comboCtrls end] \
 		-column 1 -row 6 -sticky e -padx 5 -pady 5
 	"$fr.axfr.entryYv" configure -values $::vnlist
 	bind "$fr.axfr.entryYv" <<ComboboxSelected>> {
@@ -176,15 +188,18 @@ proc make_left_pane {root m} {
 
 	grid [ttk::label "$fr.axfr.lbymin" -text "y min"] \
 		-column 0 -row 7 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.axfr.entryYmin" -textvariable ::yrange(0)] \
+	lappend ::inputCtrls [ttk::entry "$fr.axfr.entryYmin" -textvariable ::yrange(0)]
+	grid [lindex $::inputCtrls end] \
 		-column 1 -row 7 -sticky e -padx 5 -pady 5
 	grid [ttk::label "$fr.axfr.lbymax" -text "y max"] \
 		-column 0 -row 8 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.axfr.entryYmax" -textvariable ::yrange(1)] \
+	lappend ::inputCtrls [ttk::entry "$fr.axfr.entryYmax" -textvariable ::yrange(1)]
+	grid  [lindex $::inputCtrls end] \
 		-column 1 -row 8 -sticky e -padx 5 -pady 5
 	grid [ttk::label "$fr.axfr.lbyres" -text "y resolution"] \
 		-column 0 -row 9 -sticky ew -padx 5 -pady 5
-	grid [ttk::entry "$fr.axfr.entryYres" -textvariable ::yrange(2)] \
+	lappend ::inputCtrls [ttk::entry "$fr.axfr.entryYres" -textvariable ::yrange(2)]
+	grid  [lindex $::inputCtrls end] \
 		-column 1 -row 9 -sticky e -padx 5 -pady 5
 
 	$c create window 10 10 -window $fr -anchor nw
@@ -210,12 +225,16 @@ proc onStop {} {
 
 proc status_ready2start {} {
 	set ::stop 0
+	foreach wdg $::inputCtrls { $wdg configure -state enabled }
+	foreach wdg $::comboCtrls { $wdg configure -state readonly }
 	.frmBttns.progress configure -value 0
 	.frmBttns.bttnDraw configure -state enabled
 	.frmBttns.bttnStop configure -state disabled
 }
 
 proc status_running {} {
+	foreach wdg $::inputCtrls { $wdg configure -state disabled }
+	foreach wdg $::comboCtrls { $wdg configure -state disabled }
 	.frmBttns.bttnDraw configure -state disabled
 	.frmBttns.bttnStop configure -state enabled
 }
