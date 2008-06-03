@@ -234,6 +234,16 @@ static void fillBasinMultiTrack(idmc_basin_multi *p, double *startPoint,
 	}
 }
 
+/*was defined in basin_common*/
+#undef getCurrPoint
+static void getCurrPoint(idmc_basin_multi *p, double *point) {
+	while ( (p->currId < p->dataLength )
+		&& ( (RASTER(p)->data[p->currId]) ) )
+			p->currId++;
+	point[p->xvar] = idmc_raster_I2x(RASTER(p), p->currId);
+	point[p->yvar] = idmc_raster_I2y(RASTER(p), p->currId);
+}
+
 /* Iterates one cell in the basin grid */
 /*some utility definitions:*/
 #define attractorLimit (p->attractorLimit)
