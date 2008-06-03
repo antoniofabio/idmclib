@@ -31,13 +31,8 @@ MULTIVARIATE (dim > 2) BASINS ALGORITM
 #include "attractor.h"
 #include "basin_multi.h"
 
-#define getAttractorIndex(color) ((color)-2)/2
-#define getAttractorColor(index) (index)*2+2
 #define PAR_LEN(m) (m)->par_len
 #define VAR_LEN(m) (m)->var_len
-#define fillBasinMultiTrack(p, startPoint, iterations, value) \
-	fillRasterTrack(RASTER(p), MODEL(p), (p)->parameters, \
-		startPoint, iterations, value, p->work)
 
 int idmc_basin_multi_alloc(idmc_model *m, double *parameters,
 	double xmin, double xmax, int xres,
@@ -225,6 +220,20 @@ int idmc_basin_multi_find_next_attractor(idmc_basin_multi *b) {
 	exit_ok;
 }
 
+static void fillBasinMultiTrack(idmc_basin_multi *p, double *startPoint,
+	int iterations, int value) {
+	double *work = p->work;
+	idmc_model *m = MODEL(p);
+	idmc_raster *r = RASTER(p);
+	memcpy(work, startPoint, VAR_LEN(m) * sizeof(double));
+	for(int i=0; i<iterations; i++) {
+		if(!idmc_raster_isxyInsideBounds(r, work[p->xvar], work[p->yvar]))
+			continue;
+		idmc_raster_setxy(r, work[p->xvar], work[p->yvar], value);
+		idmc_model_f(m, p->parameters, work, work);
+	}
+}
+
 /* Iterates one cell in the basin grid */
 /*some utility definitions:*/
 #define attractorLimit (p->attractorLimit)
@@ -277,7 +286,5 @@ int idmc_basin_multi_finished(idmc_basin_multi *p) {
 	return basin_finished(p);
 }
 
-#undef getAttractorIndex
-#undef getAttractorColor
 #undef PAR_LEN
 #undef VAR_LEN
