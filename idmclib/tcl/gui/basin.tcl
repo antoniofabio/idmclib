@@ -198,8 +198,8 @@ proc make_left_pane {root m} {
 make_left_pane . $model
 make_right_pane . $model
 grid [ttk::frame .frmBttns] -row 1 -column 0 -columnspan 2 -sticky sew
-grid [ttk::button .frmBttns.bttnDraw -text Draw -command onDraw] -row 0 -column 0 -padx 5 -pady 5 -sticky w
-grid [ttk::button .frmBttns.bttnStop -text Stop -command onStop] -row 0 -column 1 -padx 5 -pady 5 -sticky s
+grid [ttk::button .frmBttns.bttnDraw -text Start -command onStart] -row 0 -column 0 -padx 5 -pady 5 -sticky w
+grid [ttk::button .frmBttns.bttnStop -text Stop -command onStop] -row 0 -column 1 -padx 5 -pady 5 -sticky w
 grid [ttk::progressbar .frmBttns.progress -orient horizontal -length 150 -mode determinate] -row 0 -column 2 -padx 5 -pady 5 -sticky e
 grid columnconfigure .frmBttns 0 -weight 1; grid columnconfigure .frmBttns 1 -weight 1
 grid rowconfigure .frmBttns 0 -weight 1
@@ -223,7 +223,7 @@ proc status_running {} {
 status_ready2start
 
 #call find_attractors, plot results by gnuplot
-proc onDraw {} {
+proc onStart {} {
 	#pack command line arguments in one list
 	lappend faargs $::fname
 	lappend faargs tmpimg.dat
