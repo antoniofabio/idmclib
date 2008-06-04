@@ -7,6 +7,13 @@
 %array_functions(double, doubleArray);
 %array_functions(char *, stringArray);
 %array_functions(int, intArray);
+
+%init %{
+	if (Tcl_InitStubs(interp, "8.5", 0) == NULL) {
+		return TCL_ERROR;
+	}
+%}
+
 %{
 /* Put header files here or function declarations like below */
 #include <stdio.h>

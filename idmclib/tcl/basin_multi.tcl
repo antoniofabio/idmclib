@@ -57,7 +57,8 @@ puts $ans
 
 #ITERATE THROUGH IMAGE CELLS
 set i 0
-set necho [expr max($xres * $yres / 500, 1)]
+set necho [expr ($xres * $yres / 500)]
+if { $necho < 1} {set necho 1}
 while {![idmc_basin_multi_finished $bs]} {
 	idmc_basin_multi_step $bs
 	incr i

@@ -2,9 +2,11 @@ INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH})
 include_directories (${idmclib_SOURCE_DIR}/include)
 link_directories (${idmclib_BINARY_DIR}/src)
 
+SET_SOURCE_FILES_PROPERTIES(idmcTCL_wrap.c COMPILE_FLAGS "-DUSE_TCL_STUBS -DUSE_TK_STUBS")
+
 SWIG_ADD_MODULE(tclidmclib tcl idmc.i)
 SWIG_LINK_LIBRARIES(tclidmclib
-	idmclib ${TCL_LIBRARY}
+	idmclib ${TCL_STUB_LIBRARY}
 	${LUA_LIBRARY} ${LUALIB_LIBRARY} 
 	${GSL_LIBRARY} ${GSLCBLAS_LIBRARY} ${M_LIBRARY})
 
