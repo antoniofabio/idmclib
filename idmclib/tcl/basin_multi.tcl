@@ -62,7 +62,9 @@ while {![idmc_basin_multi_finished $bs]} {
 	idmc_basin_multi_step $bs
 	incr i
 	if {!fmod($i, $necho)} {
-		puts [idmc_basin_multi_currId_get $bs]
+		if {[catch {puts [idmc_basin_multi_currId_get $bs]} errmsg]} {
+			exit
+		}
 	}
 }
 ##
