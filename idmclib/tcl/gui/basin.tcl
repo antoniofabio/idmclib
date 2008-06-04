@@ -241,7 +241,7 @@ proc status_running {} {
 
 status_ready2start
 
-#call find_attractors, plot results by gnuplot
+#call find_attractors, tell how many attractors were found
 proc onStart {} {
 	#pack command line arguments in one list
 	lappend faargs $::fname
@@ -276,7 +276,7 @@ proc onStart {} {
 #	tk_messageBox -icon info -message "Found [llength $ans] attractors"
 
 ##write attractors data in tmp files
-	set cmdlst [list]
+	set ::cmdlst [list]
 	for {set i 0} {$i < [llength $ans]} {incr i} {
 		set ca [lindex $ans $i]
 		set tf [open tmp$i.dat w]
@@ -284,22 +284,8 @@ proc onStart {} {
 			puts $tf [join [lindex $ca $j]]
 		}
 		close $tf
-		lappend cmdlist "\"tmp$i.dat\" using [expr $::xvar + 1] : [expr $::yvar + 1]"
+		lappend ::cmdlist "\"tmp$i.dat\" using [expr $::xvar + 1] : [expr $::yvar + 1]"
 	}
-##
-#Write attractors cmd data in tmp file
-	set cmdf [open tmp.gp w]
-	puts $cmdf "set nokey"
-	puts $cmdf "set xlabel \"$::xvarDisplay\""
-	puts $cmdf "set ylabel \"$::yvarDisplay\""
-	puts $cmdf "set title \"[idmc_model_name_get $::model]\""
-	puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
-	puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
-	puts $cmdf "plot [join $cmdlist {, }]"
-	close $cmdf
-##
-#Plot attractors
-	exec gnuplot -persist tmp.gp &
 ##
 
 #Whait for attractors computation to be complete
@@ -338,13 +324,14 @@ proc doStepC {} {
 	close $tf
 	#Write image cmd data in tmp file
 	set cmdf [open tmp.gp w]
-	puts $cmdf "set nokey"
+	puts $cmdf "unset key"
+	puts $cmdf "unset colorbox"
 	puts $cmdf "set xlabel \"$::xvarDisplay\""
 	puts $cmdf "set ylabel \"$::yvarDisplay\""
 	puts $cmdf "set title \"[idmc_model_name_get $::model]\""
 	puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
 	puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
-	puts $cmdf "plot \"tmpimg.dat\" with image"
+	puts $cmdf "plot \"tmpimg.dat\" with image, [join $::cmdlist {, }]"
 	close $cmdf
 	##
 	#Plot image
