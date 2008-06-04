@@ -221,6 +221,8 @@ grid rowconfigure .frmBttns 0 -weight 1
 
 proc onStop {} {
 	set ::stop 1
+	catch [close $::fa] errmsg
+	status_ready2start
 }
 
 proc status_ready2start {} {
