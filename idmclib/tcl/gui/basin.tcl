@@ -143,6 +143,7 @@ proc make_left_pane {root m} {
 	set ::xvarDisplay [lindex $::vnlist 0]
 	grid [ttk::label "$fr.axfr.lbxv" -text "x axis"] \
 		-column 0 -row 2 -sticky ew -padx 5 -pady 5
+	set ::xvarDisplay [lindex $::vnlist $::xvar]
 	lappend ::comboCtrls [ttk::combobox "$fr.axfr.entryXv" \
 		-state readonly -textvariable ::xvarDisplay]
 	grid [lindex $::comboCtrls end] \
@@ -171,7 +172,7 @@ proc make_left_pane {root m} {
 	grid [lindex $::inputCtrls end] \
 		-column 1 -row 5 -sticky e -padx 5 -pady 5
 
-	set ::yvarDisplay [lindex $::vnlist 1]
+	set ::yvarDisplay [lindex $::vnlist $::yvar]
 	grid [ttk::label "$fr.axfr.lbyv" -text "y axis"] \
 		-column 0 -row 6 -sticky ew -padx 5 -pady 5
 	lappend ::comboCtrls [ttk::combobox "$fr.axfr.entryYv" \
