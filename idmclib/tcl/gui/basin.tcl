@@ -217,7 +217,7 @@ grid [ttk::button .frmBttns.bttnDraw -text Start -command onStart] -row 0 -colum
 grid [ttk::button .frmBttns.bttnStop -text Stop -command onStop] -row 0 -column 1 -padx 5 -pady 5 -sticky w
 grid [ttk::progressbar .frmBttns.progress -orient horizontal -length 150 -mode determinate] -row 0 -column 2 -padx 5 -pady 5 -sticky e
 grid [ttk::frame .statusbar -borderwidth 2 -relief groove] -row 2 -column 0 -columnspan 2 -sticky sew
-grid [ttk::label .statusbar.label -borderwidth 1 -relief sunken -width 1 -anchor w] -row 0 -column 0 -sticky nsew
+grid [ttk::label .statusbar.label -width 50 -anchor w] -row 0 -column 0 -sticky nsew
 .statusbar.label configure -width [expr [winfo width .statusbar] - 4]
 grid columnconfigure .frmBttns 0 -weight 1; grid columnconfigure .frmBttns 1 -weight 1
 grid rowconfigure .frmBttns 0 -weight 1
@@ -243,12 +243,24 @@ proc status_running {} {
 	foreach wdg $::comboCtrls { $wdg configure -state disabled }
 	.frmBttns.bttnDraw configure -state disabled
 	.frmBttns.bttnStop configure -state enabled
-	.statusbar.label configure -text "running..."
+}
+
+proc trans_ready2start_scanAttractors {} {
+	.statusbar.label configure -text "scanning for attractors..."
+	status_running
+}
+
+proc trans_scanAttractors_colouringBasins {} {
+	.statusbar.label configure -text "[llength $::attractors] attractors found. Colouring basins..."
+}
+
+proc trans_colouringBasins_readingDataBack {} {
+	.statusbar.label configure -text "reading back image data..."
 }
 
 status_ready2start
 
-#call find_attractors, tell how many attractors were found
+#call basin_multi.tcl, tell how many attractors were found
 proc onStart {} {
 	#pack command line arguments in one list
 	lappend faargs $::fname
@@ -280,21 +292,20 @@ proc onStart {} {
 	set ::fa [open "|tclsh ./basin_multi.tcl $faargs" r+]
 
 #Whait for attractors computation to be complete
-	status_running
+	trans_ready2start_scanAttractors
 	fileevent $::fa readable doStepA
 ##
 }
 
 ##Scan for attractors
 proc doStepA {} {
-	set ans [gets $::fa]
-	puts "[llength $ans] attractors found"
-#	tk_messageBox -icon info -message "Found [llength $ans] attractors"
+	set ::attractors [gets $::fa]
+	puts "[llength $::attractors] attractors found"
 
 ##write attractors data in tmp files
 	set ::cmdlst [list]
-	for {set i 0} {$i < [llength $ans]} {incr i} {
-		set ca [lindex $ans $i]
+	for {set i 0} {$i < [llength $::attractors]} {incr i} {
+		set ca [lindex $::attractors $i]
 		set tf [open tmp$i.dat w]
 		for {set j 0} {$j < [llength $ca]} {incr j} {
 			puts $tf [join [lindex $ca $j]]
@@ -303,13 +314,14 @@ proc doStepA {} {
 		lappend ::cmdlist "\"tmp$i.dat\" using [expr $::xvar + 1] : [expr $::yvar + 1]"
 	}
 ##
+	trans_scanAttractors_colouringBasins
 	fileevent $::fa readable doStepB
 }
 
 ##Update basins filling progress indicator
 proc doStepB {} {
 	if {$::stop} {
-		#close $::fa
+		close $::fa
 		status_ready2start
 		return
 	}
@@ -318,6 +330,7 @@ proc doStepB {} {
 			.frmBttns.progress configure -value [expr 100.0 * $line / ($::xrange(2) * $::yrange(2))]
 	} else {
 		close $::fa
+		trans_colouringBasins_readingDataBack
 		set ::imgdatafile [open tmpimg.dat r]
 		doStepC
 	}
