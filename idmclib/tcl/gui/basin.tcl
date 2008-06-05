@@ -346,7 +346,7 @@ proc doStepC {} {
 	}
 	set line [gets $::imgdatafile]
 	incr ::readback_counter
-	if {![expr mod($::readback_counter, $::necho)]} {
+	if {![expr fmod($::readback_counter, $::necho)]} {
 		.frmBttns.progress configure -value [expr 100.0 * $::readback_counter / ($::xrange(2) * $::yrange(2))]
 	}
 	#FIXME: convert code numbers into r,g,b triplets
