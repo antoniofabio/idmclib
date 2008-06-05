@@ -52,7 +52,9 @@ for {set i 0} {$i < [idmc_attractor_list_length $al]} {incr i} {
 ##
 
 #PRINT OUT ATTRACTORS
-puts $ans
+if {[catch {puts $ans} errmsg]} {
+	exit
+}
 #
 
 #ITERATE THROUGH IMAGE CELLS
