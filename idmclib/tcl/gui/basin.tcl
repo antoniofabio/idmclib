@@ -224,7 +224,6 @@ grid rowconfigure .frmBttns 0 -weight 1
 
 proc onStop {} {
 	set ::stop 1
-	catch [close $::fa] errmsg
 	status_ready2start
 }
 
@@ -333,6 +332,7 @@ proc doStepB {} {
 		trans_colouringBasins_readingDataBack
 		set ::imgdatafile [open tmpimg.dat r]
 		set ::readback_counter 0
+		set ::necho [expr round(($::xrange(2) * $::yrange(2)) / 100.0)]
 		doStepC
 	}
 	return
@@ -346,7 +346,9 @@ proc doStepC {} {
 	}
 	set line [gets $::imgdatafile]
 	incr ::readback_counter
-	.frmBttns.progress configure -value [expr 100.0 * $::readback_counter / ($::xrange(2) * $::yrange(2))]
+	if {![expr mod($::readback_counter, $::necho)]} {
+		.frmBttns.progress configure -value [expr 100.0 * $::readback_counter / ($::xrange(2) * $::yrange(2))]
+	}
 	#FIXME: convert code numbers into r,g,b triplets
 	if {![eof $::imgdatafile]} {
 		after idle [list after 0 doStepC]
