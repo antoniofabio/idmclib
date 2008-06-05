@@ -332,6 +332,7 @@ proc doStepB {} {
 		close $::fa
 		trans_colouringBasins_readingDataBack
 		set ::imgdatafile [open tmpimg.dat r]
+		set ::readback_counter 0
 		doStepC
 	}
 	return
@@ -344,6 +345,8 @@ proc doStepC {} {
 		return
 	}
 	set line [gets $::imgdatafile]
+	incr ::readback_counter
+	.frmBttns.progress configure -value [expr 100.0 * $::readback_counter / ($::xrange(2) * $::yrange(2))]
 	#FIXME: convert code numbers into r,g,b triplets
 	if {![eof $::imgdatafile]} {
 		after idle [list after 0 doStepC]
