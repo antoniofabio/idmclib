@@ -216,6 +216,9 @@ grid [ttk::frame .frmBttns] -row 1 -column 0 -columnspan 2 -sticky sew
 grid [ttk::button .frmBttns.bttnDraw -text Start -command onStart] -row 0 -column 0 -padx 5 -pady 5 -sticky w
 grid [ttk::button .frmBttns.bttnStop -text Stop -command onStop] -row 0 -column 1 -padx 5 -pady 5 -sticky w
 grid [ttk::progressbar .frmBttns.progress -orient horizontal -length 150 -mode determinate] -row 0 -column 2 -padx 5 -pady 5 -sticky e
+grid [ttk::frame .statusbar -borderwidth 2 -relief groove] -row 2 -column 0 -columnspan 2 -sticky sew
+grid [ttk::label .statusbar.label -borderwidth 1 -relief sunken -width 1 -anchor w] -row 0 -column 0 -sticky nsew
+.statusbar.label configure -width [expr [winfo width .statusbar] - 4]
 grid columnconfigure .frmBttns 0 -weight 1; grid columnconfigure .frmBttns 1 -weight 1
 grid rowconfigure .frmBttns 0 -weight 1
 
@@ -232,6 +235,7 @@ proc status_ready2start {} {
 	.frmBttns.progress configure -value 0
 	.frmBttns.bttnDraw configure -state enabled
 	.frmBttns.bttnStop configure -state disabled
+	.statusbar.label configure -text "ready"
 }
 
 proc status_running {} {
@@ -239,6 +243,7 @@ proc status_running {} {
 	foreach wdg $::comboCtrls { $wdg configure -state disabled }
 	.frmBttns.bttnDraw configure -state disabled
 	.frmBttns.bttnStop configure -state enabled
+	.statusbar.label configure -text "running..."
 }
 
 status_ready2start
