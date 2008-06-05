@@ -225,7 +225,6 @@ grid rowconfigure .frmBttns 0 -weight 1
 
 proc onStop {} {
 	set ::stop 1
-	status_ready2start
 }
 
 proc status_ready2start {} {
@@ -299,6 +298,11 @@ proc onStart {} {
 
 ##Scan for attractors
 proc doStepA {} {
+	if {$::stop} {
+		close $::fa
+		status_ready2start
+		return
+	}
 	set ::attractors [gets $::fa]
 	puts "[llength $::attractors] attractors found"
 
