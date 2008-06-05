@@ -365,8 +365,21 @@ proc doStepC {} {
 		puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
 		puts $cmdf "plot \"tmpimg.dat\" with image, [join $::cmdlist {, }]"
 		close $cmdf
+		set cmdf [open tmp1.gp w]
+		puts $cmdf "unset key"
+		puts $cmdf "unset colorbox"
+		puts $cmdf "set xlabel \"$::xvarDisplay\""
+		puts $cmdf "set ylabel \"$::yvarDisplay\""
+		puts $cmdf "set title \"[idmc_model_name_get $::model]\""
+		puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
+		puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
+		puts $cmdf "set term png"
+		puts $cmdf "set output \"tmp.png\""
+		puts $cmdf "plot \"tmpimg.dat\" with image, [join $::cmdlist {, }]"
+		close $cmdf
 		##
 		#Plot image
+		exec gnuplot tmp1.gp
 		exec gnuplot -persist tmp.gp &
 		##
 		status_ready2start
