@@ -308,37 +308,40 @@ proc doStepB {} {
 			.frmBttns.progress configure -value [expr 100.0 * $line / ($::xrange(2) * $::yrange(2))]
 	} else {
 		close $::fa
+		set ::imgdatafile [open tmpimg.dat r]
 		doStepC
 	}
 	return
 }
 
 ##Read back basins data and plot it
-##FIXME: keep GUI responsive during the process
 proc doStepC {} {
 	if {$::stop} {
 		status_ready2start
 		return
 	}
+	set line [gets $::imgdatafile]
 	#FIXME: convert code numbers into r,g,b triplets
-	set tf [open tmpimg.dat r]
-	while {![eof $tf]} {gets $tf}
-	close $tf
-	#Write image cmd data in tmp file
-	set cmdf [open tmp.gp w]
-	puts $cmdf "unset key"
-	puts $cmdf "unset colorbox"
-	puts $cmdf "set xlabel \"$::xvarDisplay\""
-	puts $cmdf "set ylabel \"$::yvarDisplay\""
-	puts $cmdf "set title \"[idmc_model_name_get $::model]\""
-	puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
-	puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
-	puts $cmdf "plot \"tmpimg.dat\" with image, [join $::cmdlist {, }]"
-	close $cmdf
-	##
-	#Plot image
-	exec gnuplot -persist tmp.gp &
-	##
-	status_ready2start
+	if {![eof $::imgdatafile]} {
+		after idle [list after 0 doStepC]
+	} else {
+		close $::imgdatafile
+		#Write image cmd data in tmp file
+		set cmdf [open tmp.gp w]
+		puts $cmdf "unset key"
+		puts $cmdf "unset colorbox"
+		puts $cmdf "set xlabel \"$::xvarDisplay\""
+		puts $cmdf "set ylabel \"$::yvarDisplay\""
+		puts $cmdf "set title \"[idmc_model_name_get $::model]\""
+		puts $cmdf "set xrange \[$::xrange(0):$::xrange(1)\]"
+		puts $cmdf "set yrange \[$::yrange(0):$::yrange(1)\]"
+		puts $cmdf "plot \"tmpimg.dat\" with image, [join $::cmdlist {, }]"
+		close $cmdf
+		##
+		#Plot image
+		exec gnuplot -persist tmp.gp &
+		##
+		status_ready2start
+	}
 	return
 }
