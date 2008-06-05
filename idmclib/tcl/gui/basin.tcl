@@ -278,6 +278,15 @@ proc onStart {} {
 	set faargs [join $faargs " "]
 	puts $faargs
 	set ::fa [open "|tclsh ./basin_multi.tcl $faargs" r+]
+
+#Whait for attractors computation to be complete
+	status_running
+	fileevent $::fa readable doStepA
+##
+}
+
+##Scan for attractors
+proc doStepA {} {
 	set ans [gets $::fa]
 	puts "[llength $ans] attractors found"
 #	tk_messageBox -icon info -message "Found [llength $ans] attractors"
@@ -294,11 +303,7 @@ proc onStart {} {
 		lappend ::cmdlist "\"tmp$i.dat\" using [expr $::xvar + 1] : [expr $::yvar + 1]"
 	}
 ##
-
-#Whait for attractors computation to be complete
-	status_running
 	fileevent $::fa readable doStepB
-##
 }
 
 ##Update basins filling progress indicator
