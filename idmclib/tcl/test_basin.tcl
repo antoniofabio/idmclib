@@ -18,24 +18,27 @@ stopifnot "![string compare $attr_list\
 idmc_basin_multi_free $bs
 
 #TEST CASE 3: VERIFY BASINS FILLING
-set bs [allocBasin basin_test1.lua "1 1 2 2 1 2 0.9" "0 3 6" "0 3 6"\
+set bs [allocBasin basin_test1.lua "1 1 2 2 3 1 0.999" "0 4 8" "0 2 4"\
 	1e-4 2 2 20 "0 1" "0 0 0 0"]
 llength [set attr_list [find_attractors $bs]]
 stopifnot "![string compare $attr_list\
-	{{{1.0 1.0 0.0 0.0}} {{1.0 2.0 0.0 0.0}} {{2.0 2.0 0.0 0.0}}}]"
+	{{{1.0 1.0 0.0 0.0}} {{2.0 2.0 0.0 0.0}} {{3.0 1.0 0.0 0.0}}}]"
 
 set i 0
 while {![idmc_basin_multi_finished $bs]} {
 	idmc_basin_multi_step $bs
-	stopifnot "($i < 36)"
+	stopifnot "($i < 32)"
 	incr i
 }
 
 set r [idmc_basin_multi_raster_get $bs]
 stopifnot "[idmc_raster_getxy $r 1.0 1.0] == 2"
-stopifnot "[idmc_raster_getxy $r 1.0 2.0] == 4"
-stopifnot "[idmc_raster_getxy $r 2.0 2.0] == 6"
+stopifnot "[idmc_raster_getxy $r 2.0 1.999] == 4"
+stopifnot "[idmc_raster_getxy $r 3.0 1.0] == 6"
 stopifnot "[idmc_raster_getxy $r 1.0 1.4999] == 2"
-stopifnot "[idmc_raster_getxy $r 1.0 1.5] == 4"
+stopifnot "[idmc_raster_getxy $r 1.0 1.5] == 1"
+stopifnot "[idmc_raster_getxy $r 2.501 1.0] == 6"
+stopifnot "[idmc_raster_getxy $r 0.499 0.499] == 1"
+stopifnot "[idmc_raster_getxy $r 0.501 0.501] == 2"
 
 idmc_basin_multi_free $bs
