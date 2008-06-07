@@ -34,7 +34,7 @@ proc find_attractors {basin} {
 }
 
 proc stopifnot {condition} {
-	if "!$condition" {
+	if "!($condition)" {
 		error "error: `$condition' is false"
 	}
 }
