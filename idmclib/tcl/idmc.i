@@ -9,7 +9,7 @@
 %array_functions(int, intArray);
 
 %init %{
-	if (Tcl_InitStubs(interp, "8.5", 0) == NULL) {
+	if (Tcl_InitStubs(interp, "8.4", 0) == NULL) {
 		return TCL_ERROR;
 	}
 %}
