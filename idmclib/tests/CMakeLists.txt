@@ -29,9 +29,6 @@ ADD_TEST(basin_slow ${idmclib_BINARY_DIR}/tests/test_basin_slow)
 ADD_TEST(raster ${idmclib_BINARY_DIR}/tests/test_raster)
 ADD_TEST(lexp ${idmclib_BINARY_DIR}/tests/test_lexp)
 ADD_TEST(cycles ${idmclib_BINARY_DIR}/tests/test_cycles)
-IF(TCL_INCLUDE_PATH)
-ADD_TEST(attractor ${idmclib_BINARY_DIR}/tests/test_attractor.tcl)
-ENDIF(TCL_INCLUDE_PATH)
 
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.lua")
 INSTALL(FILES ${files} DESTINATION lib/idmclib/tests)
@@ -40,4 +37,3 @@ INSTALL(TARGETS test_model test_NumJac test_errors test_basin test_basin_slow te
   LIBRARY DESTINATION lib/idmclib/tests
   ARCHIVE DESTINATION lib/idmclib/tests
 )
-
