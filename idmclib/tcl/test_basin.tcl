@@ -44,19 +44,27 @@ stopifnot "[idmc_raster_getxy $r 0.501 0.501] == 2"
 idmc_basin_multi_free $bs
 
 #TEST CASE 4: VERIFY BASINS FILLING (with invariant curves)
-set bs [allocBasin basin_test3.lua "1 0.125" "-2 2 32" "-2 2 32"\
+set bs [allocBasin basin_test3.lua "1 0.49" "-2 2 8" "-2 2 8"\
 	1e-3 10 10 20 "0 1" "0 0 0 0"]
 llength [set attr_list [find_attractors $bs]]
 
 set i 0
 while {![idmc_basin_multi_finished $bs]} {
 	idmc_basin_multi_step $bs
-	stopifnot "($i < 1024)"
+	stopifnot "$i < 64"
 	incr i
 }
 set r [idmc_basin_multi_raster_get $bs]
 
-stopifnot "[idmc_raster_getxy $r 0 0]"
-#FIXME: add tests here
+stopifnot "![string compare [lindex $attr_list 1] {{0.0 0.0 0.0 0.0}}]"
+stopifnot "![string compare [basin2stringmatrix $bs]\
+{1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1
+1 1 1 4 4 1 1 1
+1 1 1 4 4 1 1 1
+1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1}]"
 
 idmc_basin_multi_free $bs
