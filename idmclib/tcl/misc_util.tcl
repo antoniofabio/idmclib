@@ -38,3 +38,33 @@ proc stopifnot {condition} {
 		error "error: `$condition' is false"
 	}
 }
+
+proc X2x {X range} {
+	set xm [lindex $range 0]
+	set xM [expr $xm + [lindex $range 1]]
+	set n [lindex $range 2]
+	set xl [expr $xM - $xm]
+	set xe [expr $xl / $n]
+	return [expr (($X + 1.0) / $n) * $xl + $xm - ($xl / $n) ]
+}
+
+proc basin2stringmatrix {b} {
+	set r [idmc_basin_multi_raster_get $b]
+	set xrange [list\
+		[idmc_raster_xmin_get $r]\
+		[idmc_raster_xrange_get $r]\
+		[idmc_raster_xres_get $r]]
+	set yrange [list\
+		[idmc_raster_ymin_get $r]\
+		[idmc_raster_yrange_get $r]\
+		[idmc_raster_yres_get $r]]
+	set rc [list]
+	for {set i 0} {$i < 8} {incr i} {
+		set row [list]
+		for {set j 0} {$j < 8} {incr j} {
+			lappend row [idmc_raster_getxy $r [X2x $i $xrange] [X2x $j $yrange]]
+		}
+		lappend rc [join $row " "]
+	}
+	return [join $rc "\n"]
+}
