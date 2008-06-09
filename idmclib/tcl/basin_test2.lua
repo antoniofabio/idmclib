@@ -5,7 +5,7 @@ parameters = {"y1", "w1", "y2", "w2", "y3", "w3", "eps"}
 variables = {"x", "y", "z", "w"}
 
 function dist(y1, w1, y2, w2)
-	return math.abs(y1 - y2) + math.abs(w1 - w2)
+	return math.max(math.abs(y1 - y2), math.abs(w1 - w2))
 end
 
 function f(y1, w1, y2, w2, y3, w3, eps, x, y, z, w)
