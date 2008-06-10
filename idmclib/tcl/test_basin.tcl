@@ -32,14 +32,14 @@ while {![idmc_basin_multi_finished $bs]} {
 }
 
 set r [idmc_basin_multi_raster_get $bs]
-stopifnot "[idmc_raster_getxy $r 1.0 1.0] == 2"
-stopifnot "[idmc_raster_getxy $r 2.0 1.999] == 4"
-stopifnot "[idmc_raster_getxy $r 3.0 1.0] == 6"
-stopifnot "[idmc_raster_getxy $r 1.0 1.4999] == 2"
+stopifnot "[idmc_raster_getxy $r 1.0 1.0] == 3"
+stopifnot "[idmc_raster_getxy $r 2.0 1.999] == 5"
+stopifnot "[idmc_raster_getxy $r 3.0 1.0] == 7"
+stopifnot "[idmc_raster_getxy $r 1.0 1.4999] == 3"
 stopifnot "[idmc_raster_getxy $r 1.0 1.5] == 1"
-stopifnot "[idmc_raster_getxy $r 2.501 1.0] == 6"
+stopifnot "[idmc_raster_getxy $r 2.501 1.0] == 7"
 stopifnot "[idmc_raster_getxy $r 0.499 0.499] == 1"
-stopifnot "[idmc_raster_getxy $r 0.501 0.501] == 2"
+stopifnot "[idmc_raster_getxy $r 0.501 0.501] == 3"
 
 idmc_basin_multi_free $bs
 
@@ -51,7 +51,7 @@ llength [set attr_list [find_attractors $bs]]
 set i 0
 while {![idmc_basin_multi_finished $bs]} {
 	idmc_basin_multi_step $bs
-	stopifnot "$i < 64"
+	stopifnot "$i < 65"
 	incr i
 }
 set r [idmc_basin_multi_raster_get $bs]
@@ -61,8 +61,8 @@ stopifnot "![string compare [basin2stringmatrix $bs]\
 {1 1 1 1 1 1 1 1
 1 1 1 1 1 1 1 1
 1 1 1 1 1 1 1 1
-1 1 1 8 8 1 1 1
-1 1 1 8 8 1 1 1
+1 1 1 9 9 1 1 1
+1 1 1 9 9 1 1 1
 1 1 1 1 1 1 1 1
 1 1 1 1 1 1 1 1
 1 1 1 1 1 1 1 1}]"
