@@ -16,5 +16,12 @@ public class attractor {
 		int n = 3;
 		SWIGTYPE_p_double x = idmc.new_doubleArray(n);
 		attractor_pt p = idmc.idmc_attractor_point_new(x, n);
+		idmc.idmc_attractor_point_free(p);
+
+		p = idmc.idmc_attractor_point_new(x, n);
+		attractor_pt p1 = idmc.idmc_attractor_point_new(x, n);
+		idmc.idmc_attractor_point_add(p, p1);
+		//if (idmc.idmc_attractor_point_last(p) != p1)
+			//throw new RuntimeException("unexpected result from 'idmc_attractor_point_last'");
 	}
 }
