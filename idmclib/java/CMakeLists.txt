@@ -36,6 +36,6 @@ IF(JAVA_COMPILE)
 			${CMAKE_CURRENT_SOURCE_DIR}/attractor.java
 			-d ${CMAKE_CURRENT_BINARY_DIR}
 		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/attractor.java)
-	add_custom_target(attractor ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/attractor.class)
+	add_custom_target(attractor ALL DEPENDS jidmclib ${CMAKE_CURRENT_BINARY_DIR}/attractor.class)
 	ADD_TEST(java_attractor ${JAVA_RUNTIME} attractor)
 ENDIF(JAVA_COMPILE)
