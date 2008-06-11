@@ -23,5 +23,15 @@ public class attractor {
 		idmc.idmc_attractor_point_add(p, p1);
 		//if (idmc.idmc_attractor_point_last(p) != p1)
 			//throw new RuntimeException("unexpected result from 'idmc_attractor_point_last'");
+
+		attr_lst attr = idmc.idmc_attractor_new(n);
+		idmc.idmc_attractor_free(attr);
+
+		attr = idmc.idmc_attractor_new(n);
+		if(idmc.idmc_attractor_length(attr)!=0)
+			throw new RuntimeException("unexpected result from 'idmc_attractor_length'");
+
+		idmc.idmc_attractor_check_point(attr, x, 0.1);
+		idmc.idmc_attractor_hd_set(attr, p);
 	}
 }
