@@ -2,7 +2,7 @@
 # \
 exec tclsh "$0" ${1+"$@"}
 
-source attractor_init.tcl
+source "./init.tcl"
 
 set attr1 [mktraj { { -1 -1 } { 1 1 } { 0 0 } }]
 if {!([idmc_attractor_length $attr1] == 3)} {error "unexpected attractor length"}
