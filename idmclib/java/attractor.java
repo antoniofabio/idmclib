@@ -33,5 +33,33 @@ public class attractor {
 
 		idmc.idmc_attractor_check_point(attr, x, 0.1);
 		idmc.idmc_attractor_hd_set(attr, p);
+
+		attr_lst attr1 = idmc.idmc_attractor_new(n);
+
+		idmc.idmc_attractor_list_add(attr, attr1);
+		idmc.idmc_attractor_list_free(attr);
+
+		attr = idmc.idmc_attractor_new(n);
+		attr1 = idmc.idmc_attractor_new(n);
+
+		idmc.idmc_attractor_list_add(attr, attr1);
+		if(idmc.idmc_attractor_list_length(attr) != 2)
+			throw new RuntimeException("unexpected result from 'idmc_attractor_list_length'");
+
+		//FIXME: add points to each attractor, so that a merge make sense
+		//idmc.idmc_attractor_list_merge(attr_lst head, int a, int b);
+
+		idmc.idmc_attractor_list_check_point(attr, x, 0.1);
+		//if(idmc.idmc_attractor_list_get(attr, 0) != attr)
+		//	throw new RuntimeException("unexpected result from 'idmc_attractor_list_get'");
+
+		//if(idmc.idmc_attractor_list_last(attr) != attr1)
+		//	throw new RuntimeException("unexpected result from 'idmc_attractor_list_last'");
+
+		//FIXME: TODO
+		//idmc.idmc_attractor_list_append(attr_lst head, attr_lst i);
+
+		//FIXME: TODO
+		//idmc.idmc_attractor_list_drop(attr_lst p);
 	}
 }
