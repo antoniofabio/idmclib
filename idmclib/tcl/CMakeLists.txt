@@ -22,6 +22,6 @@ INSTALL(FILES ${files} DESTINATION lib/tclidmclib
 FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.lua")
 INSTALL(FILES ${files} DESTINATION lib/tclidmclib)
 
-ADD_TEST(attractor ${idmclib_BINARY_DIR}/tcl/test_attractor.tcl)
-ADD_TEST(basin_multi ${idmclib_BINARY_DIR}/tcl/test_basin.tcl)
+ADD_TEST(attractor tclsh ${idmclib_BINARY_DIR}/tcl/test_attractor.tcl)
+ADD_TEST(basin_multi tclsh ${idmclib_BINARY_DIR}/tcl/test_basin.tcl)
 
