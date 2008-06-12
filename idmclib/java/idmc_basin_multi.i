@@ -3,7 +3,7 @@ typedef struct {
 	double *parameters; /*model parameters*/
 	double *startValues; /*starting values ('xvar' and 'yvar' elemtents are ignored)*/
 	int xvar, yvar; /*x and y axes variables*/
-	idmc_raster* raster; /*raster data*/
+	Raster* raster; /*raster data*/
 	double eps; /*neighborhood treshold used for attractor identification*/
 	int attractorLimit; /*no. iterations for transient*/
 	int attractorIterations; /*no. iterations for describing an attractor*/
