@@ -29,13 +29,16 @@ FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.lua")
 INSTALL(FILES ${files} DESTINATION lib/jidmclib)
 
 IF(JAVA_COMPILE)
-	add_custom_command(
-		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/attractor.class
-		COMMAND ${JAVA_COMPILE}
-			-classpath ${CMAKE_CURRENT_BINARY_DIR}
-			${CMAKE_CURRENT_SOURCE_DIR}/attractor.java
-			-d ${CMAKE_CURRENT_BINARY_DIR}
-		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/attractor.java)
-	add_custom_target(attractor ALL DEPENDS jidmclib ${CMAKE_CURRENT_BINARY_DIR}/attractor.class)
-	ADD_TEST(java_attractor ${JAVA_RUNTIME} attractor)
+	FOREACH(prg attractor basin_multi)
+		add_custom_command(
+			OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${prg}.class
+			COMMAND ${JAVA_COMPILE}
+				-classpath ${CMAKE_CURRENT_BINARY_DIR}
+				${CMAKE_CURRENT_SOURCE_DIR}/${prg}.java
+				-d ${CMAKE_CURRENT_BINARY_DIR}
+			DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${prg}.java)
+		add_custom_target(${prg} ALL DEPENDS jidmclib ${CMAKE_CURRENT_BINARY_DIR}/${prg}.class)
+		ADD_TEST(java_${prg} ${JAVA_RUNTIME} ${prg})
+	ENDFOREACH(prg)
 ENDIF(JAVA_COMPILE)
+

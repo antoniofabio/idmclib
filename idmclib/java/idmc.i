@@ -20,11 +20,13 @@
 #include <idmclib/raster.h>
 #include <idmclib/basin.h>
 #include <idmclib/attractor.h>
+#include <idmclib/basin_multi.h>
 #include <idmclib/version.h>
 
 typedef idmc_model Model;
 typedef idmc_raster Raster;
 typedef idmc_basin Basin;
+typedef idmc_basin_multi BasinMulti;
 typedef idmc_traj_trajectory Trajectory;
 typedef idmc_traj_ctrajectory CTrajectory;
 %}
@@ -57,4 +59,5 @@ typedef idmc_traj_ctrajectory CTrajectory;
 %include "idmc_raster.i"
 %include "idmc_basin.i"
 %include "idmc_attractor.i"
+%include "idmc_basin_multi.i"
 %include "idmc_version.i"
