@@ -1,7 +1,7 @@
 typedef struct {
 	idmc_model* model; /*model object*/
 	double *parameters; /*model parameters*/
-	double *startValues; /*starting values ('xvar' and 'yvar' elemtents are ignored)*/
+	double *startPoint; /*starting values ('xvar' and 'yvar' elemtents are ignored)*/
 	int xvar, yvar; /*x and y axes variables*/
 	Raster* raster; /*raster data*/
 	double eps; /*neighborhood treshold used for attractor identification*/

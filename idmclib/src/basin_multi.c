@@ -81,13 +81,6 @@ int idmc_basin_multi_alloc(idmc_model *m, double *parameters,
 	ans->xvar = xvar;
 	ans->yvar = yvar;
 
-	ans->startValues = (double*) malloc( VAR_LEN(m) * sizeof(double));
-	if(ans->startValues == NULL) {
-		idmc_basin_multi_free(ans);
-		return IDMC_EMEM;
-	}
-	memcpy(ans->startValues, startValues, VAR_LEN(m) * sizeof(double));
-
 	ans->currentPoint = (double*) malloc(VAR_LEN(m) * sizeof(double));
 	if(ans->currentPoint==NULL) {
 		idmc_basin_multi_free(ans);
@@ -98,6 +91,7 @@ int idmc_basin_multi_alloc(idmc_model *m, double *parameters,
 		idmc_basin_multi_free(ans);
 		return IDMC_EMEM;
 	}
+	memcpy(ans->startPoint, startValues, VAR_LEN(m) * sizeof(double));
 	ans->work = (double*) malloc(VAR_LEN(m)*sizeof(double));
 	if(ans->work==NULL) {
 		idmc_basin_multi_free(ans);
@@ -117,8 +111,6 @@ void idmc_basin_multi_free(idmc_basin_multi* p) {
 		free(p->parameters);
 	if(p->raster!=NULL)
 		idmc_raster_free(RASTER(p));
-	if(p->startValues!=NULL)
-		free(p->startValues);
 	if(p->currentPoint!=NULL)
 		free(p->currentPoint);
 	if(p->work!=NULL)

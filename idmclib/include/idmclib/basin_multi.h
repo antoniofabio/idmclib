@@ -31,7 +31,7 @@ extern "C" {
 typedef struct {
 	idmc_model* model; /*model object*/
 	double *parameters; /*model parameters*/
-	double *startValues; /*starting values ('xvar' and 'yvar' elemtents are ignored)*/
+	double *startPoint; /*starting values ('xvar' and 'yvar' elemtents are ignored)*/
 	int xvar, yvar; /*x and y axes variables*/
 	idmc_raster* raster; /*raster data*/
 	double eps; /*neighborhood treshold used for attractor identification*/
@@ -44,7 +44,7 @@ typedef struct {
 	/*Internal data: */
 	int dataLength; /*total number of cells*/
 	int currId; /*current cell pointer*/
-	double *startPoint, *currentPoint, *work; /*work memory spaces*/
+	double *currentPoint, *work; /*work memory spaces*/
 	int state; /*support temp variables*/
 	int initialized; /*was idmc_basin_slow_init already called?*/
 } idmc_basin_multi;
