@@ -20,6 +20,14 @@ idmc_basin_multi_free $bs
 #TEST CASE 3: VERIFY BASINS FILLING
 set bs [allocBasin basin_test1.lua "1 1 2 2 3 1 0.499" "0 4 8" "0 2 4"\
 	1e-4 2 2 40 "0 1" "0 0 0 0"]
+stopifnot "![string compare [basin2stringmatrix $bs] {0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0}]"
 llength [set attr_list [find_attractors $bs]]
 stopifnot "![string compare $attr_list\
 	{{{1.0 1.0 0.0 0.0}} {{2.0 2.0 0.0 0.0}} {{3.0 1.0 0.0 0.0}}}]"
