@@ -59,9 +59,9 @@ proc basin2stringmatrix {b} {
 		[idmc_raster_yrange_get $r]\
 		[idmc_raster_yres_get $r]]
 	set rc [list]
-	for {set i 0} {$i < 8} {incr i} {
+	for {set i 0} {$i < [idmc_raster_xres_get $r]} {incr i} {
 		set row [list]
-		for {set j 0} {$j < 8} {incr j} {
+		for {set j 0} {$j < [idmc_raster_yres_get $r]} {incr j} {
 			lappend row [idmc_raster_getxy $r [X2x $i $xrange] [X2x $j $yrange]]
 		}
 		lappend rc [join $row " "]
