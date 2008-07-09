@@ -1,4 +1,5 @@
 0.10.1
+- improved speed of attractor check-point function by (reproducible) randomization
 - added attractor module to java bindings. Added java tests
 - tcl bindings now use the tcl stub extension mechanism
 
