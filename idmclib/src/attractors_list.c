@@ -48,10 +48,20 @@ int idmc_attractor_list_check_point(idmc_attractor* head, double* x, double eps)
 	int i;
 	srand(0);
 	int N = idmc_attractor_list_length(head);
-	for(int j = MAX_ATTR_CHECK_LENGTH; j; j--) {
-		i =	(int) (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) ) * N;
-		if( idmc_attractor_check_point( idmc_attractor_list_get(head, i), x, eps ) ) {
-			return i;
+	if(N < MAX_ATTR_CHECK_LENGTH) {
+		int i=0;
+		while(head) {
+			if( idmc_attractor_check_point(head, x, eps) )
+				return i;
+			head = head->next;
+			i++;
+		}
+ 	} else {
+		for(int j = MAX_ATTR_CHECK_LENGTH; j; j--) {
+			i =	(int) (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) ) * N;
+			if( idmc_attractor_check_point( idmc_attractor_list_get(head, i), x, eps ) ) {
+				return i;
+			}
 		}
 	}
 	return N;
