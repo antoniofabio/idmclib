@@ -10,4 +10,5 @@ proc myfread {fname} {
 	return $ans
 }
 
+source "./test_util.tcl"
 source "./attractor_util.tcl"
