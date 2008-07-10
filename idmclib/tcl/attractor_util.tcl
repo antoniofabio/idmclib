@@ -13,7 +13,7 @@ proc array2list {xy dim} {
 	for {set i 0} {$i < $dim} {incr i} {
 		lappend ans [doubleArray_getitem $xy $i]
 	}
-	return ans
+	return $ans
 }
 
 #builds a trajectory out of a list of points coordinates
