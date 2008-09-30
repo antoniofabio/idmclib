@@ -1,5 +1,5 @@
 Documentation for the idmclib C library
-Last modified: 23/05/2008 by Antonio, Fabio Di Narzo
+Last modified: 30/09/2008 by Antonio, Fabio Di Narzo
 
 1. Compiling
 For compiling idmclib you need a C99 compiler and the CMake (version >=2.4.6) build system.
@@ -16,7 +16,8 @@ to install.
 
 1.1 Dependencies
 GLS-1.9 and LUA-5.1 (or compatibles) are required for compiling/linking the idmclib library.
-JDK-6 and SWIG-1.3 (or compatibles) are required for building the Java bindings.
+SWIG-1.3, together with JDK-6 and Tcl-8.4 (or compatibles) are
+required for building the Java and the TCL bindings, respectively.
 
 1.2 Configuration
 For fine-tuning compiling/linking flags, use CMake facilities.
@@ -25,14 +26,6 @@ Under unixes, the 'ccmake' command lets you set all building variables
 
 2. API
 Look at the doc subfolder for documentation, and at the test directory for further usage examples.
-The library is ideally divided in modules:
-idmc_model	basic model allocation/methods
-idmc_traj	trajectories (for discrete and continuous models) allocation/methods
-idmc_lexp	Lyapunov spectrum for a given model (discrete and continuous)
-idmc_cycles	basic period-k cycles finding support functions. Also a separate routine for eigenvalues modulus of real nonsimmetric matrices is provided
-idmc_raster	mostly here for internal use. Data structures and methods for (integer) raster image manipulation. Used in the idmc_basin module
-idmc_basin	fast algorithm for identifying basins of attraction of 2-dimensional maps
-idmc_basin_slow	slow (but sometimes better) basins of attraction algorithm
 
 3. Python bindings
 Low-level python bindings were provided via SWIG, but are no longer mantained.
@@ -44,6 +37,13 @@ If you wish, you will have to manually build it.
 Java bindings are provided via SWIG. They're low-level, so maybe you'll need to write your own high-level wrappers for using in your project.
 Watch at the SWIG interface files and to generated java files for the API. A full usage example is the companion iDMC software (2.x.x series).
 
+5. TCL bindings
+TCL bindings are provided via SWIG. They're low-level, and reflect the
+C API very closely. So, the C API reference is a good reference for the
+TCL API too. Look at the SWIG interface files, for details.
+Look at the testing scripts in the tcl subfolder for some usage
+examples.
+
 5. R bindings
 R bindings are provided via a regular R package, RiDMC, with bounded documentation.
 It is distributed separately on the idmclib web site.
@@ -51,7 +51,7 @@ It is distributed separately on the idmclib web site.
 APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings)
 - Install JDK-1.6 (if you don't already have it)
 - Download and unpack swig-1.3 (www.swig.org). Add the folder to the system path.
-- Install MinGW, C and Fortran compilers
+- Install MinGW, with the C compiler
 - Install MSYS (with GNU make)
 - Install CMake-2.4.6
 - Download and compile under MinGW/MSYS the LUA-5.1 and GSL-1.9 packages 
@@ -62,4 +62,5 @@ APPENDIX A. Step-by-step windows compiling instructions (idmclib + java bindings
 	# cd build
 	# cmake ..
 	# make
-- In case of troubles, try using the cmake GUI from the windows start menu. That will let you fine tuning paths
+- In case of troubles, try using the cmake GUI from the windows start
+  menu. That will let you to fine tune paths.
