@@ -2,6 +2,7 @@
 - added RNG seed and generic model tcl testing scripts
 - improved speed of attractor check-point function by (reproducible) randomization
 - added attractor module to java bindings. Added java tests
+- fixed tcl testing procedure under MSYS
 - tcl bindings now use the tcl stub extension mechanism
 
 0.10.0 - 30/05/2008
