@@ -10,3 +10,8 @@ tcl/tclidmclib.o: tcl/tclidmclib_WRAP.c
 tcl/tclidmclib.so: tcl/tclidmclib_WRAP.o src/libidmclib.a
 	$(CC) -shared $^ $(TCL_LDFLAGS) $(LDFLAGS) -o $@
 
+TCLTESTS:=attractor model setSeed
+TCLTESTS_BIN:=$(TCLTESTS:%=tcl/test_%.tcl)
+
+tcltests: $(TCLTESTS_BIN) tcl/tclidmclib.so
+	@cd tcl; for i in $(TCLTESTS_BIN); do echo running $$i; ../$$i; done

@@ -39,7 +39,7 @@ export
 
 include $(MODULES:%=%/module.mk)
 
-test: ctests jtests
+test: ctests jtests tcltests
 
 install: lib $(GENERATED_FILES) idmclib.pc
 	install -d $(PREFIX)/lib
