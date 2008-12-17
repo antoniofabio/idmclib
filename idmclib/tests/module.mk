@@ -3,6 +3,7 @@ TESTS_NAMES:=$(TESTS:%=test_%)
 TESTS_SRC:=$(TESTS_NAMES:%=tests/%.c)
 TESTS_OBJ:=$(TESTS_NAMES:%=tests/%.o)
 TESTS_BIN:=$(TESTS_NAMES:%=tests/%)
+TOCLEAN+=$(TESTS_BIN) $(TESTS_OBJ)
 
 $(TESTS_BIN):%:%.o tests/test_common.c src/libidmclib.a
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@

@@ -1,4 +1,4 @@
-TOCLEAN += java/jidmclib.so
+TOCLEAN+=java/jidmclib.so java/idmclib_WRAP.o
 
 java/idmclib_WRAP.c: java/idmc.i
 	$(SWIG) -java -package org.tsho.jidmclib -outdir java/org/tsho/jidmclib -o $@ $<
