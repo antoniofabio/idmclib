@@ -39,6 +39,8 @@ export
 
 include $(MODULES:%=%/module.mk)
 
+test: ctests
+
 install: lib $(GENERATED_FILES) idmclib.pc
 	install -d $(PREFIX)/lib
 	install -m a-x+rw -D src/libidmclib.a -t $(PREFIX)/lib

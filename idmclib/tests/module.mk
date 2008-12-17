@@ -7,5 +7,5 @@ TESTS_BIN:=$(TESTS_NAMES:%=tests/%)
 $(TESTS_BIN):%:%.o tests/test_common.c src/libidmclib.a
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
-test: $(TESTS_BIN)
+ctests: $(TESTS_BIN)
 	cd tests; for i in $(TESTS_BIN); do echo -n running $${i}...; ../$$i; done
