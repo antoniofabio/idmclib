@@ -1,8 +1,8 @@
 include Makefile.config
 
-CFLAGS+= -I./include -I./include/idmclib $(LUA_CFLAGS) $(GSL_CFLAGS)
-LDFLAGS+=$(LUA_LDFLAGS) $(GSL_LDFLAGS)
-TCL_LDFLAGS+=-ltclstub
+override CFLAGS+= -I./include -I./include/idmclib $(LUA_CFLAGS) $(GSL_CFLAGS)
+override LDFLAGS+=$(LUA_LDFLAGS) $(GSL_LDFLAGS)
+override TCL_LDFLAGS+=-ltclstub
 
 LIB_VER_MAJOR:=0
 LIB_VER_MINOR:=10

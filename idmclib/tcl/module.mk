@@ -8,7 +8,7 @@ tcl/tclidmclib.o: tcl/tclidmclib_WRAP.c
 	$(CC) -c $(CFLAGS) $(TCL_CFLAGS) -DUSE_TCL_STUBS -DUSE_TK_STUBS $< -o $@
 
 tcl/tclidmclib.so: tcl/tclidmclib_WRAP.o src/libidmclib.a
-	$(CC) -shared $^ $(TCL_LDFLAGS) $(LDFLAGS) -o $@
+	$(CC) -shared $^ $(LDFLAGS) $(TCL_LDFLAGS) -o $@
 
 TCLTESTS:=attractor model setSeed
 TCLTESTS_BIN:=$(TCLTESTS:%=tcl/test_%.tcl)
