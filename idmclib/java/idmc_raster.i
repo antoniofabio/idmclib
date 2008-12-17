@@ -10,7 +10,7 @@ typedef struct {
 	Raster(double xmin, double xmax, int xres,
 		double ymin, double ymax, int yres) {
 		Raster *ans;
-		int ians = idmc_raster_alloc(xmin, xmax, xres,
+		idmc_raster_alloc(xmin, xmax, xres,
 			ymin, ymax, yres, &ans);
 		return ans;
 	}

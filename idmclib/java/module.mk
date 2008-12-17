@@ -3,7 +3,7 @@ TOCLEAN+=java/jidmclib.so java/idmclib_WRAP.o
 java/idmclib_WRAP.c: java/idmc.i
 	$(SWIG) -java -package org.tsho.jidmclib -outdir java/org/tsho/jidmclib -o $@ $<
 
-java/idmclib_WRAP.o: java/idmclib_WRAP.c
+java/idmclib_WRAP.o: java/idmclib_WRAP.c include/idmclib/version.h
 	$(CC) -c $(JNI_CFLAGS) $(CFLAGS) $< -o $@
 
 java/jidmclib.so: java/idmclib_WRAP.o src/libidmclib.a

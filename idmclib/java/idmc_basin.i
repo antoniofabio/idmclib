@@ -18,7 +18,7 @@ typedef struct {
 		double ymin, double ymax, int yres, 
 		int attractorLimit, int attractorIterations) {
 		Basin *ans;
-		int ians = idmc_basin_alloc(m, parameters, xmin, xmax, xres,
+		idmc_basin_alloc(m, parameters, xmin, xmax, xres,
 			ymin, ymax, yres, attractorLimit, attractorIterations, &ans);
 		return ans;
 	}
