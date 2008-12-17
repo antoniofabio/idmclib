@@ -55,7 +55,6 @@ static char * test_bounds() {
 	idmc_raster* raster;
 	int i = idmc_raster_alloc(0.0, 10.0, 10, 
 		0.0, 5.0, 5, &raster);
-	int value;
 	mu_assert("can't create raster object", i==IDMC_OK);
 
 	mu_assert("incorrect bound detected", idmc_raster_isxyInsideBounds(raster, 0.1, 4.9));
@@ -79,7 +78,7 @@ static char * test_conversion() {
 	idmc_raster* raster;
 	int i = idmc_raster_alloc(0.0, 10.0, 10, 
 		0.0, 5.0, 5, &raster);
-	int value, id;
+	int id;
 	double x,y;
 	mu_assert("can't create raster object", i==IDMC_OK);
 	//printf("0-> (%f, %f)\n", idmc_raster_I2x(raster, 0), idmc_raster_I2y(raster, 0));

@@ -34,7 +34,7 @@ static char * test_create() {
 	idmc_model* model;
 	int i;
 	FILE *f;
-	int buflen, result;
+	int buflen;
 	char *buffer;
 	static double parms = 1.0;
 	f = fopen("test2.lua", "rb");
@@ -60,7 +60,7 @@ static char * test_init() {
 	idmc_model* model;
 	int i;
 	FILE *f;
-	int buflen, result;
+	int buflen;
 	char *buffer;
 	static double parms[2] = {1.42, 0.3};
 	f = fopen("henon.lua", "rb");
@@ -90,7 +90,7 @@ static char * test_stepAll() {
 	idmc_model* model;
 	int i;
 	FILE *f;
-	int buflen, result;
+	int buflen;
 	char *buffer;
 	static double parms = 1.33;
 	f = fopen("cremona.lua", "rb");

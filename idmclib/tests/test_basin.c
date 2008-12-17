@@ -30,7 +30,7 @@ static char * test_create() {
 	idmc_model* model;
 	int i;
 	FILE *f;
-	int buflen, result;
+	int buflen;
 	char *buffer;
 	static double parms = 1.0;
 	f = fopen("test2.lua", "rb");
@@ -56,7 +56,7 @@ static char * test_oneStep() {
 	idmc_model* model;
 	int i;
 	FILE *f;
-	int buflen, result;
+	int buflen;
 	char *buffer;
 	static double parms = 1.0;
 	f = fopen("test2.lua", "rb");
@@ -85,7 +85,7 @@ static char * test_fullSteps() {
 	idmc_model* model;
 	int i,j;
 	FILE *f;
-	int buflen, result;
+	int buflen;
 	char *buffer;
 	static double parms = 1.0;
 	f = fopen("test2.lua", "rb");

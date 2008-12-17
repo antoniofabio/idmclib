@@ -42,7 +42,6 @@ static char * test_syntax() {
 	FILE *f;
 	int buflen, result;
 	char *buffer;
-        double *par, *var;
 	f = fopen("test_synt_error.lua", "rb");
 	mu_assert("can't open file 'test_synt_error.lua'", f);
 	buflen = loadFile(f, &buffer);
