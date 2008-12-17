@@ -1,3 +1,4 @@
 tclidmclib.so
-idmc_wrap.c
+tclidmclib_WRAP.c
+*.o
 *.lua

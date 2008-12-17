@@ -1,2 +1,4 @@
 build
 include/idmclib/version.h
+idmclib.pc
+

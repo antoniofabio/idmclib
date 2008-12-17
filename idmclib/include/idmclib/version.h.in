@@ -1,0 +1,12 @@
+\\#ifndef __IDMC_VERSION_H__
+\\#define __IDMC_VERSION_H__
+
+\\#define IDMC_VERSION_MAJOR $LIB_VER_MAJOR
+\\#define IDMC_VERSION_MINOR $LIB_VER_MINOR
+\\#define IDMC_VERSION_MICRO $LIB_VER_MICRO
+
+int idmc_version_major\\(\\)\\;
+int idmc_version_minor\\(\\)\\;
+int idmc_version_micro\\(\\)\\;
+
+\\#endif

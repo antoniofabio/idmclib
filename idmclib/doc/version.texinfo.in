@@ -1,0 +1,4 @@
+@macro version
+${LIB_VER_MAJOR}.${LIB_VER_MINOR}.${LIB_VER_MICRO}
+@c
+@end macro

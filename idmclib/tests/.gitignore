@@ -1,0 +1,10 @@
+*.o
+test_NumJac
+test_basin
+test_basin_slow
+test_cycles
+test_errors
+test_lexp
+test_model
+test_raster
+

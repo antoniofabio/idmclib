@@ -1,0 +1,9 @@
+exec_prefix=${PREFIX}
+libdir=${PREFIX}/lib
+includedir=${PREFIX}/include
+
+Name: idmclib
+Description: interactive Dynamical Model Calculator library 
+Version: ${LIB_VER_MAJOR}.${LIB_VER_MINOR}.${LIB_VER_MICRO}
+Libs: -L${PREFIX}/lib -lidmclib ${LUA_LDFLAGS} ${GSL_LDFLAGS}
+Cflags: -I${PREFIX}/include ${GSL_CFLAGS}
