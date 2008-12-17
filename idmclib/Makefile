@@ -20,11 +20,11 @@ lib: src/libidmclib.a
 java: java/jidmclib.so
 tcl: tcl/tclidmclib.so
 
-LIBNAME:=idmclib-$(LIB_VER_MAJOR).$(LIB_VER_MINOR).$(LIB_VER_MICRO)
+LIBNAME:=idmclib-$(LIB_VER_MAJOR).$(LIB_VER_MINOR).$(LIB_VER_MICRO)-Source
 distrib: clean-all $(GENERATED_FILES) doc
 	@mkdir -p .distrib/$(LIBNAME)
 	@cp -r * .distrib/$(LIBNAME)
-	@cd .distrib; tar cjf ../$(LIBNAME)-Source.tar.bz2 $(LIBNAME)
+	@cd .distrib; tar cjf ../$(LIBNAME).tar.bz2 $(LIBNAME)
 	@rm -rf .distrib
 
 clean:
