@@ -1,5 +1,6 @@
 org
 *.o
 *.so
+*.class
 idmclib_WRAP.c
 
