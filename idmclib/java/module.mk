@@ -8,3 +8,12 @@ java/idmclib_WRAP.o: java/idmclib_WRAP.c
 
 java/jidmclib.so: java/idmclib_WRAP.o src/libidmclib.a
 	$(CC) -shared $(JNI_LDFLAGS) $^ $(LDFLAGS) -o $@
+
+JTESTS:=attractor
+JTESTS_BIN:=$(JTESTS:%=java/%.class)
+TOCLEAN+=$(JTESTS_BIN)
+$(JTESTS_BIN):%.class:%.java java/jidmclib.so
+	javac -cp java -sourcepath java -d java $<
+
+jtests: $(JTESTS_BIN)
+	@cd java; for i in $(JTESTS); do echo running $$i java test; java $$i; done
