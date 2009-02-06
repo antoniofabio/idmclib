@@ -1,4 +1,5 @@
-0.10.1
+0.10.1 - 06/02/2009
+- added more C, TCL and Java tests
 - removed CMake dependency: now using plain gnu make for buinding&distrib
 - added RNG seed and generic model tcl testing scripts
 - improved speed of attractor check-point function by (reproducible) randomization
