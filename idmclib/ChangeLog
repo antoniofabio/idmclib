@@ -1,4 +1,6 @@
-0.10.2
+0.10.3
+
+0.10.2 - 11/06/2009
 - fixed clean target in src folder makefile
 - removed harmful inline directives from matrix and lexp_aux files
 	issues compiling with recent gcc versions

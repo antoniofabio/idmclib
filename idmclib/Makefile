@@ -6,7 +6,7 @@ override TCL_LDFLAGS+=-ltclstub
 
 LIB_VER_MAJOR:=0
 LIB_VER_MINOR:=10
-LIB_VER_MICRO:=2
+LIB_VER_MICRO:=3
 
 MODULES:=src doc java tcl tests
 SRC:=
