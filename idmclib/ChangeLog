@@ -1,3 +1,7 @@
+0.10.2
+- removed harmful inline directives from matrix and lexp_aux files
+	issues compiling with recent gcc versions
+
 0.10.1 - 06/02/2009
 - added more C, TCL and Java tests
 - removed CMake dependency: now using plain gnu make for buinding&distrib
