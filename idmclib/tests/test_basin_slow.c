@@ -132,8 +132,8 @@ static char * test_stepMultAcc() {
   free(buffer);
   mu_assert("can't create model object", i==IDMC_OK);
   i = idmc_basin_slow_alloc(model, &parms,
-			    0.0, 10000.0, 20,
-			    0.0, 10000.0, 20,
+			    0.0, 10000.0, 10,
+			    0.0, 10000.0, 10,
 			    1000, 50, 100, &basin);
   idmc_model_free(model);
   mu_assert("can't create basin object", i==IDMC_OK);
