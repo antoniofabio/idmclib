@@ -86,11 +86,14 @@ int idmc_model_alloc(const char* buffer, const int buffer_len, idmc_model **s){
 	luaL_openlibs(L);
 
 	/*register functions for random numbers generation*/
-	initGslRng(L);
+	int status = initGslRng(L);
+	if(status != 0) {
+	  return IDMC_EMEM;
+	}
 
 	/* load chunk */
 	/* lua_buffer has its error printing functions see lauxlib.c */
-	int status = luaL_loadbuffer(L, buffer, buffer_len, "");
+	status = luaL_loadbuffer(L, buffer, buffer_len, "");
 	if (status == 0) {  /* parse OK? */
 		status = lua_pcall(L, 0, LUA_MULTRET, 0);  /* call main */
 	}

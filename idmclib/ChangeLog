@@ -1,4 +1,5 @@
 0.10.3
+- robustified model alloc code
 
 0.10.2 - 11/06/2009
 - fixed clean target in src folder makefile
