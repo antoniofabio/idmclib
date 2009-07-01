@@ -1,5 +1,5 @@
-name = "multiplier accelerator model"
-description = "Samuelson model with heterogeneous expectations"
+name = "multacc"
+description = "multacc"
 type = "D"
 parameters = {"i", "b", "gamma", "mu1", "mu2", "k"}
 variables = {"Y", "Z"}

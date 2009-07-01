@@ -1,4 +1,6 @@
 0.10.3
+- fixed error in basin_slow:
+	boundary grid cells sometimes incorrectly marked as 'infinity'
 - fixed corner case buglet in model_alloc
 - robustified model alloc code
 

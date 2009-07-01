@@ -230,8 +230,10 @@ int idmc_basin_slow_step(idmc_basin_slow* p) {
 	fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
 	break;
       }
-      else
+      else {
+	STEP(currentPoint);
 	continue;
+      }
     }
 
     state = getValue(p, currentPoint);
