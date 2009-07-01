@@ -1,4 +1,5 @@
 0.10.3
+- fixed corner case buglet in model_alloc
 - robustified model alloc code
 
 0.10.2 - 11/06/2009

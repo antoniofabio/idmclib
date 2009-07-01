@@ -60,22 +60,41 @@ static char * test_clone() {
 	return 0;
 }
 
+/*empty description field should not cause troubles*/
+static char * test_emptyDesc() {
+  idmc_model *a;
+  FILE *f;
+  int buflen, result;
+  char *buffer;
+  f = fopen("testEmptyDesc.lua", "rb");
+  mu_assert("can't open model file", f);
+  buflen = loadFile(f, &buffer);
+  fclose(f);
+  result = idmc_model_alloc(buffer, buflen, &a);
+  free(buffer);
+  mu_assert("can't load model", result==IDMC_OK);
+  mu_assert("invalid 'description' field length", strlen(a->desc) == 0);
+  idmc_model_free(a);
+  return 0;
+}
+
 static char * test_model_all() {
-	mu_run_test(test_1);
-	mu_run_test(test_2);
-	mu_run_test(test_clone);
-	return 0;
+  mu_run_test(test_1);
+  mu_run_test(test_2);
+  mu_run_test(test_clone);
+  mu_run_test(test_emptyDesc);
+  return 0;
 }
 
 int main(int argc, char **argv) {
-	char *result = test_model_all();
-	if (result != 0) {
-		printf("%s\n", result);
-	}
-	else {
-		printf("ALL TESTS PASSED\n");
-	}
-	printf("Tests run: %d\n", tests_run);
- 
-	return result != 0;
+  char *result = test_model_all();
+  if (result != 0) {
+    printf("%s\n", result);
+  }
+  else {
+    printf("ALL TESTS PASSED\n");
+  }
+  printf("Tests run: %d\n", tests_run);
+
+  return result != 0;
 }
