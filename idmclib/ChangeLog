@@ -1,3 +1,5 @@
+0.10.4
+
 0.10.3 - 01/07/2009
 - fixed error in basin_slow:
 	boundary grid cells sometimes incorrectly marked as 'infinity'
