@@ -209,43 +209,43 @@ translated from the iDMC java software
 #define currentPoint (p->currentPoint)
 #define state (p->state)
 int idmc_basin_slow_step(idmc_basin_slow* p) {
-	if( basin_finished(p) ) /*algorithm ended*/
-		return IDMC_OK;
-	if(!(p->initialized)) {
-		return idmc_basin_slow_init(p);
-	}
-	idmc_model *m = MODEL(p);
-	int i;
+  if( basin_finished(p) ) /*algorithm ended*/
+    return IDMC_OK;
+  if(!(p->initialized)) {
+    return idmc_basin_slow_init(p);
+  }
+  idmc_model *m = MODEL(p);
+  int i;
 
-	getCurrPoint(p, startPoint); /*get start point coordinates*/
-	memcpy(currentPoint, startPoint, 2 * sizeof(double) ); /*copy start point to current point*/
-	
-	for (i = 1; i<attractorLimit+attractorIterations; i++) {
-		if (isPointInfinite(currentPoint)) {
-			fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
-			break;
-		}
-		if (!isPointInsideBounds(p, currentPoint)) {
-			if (i >= attractorLimit) {
-				fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
-				break;
-			}
-			else
-				continue;
-		}
+  getCurrPoint(p, startPoint); /*get start point coordinates*/
+  memcpy(currentPoint, startPoint, 2 * sizeof(double) ); /*copy start point to current point*/
 
-		state = getValue(p, currentPoint);
+  for (i = 1; i<attractorLimit+attractorIterations; i++) {
+    if (isPointInfinite(currentPoint)) {
+      fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+      break;
+    }
+    if (!isPointInsideBounds(p, currentPoint)) {
+      if (i >= attractorLimit) {
+	fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
+	break;
+      }
+      else
+	continue;
+    }
+
+    state = getValue(p, currentPoint);
 		
-		/* attractor encountered */
-		if (isOdd(state) && (state != 0) ) {
-			fillBasinSlowTrack(p, startPoint, i - 1, state+1);
-			break;
-		}
-		STEP(currentPoint);
-	}
-	if(i==(attractorLimit+attractorIterations))
-		fillBasinSlowTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
-	return IDMC_OK;
+    /* attractor encountered */
+    if (isOdd(state) && (state != 0) ) {
+      fillBasinSlowTrack(p, startPoint, i - 1, state+1);
+      break;
+    }
+    STEP(currentPoint);
+  }
+  if(i==(attractorLimit+attractorIterations))
+    fillBasinSlowTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
+  return IDMC_OK;
 }
 #undef attractorLimit
 #undef attractorIterations
