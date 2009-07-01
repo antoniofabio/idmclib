@@ -220,7 +220,7 @@ int idmc_basin_slow_step(idmc_basin_slow* p) {
   getCurrPoint(p, startPoint); /*get start point coordinates*/
   memcpy(currentPoint, startPoint, 2 * sizeof(double) ); /*copy start point to current point*/
 
-  for (i = 1; i<attractorLimit+attractorIterations; i++) {
+  for (i = 0; i<attractorLimit+attractorIterations; i++) {
     if (isPointInfinite(currentPoint)) {
       fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
       break;
@@ -238,13 +238,13 @@ int idmc_basin_slow_step(idmc_basin_slow* p) {
 		
     /* attractor encountered */
     if (isOdd(state) && (state != 0) ) {
-      fillBasinSlowTrack(p, startPoint, i - 1, state+1);
+      fillBasinSlowTrack(p, startPoint, i, state+1);
       break;
     }
     STEP(currentPoint);
   }
   if(i==(attractorLimit+attractorIterations))
-    fillBasinSlowTrack(p, startPoint, i - 1, IDMC_BASIN_INFINITY);
+    fillBasinSlowTrack(p, startPoint, i, IDMC_BASIN_INFINITY);
   return IDMC_OK;
 }
 #undef attractorLimit
